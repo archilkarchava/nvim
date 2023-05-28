@@ -1,0 +1,126 @@
+vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+  callback = function()
+    vim.highlight.on_yank { higroup = "Visual", timeout = 250 }
+  end,
+})
+
+-- if vim.g.vscode then
+--   vim.api.nvim_create_autocmd({ "VimEnter" }, {
+--     command = "startinsert",
+--   })
+-- end
+
+-- if vim.g.vscode then
+--   local ns_id = vim.api.nvim_create_namespace("JumpHighlight")
+--   local jump_highlight_duration = 250
+--   local jump_highlight_max_lines_threshold = 9
+--   -- local prev_most_recent_jump
+--   -- local ns_id = vim.api.nvim_create_namespace("JumpHighlight")
+--   -- vim.api.nvim_create_autocmd('CursorMoved', {
+--   --   callback = function()
+--   --     local jump_list = vim.fn.getjumplist()[1]
+--   --     local most_recent_jump = jump_list[#jump_list]
+--   --     if not prev_most_recent_jump then
+--   --       prev_most_recent_jump = most_recent_jump
+--   --       return
+--   --     end
+--   --     if prev_most_recent_jump.lnum == most_recent_jump.lnum and prev_most_recent_jump.col == most_recent_jump.col and prev_most_recent_jump.bufnr == most_recent_jump.bufnr then
+--   --       return
+--   --     end
+--   --     local highlight_duration = 250
+--   --     local max_lines_threshold = 9
+--   --     local cur_line_pos = vim.fn.getpos(".")[2]
+--   --     local cur_buf_id = vim.api.nvim_get_current_buf()
+--   --     if cur_buf_id ~= most_recent_jump.bufnr or math.abs(most_recent_jump.lnum - cur_line_pos) > max_lines_threshold then
+--   --       return
+--   --     end
+--   --     vim.highlight.range(most_recent_jump.bufnr, ns_id, 'IncSearch', { most_recent_jump.lnum - 1, 0 },
+--   --       { most_recent_jump.lnum - 1, -1 })
+--   --     vim.defer_fn(function()
+--   --       vim.api.nvim_buf_clear_namespace(most_recent_jump.bufnr, ns_id, most_recent_jump.lnum - 1, most_recent_jump.lnum)
+--   --     end, highlight_duration)
+--   --     prev_most_recent_jump = most_recent_jump
+--   --   end,
+--   -- })
+
+--   -- vim.api.nvim_create_autocmd('User', {
+--   --   pattern = 'LeapLeave',
+--   --   callback = function()
+--   --     local prev_line_pos = vim.fn.getpos("'`")[2]
+--   --     print(prev_line_pos)
+--   --     if prev_line_pos == nil then
+--   --       return
+--   --     end
+--   --     local cur_line_pos = vim.fn.getpos(".")[2]
+--   --     if math.abs(prev_line_pos - cur_line_pos) <= jump_highlight_max_lines_threshold then
+--   --       vim.highlight.range(0, ns_id, 'IncSearch', { prev_line_pos - 1, 0 }, { prev_line_pos - 1, -1 })
+--   --       vim.defer_fn(function()
+--   --         vim.api.nvim_buf_clear_namespace(0, ns_id, prev_line_pos - 1, prev_line_pos)
+--   --       end, jump_highlight_duration)
+--   --     end
+--   --   end,
+--   -- })
+
+--   -- vim.api.nvim_create_autocmd('User', {
+--   --   pattern = 'LeapLeave',
+--   --   callback = function()
+--   --     local highlight_duration = 250
+--   --     local lines_threshold = 10
+--   --     local prev_line_pos = vim.fn.getpos("'`")[2]
+--   --     local cur_line_pos = vim.fn.getpos(".")[2]
+--   --     local buf_id = vim.api.nvim_get_current_buf()
+--   --     local ns_id = vim.api.nvim_create_namespace("JumpHighlight")
+--   --     if math.abs(prev_line_pos - cur_line_pos) >= lines_threshold then
+--   --       vim.highlight.range(buf_id, ns_id, 'IncSearch', { cur_line_pos - 1, 0 }, { cur_line_pos - 1, vim.fn.col("$") })
+--   --       vim.defer_fn(function()
+--   --         vim.api.nvim_buf_clear_namespace(buf_id, ns_id, cur_line_pos - 1, cur_line_pos)
+--   --       end, highlight_duration)
+--   --     end
+--   --   end,
+--   -- })
+
+--   -- local prev_cursor_pos
+--   -- local prev_buf_id
+--   -- vim.api.nvim_create_autocmd('CursorMoved', {
+--   --   callback = function()
+--   --     if not prev_cursor_pos or not prev_buf_id then
+--   --       prev_cursor_pos = vim.fn.getpos(".")
+--   --       prev_buf_id = vim.api.nvim_get_current_buf()
+--   --       return
+--   --     end
+--   --     local highlight_duration = 250
+--   --     local lines_threshold = 10
+--   --     local prev_line_pos = prev_cursor_pos[2]
+--   --     local cur_pos = vim.fn.getpos(".")
+--   --     local cur_line_pos = cur_pos[2]
+--   --     local cur_buf_id = vim.api.nvim_get_current_buf()
+--   --     if cur_buf_id ~= prev_buf_id or math.abs(prev_line_pos - cur_line_pos) >= lines_threshold then
+--   --       local ns_id = vim.api.nvim_create_namespace("JumpHighlight")
+--   --       vim.highlight.range(cur_buf_id, ns_id, 'IncSearch', { cur_line_pos - 1, 0 },
+--   --         { cur_line_pos - 1, vim.fn.col("$") })
+--   --       vim.defer_fn(function()
+--   --         vim.api.nvim_buf_clear_namespace(cur_buf_id, ns_id, cur_line_pos - 1, cur_line_pos)
+--   --       end, highlight_duration)
+--   --     end
+--   --     prev_cursor_pos = cur_pos
+--   --     prev_buf_id = cur_buf_id
+--   --   end,
+--   -- })
+--   -- end
+
+--   -- Replaces vim-cool plugin
+--   -- vim.on_key(function(char)
+--   --   if vim.fn.mode() == "n" then
+--   --     local new_hlsearch = vim.tbl_contains({ "<CR>", "n", "N", "*", "#", "?", "/" }, vim.fn.keytrans(char))
+--   --     if vim.opt.hlsearch:get() ~= new_hlsearch then vim.opt.hlsearch = new_hlsearch end
+--   --   end
+--   -- end, namespace "auto_hlsearch")
+
+--   -- if vim.g.vscode then
+--   --   vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+--   --     pattern = "*",
+--   --     callback = function()
+--   --       vim.cmd("clearjumps")
+--   --     end,
+--   --   })
+-- end
