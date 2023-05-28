@@ -8,7 +8,7 @@
   "github-nvim-theme": { "branch": "main", "commit": "ea713c37691b2519f56cd801a2330bdf66393d0f" },
   "gitsigns.nvim": { "branch": "main", "commit": "bb808fc7376ed7bac0fbe8f47b83d4bf01738167" },
   "gx.nvim": { "branch": "main", "commit": "a7cb094499907b3561aa6e135240dccbd89ed8a8" },
-  "lazy.nvim": { "branch": "main", "commit": "a93d8983c4335b6ae7d6e7d516a191d929186d5b" },
+  "lazy.nvim": { "branch": "main", "commit": "36a91320f9ff4f877f09ac3a52c6a26860da047a" },
   "leap.nvim": { "branch": "main", "commit": "be918a8e6aa00a6cfa7270d4bfcc11b2f80d6902" },
   "lualine.nvim": { "branch": "master", "commit": "05d78e9fd0cdfb4545974a5aa14b1be95a86e9c9" },
   "mason.nvim": { "branch": "main", "commit": "08b2fd308e0107eab9f0b59d570b69089fd0b522" },
