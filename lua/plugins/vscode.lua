@@ -38,33 +38,4 @@ return {
 			require("vscode-theme").load()
 		end,
 	},
-	{
-		"archilkarchava/vim-EnhancedJumps",
-		vscode = true,
-		enabled = false,
-		dependencies = {
-			"inkarkat/vim-ingo-library",
-		},
-		keys = {
-			{
-				"<C-o>",
-				"<Plug>EnhancedJumpsLocalOlder",
-				mode = { "x", "n" },
-				silent = true,
-				desc =
-				"Go to the previous jumplist location inside the current buffer"
-			},
-			{
-				"<C-i>",
-				"<Plug>EnhancedJumpsLocalNewer",
-				mode = { "x", "n" },
-				silent = true,
-				desc =
-				"Go to the next jumplist location inside the current buffer"
-			},
-		},
-		init = function()
-			vim.g.EnhancedJumps_no_mappings = true
-		end,
-	}
 }

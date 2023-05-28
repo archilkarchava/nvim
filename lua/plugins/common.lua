@@ -1,6 +1,7 @@
 local Util = require("util")
 
 return {
+  -- Standalone Neovim only plugins
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
@@ -506,6 +507,14 @@ return {
       vim.g.startuptime_tries = 10
     end,
   },
+
+  -- VS Code only plugins
+  {
+    "archilkarchava/vscode.nvim",
+    lazy = true,
+  },
+
+  -- Common plugins
   {
     "andymass/vim-matchup",
     vscode = true,
