@@ -383,10 +383,10 @@ if vim.g.vscode then
   map("x", ctrl_cmd_lhs("R"), "<Cmd>call VSCodeNotifyVisual('reactSnippets.search', 1)<CR><Esc>i", opts)
 
   -- Quick fixes and refactorings
-  map("n", ctrl_cmd_lhs("."), "<Cmd>call VSCodeNotify('editor.action.quickFix')<CR>", opts)
-  map("x", ctrl_cmd_lhs("."), "<Cmd>call VSCodeNotifyVisual('editor.action.quickFix', 1)<CR><Esc>i", opts)
-  map("n", "<C-S-R>", "<Cmd>call VSCodeNotify('editor.action.refactor')<CR>", opts)
-  map("x", "<C-S-R>", "<Cmd>call VSCodeNotifyVisual('editor.action.refactor', 1)<CR><Esc>i", opts)
+  map("n", ctrl_cmd_lhs("."), "<Cmd>call VSCodeCall('editor.action.quickFix')<CR>", opts)
+  map("x", ctrl_cmd_lhs("."), "<Cmd>call VSCodeCallVisual('editor.action.quickFix', 1)<CR><Esc>i", opts)
+  map("n", "<C-S-R>", "<Cmd>call VSCodeCall('editor.action.refactor')<CR>", opts)
+  map("x", "<C-S-R>", "<Cmd>call VSCodeCallVisual('editor.action.refactor', 1)<CR><Esc>i", opts)
   map("x", "<M-S>", "<Cmd>call VSCodeNotifyVisual('editor.action.surroundWithSnippet', 1)<CR><Esc>i", opts)
 
   -- Formatting
