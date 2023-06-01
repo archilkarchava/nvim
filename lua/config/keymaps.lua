@@ -367,8 +367,8 @@ if vim.g.vscode then
   map({ "n", "x" }, "<D-z>", "<Cmd>call VSCodeNotify('undo')<CR>", opts)
   map({ "n", "x" }, "<D-Z>", "<Cmd>call VSCodeNotify('redo')<CR>", opts)
 
-  -- map("n", "u", "<Cmd>call VSCodeNotify('undo')<CR>", opts)
-  -- map("n", "<C-r>", "<Cmd>call VSCodeNotify('redo')<CR>", opts)
+  map("n", "u", "<Cmd>call VSCodeNotify('undo')<CR>", opts)
+  map("n", "<C-r>", "<Cmd>call VSCodeNotify('redo')<CR>", opts)
 
   -- Add/Remove cursors
   map("n", ctrl_cmd_lhs("M-Down"), "i<Cmd>call VSCodeNotify('editor.action.insertCursorBelow')<CR>", opts)
