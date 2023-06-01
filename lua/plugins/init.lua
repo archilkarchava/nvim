@@ -232,7 +232,7 @@ return {
   {
     "akinsho/bufferline.nvim",
     event = { "BufNew", "BufRead" },
-    version = "v2.*",
+    version = "*",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       vim.opt.termguicolors = true
