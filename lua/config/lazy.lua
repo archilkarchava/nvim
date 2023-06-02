@@ -44,6 +44,6 @@ return lazy.setup("plugins",
     },
     install = {
       -- try to load one of these colorschemes when starting an installation during startup
-      colorscheme = { "github_dark_default" },
+      colorscheme = { "github_dark_high_contrast" },
     },
   })
