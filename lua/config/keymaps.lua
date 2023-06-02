@@ -70,6 +70,14 @@ if vim.g.vscode then
   if Util.is_mac() then
     map({ "x", "n" }, "<C-/>", "<C-/>", { noremap = false })
   end
+
+  map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("c"),
+    "<Cmd>call VSCodeNotifyVisual('editor.action.addCommentLine', 1)<CR>",
+    opts)
+  map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("u"),
+    "<Cmd>call VSCodeNotifyVisual('editor.action.removeCommentLine', 1)<CR>", opts)
+
+  map({ "n", "x" }, "<M-A>", "<Cmd>call VSCodeNotifyVisual('editor.action.blockComment', 1)<CR>", opts)
 end
 
 if vim.g.vscode then
@@ -177,6 +185,20 @@ if vim.g.vscode then
   map("x", "<C-S-Right>", "<Esc>i<Cmd>call VSCodeNotifyVisual('editor.action.smartSelect.expand', 1)<CR>",
     opts)
 
+  -- Revert file
+  map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("R"), "<Cmd>call VSCodeNotify('workbench.action.files.revert')<CR>",
+    opts)
+
+  -- Git revert
+  map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("r"),
+    "<Cmd>call VSCodeNotifyVisual('git.revertSelectedRanges', 1)<CR>", opts)
+
+  -- Git stage/unstage
+  map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("M-s"),
+    "<Cmd>call VSCodeNotifyVisual('git.stageSelectedRanges', 1)<CR>", opts)
+  map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("n"),
+    "<Cmd>call VSCodeNotifyVisual('git.unstageSelectedRanges', 1)<CR>", opts)
+
   -- Git changes
   map({ "n", "x" }, "]g",
     function()
@@ -271,13 +293,36 @@ if vim.g.vscode then
   map({ "n", "x" }, "zc", "<Cmd>call VSCodeNotify('editor.fold')<CR>", opts)
   map({ "n", "x" }, "zC", "<Cmd>call VSCodeNotify('editor.foldRecursively')<CR>", opts)
 
-  -- map({ "n", "x" }, "z1", "<Cmd>call VSCodeNotify('editor.foldLevel1')<CR>", opts)
+  map({ "n", "x" }, "z1", "<Cmd>call VSCodeNotify('editor.foldLevel1')<CR>", opts)
   map({ "n", "x" }, "z2", "<Cmd>call VSCodeNotify('editor.foldLevel2')<CR>", opts)
   map({ "n", "x" }, "z3", "<Cmd>call VSCodeNotify('editor.foldLevel3')<CR>", opts)
   map({ "n", "x" }, "z4", "<Cmd>call VSCodeNotify('editor.foldLevel4')<CR>", opts)
   map({ "n", "x" }, "z5", "<Cmd>call VSCodeNotify('editor.foldLevel5')<CR>", opts)
   map({ "n", "x" }, "z6", "<Cmd>call VSCodeNotify('editor.foldLevel6')<CR>", opts)
   map({ "n", "x" }, "z7", "<Cmd>call VSCodeNotify('editor.foldLevel7')<CR>", opts)
+
+  map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("1"), "<Cmd>call VSCodeNotify('editor.foldLevel1')<CR>", opts)
+  map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("2"), "<Cmd>call VSCodeNotify('editor.foldLevel2')<CR>", opts)
+  map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("3"), "<Cmd>call VSCodeNotify('editor.foldLevel3')<CR>", opts)
+  map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("4"), "<Cmd>call VSCodeNotify('editor.foldLevel4')<CR>", opts)
+  map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("5"), "<Cmd>call VSCodeNotify('editor.foldLevel5')<CR>", opts)
+  map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("6"), "<Cmd>call VSCodeNotify('editor.foldLevel6')<CR>", opts)
+  map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("7"), "<Cmd>call VSCodeNotify('editor.foldLevel7')<CR>", opts)
+
+  map({ "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("["), "<Cmd>call VSCodeNotifyVisual('editor.foldRecursively', 1)<CR>",
+    opts)
+  map({ "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("]"), "<Cmd>call VSCodeNotifyVisual('editor.unfoldRecursively', 1)<CR>",
+    opts)
+
+  map({ "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("-"), "<Cmd>call VSCodeNotifyVisual('editor.foldAllExcept', 1)<CR>",
+    opts)
+  map({ "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("="), "<Cmd>call VSCodeNotifyVisual('editor.unfoldAllExcept', 1)<CR>",
+    opts)
+
+  map({ "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs(","),
+    "<Cmd>call VSCodeNotifyVisual('editor.createFoldingRangeFromSelection', 1)<CR><Esc>", opts)
+  map({ "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("."),
+    "<Cmd>call VSCodeNotifyVisual('editor.removeManualFoldingRanges', 1)<CR><Esc>", opts)
 
   map({ "n", "x" }, "zV", "<Cmd>call VSCodeNotifyVisual('editor.foldAllExcept', 1)<CR>", opts)
 
@@ -318,7 +363,7 @@ if vim.g.vscode then
     opts)
   map("n", "gO", function() require("util.vsc").notify_marked("workbench.action.gotoSymbol") end,
     opts)
-  map("n", "<D-O>",
+  map("n", ctrl_cmd_lhs("O"),
     function() require("util.vsc").notify_marked("workbench.action.gotoSymbol") end, opts)
   map("n", "gF", function() require("util.vsc").notify_marked("editor.action.peekDeclaration") end,
     opts)
@@ -363,12 +408,17 @@ if vim.g.vscode then
   map("n", "<Leader>r", "<Cmd>call VSCodeNotify('editor.action.rename')<CR>", opts)
   map("n", "<Leader>B", "<Cmd>call VSCodeNotify('editor.debug.action.toggleBreakpoint')<CR>", opts)
 
-  -- Undo/Redo
-  map({ "n", "x" }, "<D-z>", "<Cmd>call VSCodeNotify('undo')<CR>", opts)
-  map({ "n", "x" }, "<D-Z>", "<Cmd>call VSCodeNotify('redo')<CR>", opts)
+  -- Save
+  map({ "n", "x" }, ctrl_cmd_lhs("s"), "<Cmd>Write<CR>", opts)
+  map({ "n", "x" }, ctrl_cmd_lhs("S"), "<Cmd>Saveas<CR>", opts)
 
-  map("n", "u", "<Cmd>call VSCodeNotify('undo')<CR>", opts)
-  map("n", "<C-r>", "<Cmd>call VSCodeNotify('redo')<CR>", opts)
+
+  -- Undo/Redo
+  map({ "n", "x" }, ctrl_cmd_lhs("z"), "<Cmd>call VSCodeNotify('undo')<CR>", opts)
+  map({ "n", "x" }, ctrl_cmd_lhs("Z"), "<Cmd>call VSCodeNotify('redo')<CR>", opts)
+
+  -- map("n", "u", "<Cmd>call VSCodeNotify('undo')<CR>", opts)
+  -- map("n", "<C-r>", "<Cmd>call VSCodeNotify('redo')<CR>", opts)
 
   -- Add/Remove cursors
   map("n", ctrl_cmd_lhs("M-Down"), "i<Cmd>call VSCodeNotify('editor.action.insertCursorBelow')<CR>", opts)
@@ -388,9 +438,12 @@ if vim.g.vscode then
   map("n", "<C-S-R>", "<Cmd>call VSCodeCall('editor.action.refactor')<CR>", opts)
   map("x", "<C-S-R>", "<Cmd>call VSCodeCallVisual('editor.action.refactor', 1)<CR><Esc>i", opts)
   map("x", "<M-S>", "<Cmd>call VSCodeNotifyVisual('editor.action.surroundWithSnippet', 1)<CR><Esc>i", opts)
+  map("x", ctrl_cmd_lhs("T"), "<Cmd>call VSCodeNotifyVisual('surround.with', 1)<CR><Esc>i", opts)
 
   -- Formatting
   map({ "n", "x" }, "<M-F>", "<Cmd>call VSCodeNotify('editor.action.formatDocument')<CR>", opts)
+  map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("f"),
+    "<Cmd>call VSCodeNotifyVisual('editor.action.formatSelection', 1)<CR>", opts)
 end
 
 -- Move lines down and up
@@ -403,6 +456,8 @@ if vim.g.vscode then
   map("x", "<M-Down>", function() require("util.vsc").move_visual_selection("Down") end, opts)
   map("x", "<M-k>", function() require("util.vsc").move_visual_selection("Up") end, opts)
   map("x", "<M-j>", function() require("util.vsc").move_visual_selection("Down") end, opts)
+  map({ "n", "x" }, "<M-D>", "<Cmd>call VSCodeNotify('abracadabra.moveStatementDown')<CR>", opts)
+  map({ "n", "x" }, "<M-U>", "<Cmd>call VSCodeNotify('abracadabra.moveStatementUp')<CR>", opts)
 else
   map("x", "<M-Up>", ":move '<-2<CR>gv=gv", opts)
   map("x", "<M-k>", ":move '<-2<CR>gv=gv", opts)
