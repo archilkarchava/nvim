@@ -263,9 +263,9 @@ if vim.g.vscode then
     opts)
   map("n", "<Leader>B", "<Cmd>call VSCodeNotify('editor.debug.action.toggleBreakpoint')<CR>",
     opts)
-  map("x", ctrl_cmd_lhs("]"), "<Cmd>call VSCodeNotifyVisual('editor.action.indentLines', 1)<CR>",
+  map({ "n", "x" }, ctrl_cmd_lhs("]"), "<Cmd>call VSCodeNotifyVisual('editor.action.indentLines', 1)<CR>",
     opts)
-  map("x", ctrl_cmd_lhs("["), "<Cmd>call VSCodeNotifyVisual('editor.action.outdentLines', 1)<CR>",
+  map({ "n", "x" }, ctrl_cmd_lhs("["), "<Cmd>call VSCodeNotifyVisual('editor.action.outdentLines', 1)<CR>",
     opts)
   map("x", ">", "<Cmd>call VSCodeNotifyVisual('editor.action.indentLines', 1)<CR>",
     opts)
@@ -456,6 +456,10 @@ if vim.g.vscode then
   map("x", "<M-Down>", function() require("util.vsc").move_visual_selection("Down") end, opts)
   map("x", "<M-k>", function() require("util.vsc").move_visual_selection("Up") end, opts)
   map("x", "<M-j>", function() require("util.vsc").move_visual_selection("Down") end, opts)
+  map({ "n", "x" }, "<M-l>", "<Cmd>call VSCodeNotifyVisual('editor.action.indentLines', 1)<CR>",
+    opts)
+  map({ "n", "x" }, "<M-h>", "<Cmd>call VSCodeNotifyVisual('editor.action.outdentLines', 1)<CR>",
+    opts)
   map({ "n", "x" }, "<M-D>", "<Cmd>call VSCodeNotify('abracadabra.moveStatementDown')<CR>", opts)
   map({ "n", "x" }, "<M-U>", "<Cmd>call VSCodeNotify('abracadabra.moveStatementUp')<CR>", opts)
 else
