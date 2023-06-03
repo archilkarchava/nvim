@@ -906,6 +906,32 @@ return {
       },
     }
   },
+  {
+    "echasnovski/mini.move",
+    version = "*",
+    keys = {
+      { "<M-h>", mode = "n", desc = "Move line left" },
+      { "<M-j>", mode = "n", desc = "Move line down" },
+      { "<M-k>", mode = "n", desc = "Move line up" },
+      { "<M-l>", mode = "n", desc = "Move line right" },
+      { "<M-h>", mode = "v", desc = "Move selection left" },
+      { "<M-j>", mode = "v", desc = "Move selection down" },
+      { "<M-k>", mode = "v", desc = "Move selection up" },
+      { "<M-l>", mode = "v", desc = "Move selection right" },
+    },
+    opts = {
+      mappings = {
+        left = "<M-h>",
+        right = "<M-l>",
+        down = "<M-j>",
+        up = "<M-k>",
+        line_left = "<M-h>",
+        line_right = "<M-l>",
+        line_down = "<M-j>",
+        line_up = "<M-k>",
+      },
+    },
+  },
   -- surround
   {
     "echasnovski/mini.surround",

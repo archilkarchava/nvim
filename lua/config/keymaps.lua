@@ -463,6 +463,7 @@ if vim.g.vscode then
   map({ "n", "x" }, "<M-D>", "<Cmd>call VSCodeNotify('abracadabra.moveStatementDown')<CR>", opts)
   map({ "n", "x" }, "<M-U>", "<Cmd>call VSCodeNotify('abracadabra.moveStatementUp')<CR>", opts)
 else
+  -- These keymaps will be overridden by keymaps from the mini.move plugin
   map("x", "<M-Up>", ":move '<-2<CR>gv=gv", opts)
   map("x", "<M-k>", ":move '<-2<CR>gv=gv", opts)
   map("x", "<M-Down>", ":move '>+1<CR>gv=gv", opts)
