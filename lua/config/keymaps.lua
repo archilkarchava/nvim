@@ -62,13 +62,13 @@ end
 
 if vim.g.vscode then
   -- Comment
-  map({ "n", "x", "o" }, "gc", "<Plug>VSCodeCommentary", { noremap = false })
-  map("n", "gcc", "<Plug>VSCodeCommentaryLine", { noremap = false })
-  map({ "x", "o" }, ctrl_cmd_lhs("/"), "<Plug>VSCodeCommentary", { noremap = false })
-  map("n", ctrl_cmd_lhs("/"), "<Plug>VSCodeCommentaryLine", { noremap = false })
-  map("n", ctrl_cmd_lhs("/"), "<Plug>VSCodeCommentaryLine", { noremap = false })
+  map({ "n", "x", "o" }, "gc", "<Plug>VSCodeCommentary", { remap = true })
+  map("n", "gcc", "<Plug>VSCodeCommentaryLine", { remap = true })
+  map({ "x", "o" }, ctrl_cmd_lhs("/"), "<Plug>VSCodeCommentary", { remap = true })
+  map("n", ctrl_cmd_lhs("/"), "<Plug>VSCodeCommentaryLine", { remap = true })
+  map("n", ctrl_cmd_lhs("/"), "<Plug>VSCodeCommentaryLine", { remap = true })
   if Util.is_mac() then
-    map({ "x", "n" }, "<C-/>", "<C-/>", { noremap = false })
+    map({ "x", "n" }, "<C-/>", "<C-/>", { remap = true })
   end
 
   map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("c"),
