@@ -19,8 +19,7 @@ function M.move_visual_selection(direction)
 			end_line = tmp
 		end
 	end
-	vim.cmd("call VSCodeCallRange('editor.action.moveLines" ..
-		direction .. "Action'," .. start_line .. "," .. end_line .. ",1)")
+	vim.fn.VSCodeCallRange("editor.action.moveLines" .. direction .. "Action", start_line, end_line, 1)
 	if direction == "Up" then
 		if end_line > 1 then
 			start_line = start_line - 1
