@@ -476,8 +476,9 @@ end
 
 -- Harpoon
 -- if vim.g.vscode then
---   map("n", "<Leader>a", "<Cmd>call VSCodeNotify('vscode-harpoon.addEditor')<CR>", opts)
---   map("n", "<Leader>pe", "<Cmd>call VSCodeNotify('vscode-harpoon.editorQuickPick')<CR>", opts)
+--   map("n", "<M-a>", "<Cmd>call VSCodeNotify('vscode-harpoon.addEditor')<CR>", opts)
+--   map("n", "<M-p>", "<Cmd>call VSCodeNotify('vscode-harpoon.editorQuickPick')<CR>", opts)
+--   map("n", "<M-s>", "<Cmd>call VSCodeNotify('vscode-harpoon.editEditors')<CR>", opts)
 --   map("n", "<M-0>", "<Cmd>call VSCodeNotify('vscode-harpoon.editEditors')<CR>", opts)
 --   map("n", "<M-1>", "<Cmd>call VSCodeNotify('vscode-harpoon.gotoEditor1')<CR>", opts)
 --   map("n", "<M-2>", "<Cmd>call VSCodeNotify('vscode-harpoon.gotoEditor2')<CR>", opts)
