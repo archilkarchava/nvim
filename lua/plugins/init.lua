@@ -520,7 +520,7 @@ return {
     "andymass/vim-matchup",
     event = { "BufRead", "BufNewFile" },
     vscode = true,
-    config = function()
+    init = function()
       vim.g.matchup_matchparen_offscreen = {}
       -- Disable matchparen highlighting in VSCode
       if vim.g.vscode then
