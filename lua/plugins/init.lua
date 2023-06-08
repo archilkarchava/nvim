@@ -532,8 +532,30 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
+    vscode = true,
     event = { "BufRead", "BufNewFile" },
+    cmd = {
+      "TSBufDisable",
+      "TSBufEnable",
+      "TSBufToggle",
+      "TSDisable",
+      "TSEnable",
+      "TSToggle",
+      "TSInstall",
+      "TSInstallInfo",
+      "TSInstallSync",
+      "TSModuleInfo",
+      "TSUninstall",
+      "TSUpdate",
+      "TSUpdateSync",
+    },
+    build = ":TSUpdate",
+    dependencies = {
+      {
+        "windwp/nvim-ts-autotag",
+        vscode = true
+      },
+    },
     -- dependencies = {
     --   {
     --     "nvim-treesitter/nvim-treesitter-textobjects",
@@ -556,7 +578,7 @@ return {
     --     end,
     --   },
     -- },
-    keys = not not vim.g.vscode and {
+    keys = not vim.g.vscode and {
       { "<C-Space>", desc = "Increment selection" },
       { "<bs>",      desc = "Shrink selection",   mode = "x" },
     } or nil,
@@ -565,6 +587,7 @@ return {
         enable = not vim.g.vscode,
       },
       indent = { enable = true },
+      autotag = { enable = true },
       context_commentstring = { enable = not vim.g.vscode, enable_autocmd = not vim.g.vscode },
       ensure_installed = {
         "bash",
@@ -592,7 +615,6 @@ return {
         },
       },
     },
-    ---@param opts TSConfig
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
     end,
