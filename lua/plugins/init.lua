@@ -518,6 +518,7 @@ return {
   -- Common plugins
   {
     "andymass/vim-matchup",
+    event = { "BufRead", "BufNewFile" },
     vscode = true,
     config = function()
       vim.g.matchup_matchparen_offscreen = {}
@@ -531,12 +532,8 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    vscode = true,
     build = ":TSUpdate",
     event = { "BufRead", "BufNewFile" },
-    dependencies = {
-      "andymass/vim-matchup",
-    },
     -- dependencies = {
     --   {
     --     "nvim-treesitter/nvim-treesitter-textobjects",
@@ -594,9 +591,6 @@ return {
           node_decremental = "<bs>",
         },
       },
-      matchup = {
-        enable = true
-      }
     },
     ---@param opts TSConfig
     config = function(_, opts)
