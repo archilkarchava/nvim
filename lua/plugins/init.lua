@@ -518,6 +518,7 @@ return {
   -- Common plugins
   {
     "andymass/vim-matchup",
+    enabled = false,
     event = { "BufRead", "BufNewFile" },
     vscode = true,
     init = function()
