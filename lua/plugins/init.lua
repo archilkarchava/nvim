@@ -184,7 +184,10 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
+      {
+        "MunifTanjim/nui.nvim",
+        version = "*"
+      },
     },
     init = function()
       vim.g.neo_tree_remove_legacy_commands = 1
