@@ -533,7 +533,6 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    vscode = true,
     event = { "BufRead", "BufNewFile" },
     cmd = {
       "TSBufDisable",
@@ -552,10 +551,7 @@ return {
     },
     build = ":TSUpdate",
     dependencies = {
-      {
-        "windwp/nvim-ts-autotag",
-        vscode = true
-      },
+      { "windwp/nvim-ts-autotag" },
     },
     -- dependencies = {
     --   {
@@ -869,7 +865,7 @@ return {
       location   = { suffix = "l", options = {} },
       oldfile    = { suffix = vim.g.vscode and "" or "o", options = {} },
       quickfix   = { suffix = vim.g.vscode and "" or "q", options = {} },
-      treesitter = { suffix = "t", options = {} },
+      treesitter = { suffix = vim.g.vscode and "" or "t", options = {} },
       undo       = { suffix = "", options = {} },
       window     = { suffix = vim.g.vscode and "" or "w", options = {} },
       yank       = { suffix = "y", options = {} },
