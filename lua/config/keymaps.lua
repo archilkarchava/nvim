@@ -405,7 +405,8 @@ if vim.g.vscode then
   -- end, opts)
   map("n", "<Leader>at", "<Cmd>call VSCodeNotify('aws.codeWhisperer.toggleCodeSuggestion')<CR>", opts)
 
-  map("n", "<Leader>r", "<Cmd>call VSCodeNotify('editor.action.rename')<CR>", opts)
+  map("n", "<F2>", "i<Cmd>call VSCodeNotify('editor.action.rename')<CR>", opts)
+  map("n", "<Leader>r", "i<Cmd>call VSCodeNotify('editor.action.rename')<CR>", opts)
   map("n", "<Leader>B", "<Cmd>call VSCodeNotify('editor.debug.action.toggleBreakpoint')<CR>", opts)
 
   -- Save
