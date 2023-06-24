@@ -536,6 +536,7 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    vscode = true,
     event = { "BufRead", "BufNewFile" },
     cmd = {
       "TSBufDisable",
@@ -554,7 +555,10 @@ return {
     },
     build = ":TSUpdate",
     dependencies = {
-      { "windwp/nvim-ts-autotag" },
+      {
+        "windwp/nvim-ts-autotag",
+        vscode = true,
+      },
     },
     -- dependencies = {
     --   {
@@ -587,7 +591,12 @@ return {
         enable = not vim.g.vscode,
       },
       indent = { enable = true },
-      autotag = { enable = true },
+      autotag = {
+        enable = true,
+        enable_rename = true,
+        enable_close = not vim.g.vscode,
+        enable_close_on_slash = not vim.g.vscode,
+      },
       context_commentstring = { enable = not vim.g.vscode, enable_autocmd = not vim.g.vscode },
       ensure_installed = {
         "bash",
