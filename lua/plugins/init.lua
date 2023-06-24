@@ -1239,6 +1239,7 @@ return {
   -- Flit and leap create issues with dot-repeat in VSCode when used in operator pending mode
   {
     "ggandor/flit.nvim",
+    enabled = false,
     vscode = true,
     dependencies = {
       "ggandor/leap.nvim"
@@ -1264,6 +1265,7 @@ return {
   },
   {
     "ggandor/leap.nvim",
+    enabled = false,
     vscode = true,
     dependencies = {
       "tpope/vim-repeat",
@@ -1333,6 +1335,51 @@ return {
       -- Disables autojump in VS Code
       -- safe_labels = vim.g.vscode and {} or nil,
     }
+  },
+  {
+    "folke/flash.nvim",
+    vscode = true,
+    event = "VeryLazy",
+    opts = {
+      search = {
+        multi_window = not vim.g.vscode
+      },
+    },
+    keys = {
+      {
+        "s",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").jump()
+        end,
+        desc = "Flash backwards",
+      },
+      {
+        "r",
+        mode = "o",
+        function()
+          require("flash").remote()
+        end,
+        desc = "Remote Flash",
+      },
+    },
+    init = function()
+      if not vim.g.vscode then
+        vim.keymap.set({ "n", "x", "o" }, "S", function()
+          require("flash").treesitter()
+        end, { desc = "Flash treesitter" })
+      end
+
+      local function set_highlights()
+        vim.api.nvim_set_hl(0, "FlashLabel", {
+          fg = "#ff0000", bold = true, nocombine = true,
+        })
+        vim.api.nvim_set_hl(0, "FlashBackdrop", { fg = "gray" })
+      end
+      vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+        callback = set_highlights,
+      })
+    end
   },
   {
     "monaqa/dial.nvim",

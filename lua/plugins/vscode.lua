@@ -32,7 +32,8 @@ return {
 	{
 		"archilkarchava/vscode.nvim",
 		vscode = true,
-		event = "VeryLazy",
+    lazy = false,
+    priority = 1000,
 		config = function()
 			require("vscode-theme").setup({})
 			require("vscode-theme").load()
