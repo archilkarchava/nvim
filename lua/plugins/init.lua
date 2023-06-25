@@ -1249,6 +1249,7 @@ return {
   -- Flit and leap create issues with dot-repeat in VSCode when used in operator pending mode
   {
     "ggandor/flit.nvim",
+    enabled = false,
     vscode = true,
     dependencies = {
       "ggandor/leap.nvim"
@@ -1274,6 +1275,7 @@ return {
   },
   {
     "ggandor/leap.nvim",
+    enabled = false,
     vscode = true,
     dependencies = {
       "tpope/vim-repeat",
@@ -1347,21 +1349,52 @@ return {
   {
     "folke/flash.nvim",
     vscode = true,
-    version = "*",
     event = "VeryLazy",
     opts = {
       search = {
         multi_window = not vim.g.vscode
       },
-      modes = {
-        search = {
-          enabled = true
-        },
-        char = {
-          enabled = false
-        }
+      prompt = {
+        enabled = not vim.g.vscode
       }
     },
+    keys = function()
+      local keys = {
+        {
+          "s",
+          mode = { "n", "o", "x" },
+          function()
+            require("flash").jump({
+              jump = {
+                inclusive = false
+              }
+            })
+          end,
+          desc = "Flash",
+        },
+        {
+          "r",
+          mode = "o",
+          function()
+            require("flash").remote()
+          end,
+          desc = "Remote Flash",
+        },
+      }
+      if not vim.g.vscode then
+        vim.list_extend(keys,
+          {
+            {
+              "S",
+              mode = { "n", "x", "o" },
+              function() require("flash").treesitter() end,
+              desc = "Flash treesitter"
+            }
+          })
+      end
+
+      return keys
+    end,
     init = function()
       local function set_highlights()
         vim.api.nvim_set_hl(0, "FlashLabel", {
