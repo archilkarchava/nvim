@@ -1255,7 +1255,7 @@ return {
     },
     keys = function()
       local ret = {}
-      local mode = vim.g.vscode and { "n", "x" } or { "n", "x", "o" }
+      local mode = { "n", "x", "o" }
       for _, key in ipairs({ "f", "F", "t", "T" }) do
         ret[#ret + 1] = { key, mode = mode, desc = key }
       end
@@ -1282,18 +1282,27 @@ return {
       {
         "s",
         "<Plug>(leap-forward-to)",
-        mode = vim.g.vscode and { "n", "x" } or { "n", "x", "o" },
+        mode = { "n", "x", "o" },
         desc =
         "Leap forward to"
       },
       {
         "S",
         "<Plug>(leap-backward-to)",
-        mode = vim.g.vscode and { "n", "x" } or { "n", "x", "o" },
+        mode = { "n", "x", "o" },
         desc =
         "Leap backward to"
       },
       -- { "gs", mode = { "n", "x", "o" }, desc = "Leap from windws" },
+    },
+    opts = {
+      -- VS Code doesn't sync its viewport with neovim so autojump rarely works
+      -- These settings make autojump always work in VS Code
+      labels = vim.g.vscode and {} or nil,
+      safe_labels = vim.g.vscode and { "s", "f", "j", "k", "n", "u", "t", "/",
+        "S", "F", "N", "L", "H", "M", "Q", "K", "U", "G", "T", "Z", "[", "]", "\\", "?", '"' } or nil,
+      -- Disables autojump in VS Code
+      -- safe_labels = vim.g.vscode and {} or nil,
     },
     config = function(_, opts)
       -- Hack to make it work with langmapper
@@ -1329,20 +1338,11 @@ return {
           fg = "#ffb400", bold = true, nocombine = true,
         })
       end
+      vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+        callback = set_highlights,
+      })
       set_highlights()
-      -- vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-      -- 	callback = set_highlights,
-      -- })
     end,
-    opts = {
-      -- VS Code doesn't sync its viewport with neovim so autojump rarely works
-      -- These settings make autojump always work in VS Code
-      labels = vim.g.vscode and {} or nil,
-      safe_labels = vim.g.vscode and { "s", "f", "j", "k", "n", "u", "t", "/",
-        "S", "F", "N", "L", "H", "M", "Q", "K", "U", "G", "T", "Z", "[", "]", "\\", "?", '"' } or nil,
-      -- Disables autojump in VS Code
-      -- safe_labels = vim.g.vscode and {} or nil,
-    }
   },
   {
     "folke/flash.nvim",
