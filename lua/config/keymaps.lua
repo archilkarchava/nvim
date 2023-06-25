@@ -280,9 +280,9 @@ if vim.g.vscode then
     "<Cmd>call VSCodeNotify('workbench.action.findInFiles', { 'query': expand('<cword>')})<CR>", opts)
   map("x", "<Leader>*",
     "<Cmd>call VSCodeNotifyVisual('workbench.action.findInFiles', 1)<CR><Esc>", opts)
-  map("n", "<leader><space>", "<cmd>Find<cr>")
-  map("n", "<leader>/", [[<cmd>call VSCodeNotify('workbench.action.findInFiles')<cr>]])
-  map("n", "<leader>ss", [[<cmd>call VSCodeNotify('workbench.action.gotoSymbol')<cr>]])
+  map("n", "<leader><space>", "<cmd>Find<cr>", opts)
+  map("n", "<leader>/", "<Cmd>call VSCodeNotify('workbench.action.findInFiles')<CR>", opts)
+  map("n", "<leader>ss", function() require("util.vsc").notify_marked("workbench.action.gotoSymbol") end, opts)
 
   -- Folding
   map({ "n", "x" }, "za", "<Cmd>call VSCodeNotify('editor.toggleFold')<CR>", opts)
