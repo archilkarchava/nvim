@@ -20,7 +20,7 @@
   "nui.nvim": { "branch": "main", "commit": "7a524120a7a70761b5a65b602fd235a65cb005aa" },
   "nvim-navic": { "branch": "master", "commit": "15704c607569d6c5cfeab486d3ef9459645a70ce" },
   "nvim-surround": { "branch": "main", "commit": "211eaad7c6d01ef4ac02cba9052b3082ec232101" },
-  "nvim-treesitter": { "branch": "master", "commit": "20a6c66b769d09491247d760967bb4ef2fcf3e0d" },
+  "nvim-treesitter": { "branch": "master", "commit": "c667877ab575e32f9ba8aa2c518a6eb5fd069cf3" },
   "nvim-treesitter-context": { "branch": "master", "commit": "6eccc445394df5ab9b1c1e2c445c033949a6a784" },
   "nvim-ts-autotag": { "branch": "main", "commit": "6be1192965df35f94b8ea6d323354f7dc7a557e4" },
   "nvim-various-textobjs": { "branch": "main", "commit": "24e3309575024a71b704ae91f7c54374a39e4527" },
