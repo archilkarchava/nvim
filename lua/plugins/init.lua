@@ -1363,7 +1363,7 @@ return {
         function()
           require("flash").jump()
         end,
-        desc = "Flash backwards",
+        desc = "Flash",
       },
       {
         "r",
