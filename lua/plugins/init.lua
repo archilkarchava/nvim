@@ -1346,7 +1346,6 @@ return {
   },
   {
     "folke/flash.nvim",
-    enabled = false,
     vscode = true,
     version = "*",
     event = "VeryLazy",
@@ -1354,45 +1353,16 @@ return {
       search = {
         multi_window = not vim.g.vscode
       },
-    },
-    keys = {
-      {
-        "s",
-        mode = "n",
-        function()
-          require("flash").jump()
-        end,
-        desc = "Flash",
-      },
-      {
-        "s",
-        mode = { "o", "x" },
-        function()
-          require("flash").jump({
-            jump = {
-              pos = "start",
-              inclusive = false
-            },
-          })
-        end,
-        desc = "Flash",
-      },
-      {
-        "r",
-        mode = "o",
-        function()
-          require("flash").remote()
-        end,
-        desc = "Remote Flash",
-      },
+      modes = {
+        search = {
+          enabled = true
+        },
+        char = {
+          enabled = false
+        }
+      }
     },
     init = function()
-      if not vim.g.vscode then
-        vim.keymap.set({ "n", "x", "o" }, "S", function()
-          require("flash").treesitter()
-        end, { desc = "Flash treesitter" })
-      end
-
       local function set_highlights()
         vim.api.nvim_set_hl(0, "FlashLabel", {
           fg = "#ff0000", bold = true, nocombine = true,
