@@ -1359,9 +1359,22 @@ return {
     keys = {
       {
         "s",
-        mode = { "n", "x", "o" },
+        mode = "n",
         function()
           require("flash").jump()
+        end,
+        desc = "Flash",
+      },
+      {
+        "s",
+        mode = { "o", "x" },
+        function()
+          require("flash").jump({
+            jump = {
+              pos = "start",
+              inclusive = false
+            },
+          })
         end,
         desc = "Flash",
       },
