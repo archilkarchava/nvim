@@ -1351,14 +1351,7 @@ return {
     vscode = true,
     version = "*",
     event = "VeryLazy",
-    opts = {
-      search = {
-        multi_window = not vim.g.vscode
-      },
-      prompt = {
-        enabled = not vim.g.vscode
-      }
-    },
+    opts = {},
     keys = function()
       local keys = {
         {
