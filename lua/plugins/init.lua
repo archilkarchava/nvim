@@ -1349,6 +1349,7 @@ return {
   {
     "folke/flash.nvim",
     vscode = true,
+    version = "*",
     event = "VeryLazy",
     opts = {
       search = {
