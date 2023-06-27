@@ -1391,10 +1391,13 @@ return {
     end,
     init = function()
       local function set_highlights()
-        vim.api.nvim_set_hl(0, "FlashLabel", {
-          fg = "#ff0000", bold = true, nocombine = true,
-        })
         vim.api.nvim_set_hl(0, "FlashBackdrop", { fg = "gray" })
+        if vim.g.vscode then
+          vim.api.nvim_set_hl(0, "FlashLabel", {
+            fg = "#ff0000", bold = true, nocombine = true,
+          })
+          vim.api.nvim_set_hl(0, "FlashMatch", { link = "Search" })
+        end
       end
       vim.api.nvim_create_autocmd({ "ColorScheme" }, {
         callback = set_highlights,
