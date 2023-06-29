@@ -1351,7 +1351,13 @@ return {
     vscode = true,
     version = "*",
     event = "VeryLazy",
-    opts = {},
+    opts = {
+      modes = {
+        search = {
+          enabled = false
+        }
+      }
+    },
     keys = function()
       local keys = {
         {
