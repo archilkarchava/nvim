@@ -32,8 +32,8 @@ return lazy.setup("plugins",
         -- disable some rtp plugins
         disabled_plugins = {
           "gzip",
-          -- "matchit",
-          (vim.g.vscode and "matchparen" or nil),
+          "matchit",
+          "matchparen",
           "netrwPlugin",
           "tarPlugin",
           "tohtml",

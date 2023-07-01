@@ -521,16 +521,13 @@ return {
   -- Common plugins
   {
     "andymass/vim-matchup",
-    enabled = false,
-    event = { "BufRead", "BufNewFile" },
-    vscode = true,
+    event = { "BufReadPost" },
     init = function()
-      vim.g.matchup_matchparen_offscreen = {}
-      -- Disable matchparen highlighting in VSCode
+      vim.g.matchup_matchparen_deferred = 1
       if vim.g.vscode then
-        vim.g.matchup_matchparen_enabled = 0
+        vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
       else
-        vim.g.matchup_matchparen_deferred = 1
+        vim.g.matchup_matchparen_offscreen = {}
       end
     end,
   },
@@ -591,6 +588,10 @@ return {
         enable = not vim.g.vscode,
       },
       indent = { enable = true },
+      matchup = {
+        enable = not vim.g.vscode,
+        enable_quotes = true,
+      },
       autotag = {
         enable = true,
         enable_rename = true,
