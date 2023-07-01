@@ -512,6 +512,9 @@ map("i", "<C-Del>", "<space><esc>ce", opts)
 map("n", "<C-S-Del>", "dW", opts)
 map("i", "<C-S-Del>", "<Esc>lcW", opts)
 
+-- change word with <C-c>
+map("n", "<C-c>", "<cmd>normal! ciw<cr>a")
+
 -- o and O indentation
 -- map("n", "o", function()
 --   if vim.v.count > 0 then
