@@ -333,8 +333,8 @@ if vim.g.vscode then
 	map("x", "zx", "<Cmd>call VSCodeNotify('editor.createFoldingRangeFromSelection')<CR><Esc>", opts)
 	map({ "n", "x" }, "zX", "<Cmd>call VSCodeNotify('editor.removeManualFoldingRanges')<CR>", opts)
 
-	map({ "n", "x" }, "zj", "<Cmd>call VSCodeNotify('editor.gotoNextFold')<CR>", opts)
-	map({ "n", "x" }, "zk", "<Cmd>call VSCodeNotify('editor.gotoPreviousFold')<CR>", opts)
+	map({ "n", "x" }, "z]", "<Cmd>call VSCodeNotify('editor.gotoNextFold')<CR>", opts)
+	map({ "n", "x" }, "z[", "<Cmd>call VSCodeNotify('editor.gotoPreviousFold')<CR>", opts)
 
 	-- Jumplist
 	-- map("n", "<C-o>", "<C-o>", { remap = true, silent = true })
