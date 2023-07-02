@@ -1392,15 +1392,7 @@ return {
             })
           end,
           desc = "Flash",
-        },
-        {
-          "r",
-          mode = "o",
-          function()
-            require("flash").remote()
-          end,
-          desc = "Remote Flash",
-        },
+        }
       }
       if not vim.g.vscode then
         vim.list_extend(keys,
@@ -1410,7 +1402,15 @@ return {
               mode = { "n", "x", "o" },
               function() require("flash").treesitter() end,
               desc = "Flash treesitter"
-            }
+            },
+            {
+              "r",
+              mode = "o",
+              function()
+                require("flash").remote()
+              end,
+              desc = "Remote Flash",
+            },
           })
       end
 
