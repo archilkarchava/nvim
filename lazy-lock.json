@@ -37,7 +37,6 @@
   "vim-startuptime": { "branch": "master", "commit": "454b3de856b7bd298700de33d79774ca9b9e3875" },
   "vim-visual-multi": { "branch": "master", "commit": "724bd53adfbaf32e129b001658b45d4c5c29ca1a" },
   "vim-wordmotion": { "branch": "master", "commit": "81d9bd298376ab0dc465c85d55afa4cb8d5f47a1" },
-  "vscode.nvim": { "branch": "main", "commit": "53cdbfffaf4ad39bc8258e5e8929c269b22f1319" },
   "which-key.nvim": { "branch": "main", "commit": "e271c28118998c93a14d189af3395812a1aa646c" },
   "xkbswitch.nvim": { "branch": "master", "commit": "9b9fced62512699261da8480c593ba0f4c14322c" },
   "zoxide.vim": { "branch": "master", "commit": "cc5b702cacbcbb4192b2a619c0f9cf6ab6e76936" }

@@ -534,6 +534,7 @@ return {
   -- VS Code only plugins
   {
     "archilkarchava/vscode.nvim",
+    enabled = false,
     lazy = true,
     vscode = true,
   },
@@ -1423,12 +1424,13 @@ return {
           vim.api.nvim_set_hl(0, "FlashLabel", {
             fg = "#ff0000", bold = true, nocombine = true,
           })
-          vim.api.nvim_set_hl(0, "FlashMatch", { link = "Search" })
+          vim.api.nvim_set_hl(0, "FlashMatch", { fg = "NONE", bg = "#613315" })
         end
       end
       vim.api.nvim_create_autocmd({ "ColorScheme" }, {
         callback = set_highlights,
       })
+      set_highlights()
     end
   },
   {
