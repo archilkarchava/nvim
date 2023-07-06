@@ -17,8 +17,7 @@ end
 
 ---@param plugin string
 function M.has(plugin)
-	local plugin_spec = require("lazy.core.config").plugins[plugin]
-	return plugin_spec ~= nil and plugin_spec.cond ~= false
+	return require("lazy.core.config").spec.plugins[plugin] ~= nil
 end
 
 ---@param fn fun()
