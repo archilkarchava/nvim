@@ -141,6 +141,12 @@ if vim.g.vscode then
 	map("x", ctrl_cmd_lhs("Enter"), '<Esc>o<Esc>0"_D', opts)
 	map("x", ctrl_cmd_lhs("S-Enter"), '<Esc>O<Esc>0"_D', opts)
 
+	-- Copy text
+	if Util.is_mac() then
+		map("n", "<D-c>", "yy", opts)
+		map("x", "<D-c>", "ygv<Esc>", opts)
+	end
+
 	-- Scroll
 	map({ "n", "v" }, "<C-y>", "<Cmd>call VSCodeNotify('germanScroll.arminUp')<CR>", opts)
 	map({ "n", "v" }, "<C-e>", "<Cmd>call VSCodeNotify('germanScroll.arminDown')<CR>", opts)
