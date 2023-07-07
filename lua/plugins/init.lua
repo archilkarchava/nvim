@@ -1305,18 +1305,27 @@ return {
     keys = {
       {
         "s",
-        "<Plug>(leap-forward-to)",
-        mode = vim.g.vscode and { "n", "x" } or { "n", "x", "o" },
-        desc =
-        "Leap forward to"
+        function()
+          local current_window = vim.fn.win_getid()
+          require('leap').leap { target_windows = { current_window } }
+        end,
+        mode = { "n", "x", "o" },
+        desc = "Leap"
       },
-      {
-        "S",
-        "<Plug>(leap-backward-to)",
-        mode = vim.g.vscode and { "n", "x" } or { "n", "x", "o" },
-        desc =
-        "Leap backward to"
-      },
+      -- {
+      --   "s",
+      --   "<Plug>(leap-forward-to)",
+      --   mode = { "n", "x", "o" },
+      --   desc =
+      --   "Leap forward to"
+      -- },
+      -- {
+      --   "S",
+      --   "<Plug>(leap-backward-to)",
+      --   mode = { "n", "x", "o" },
+      --   desc =
+      --   "Leap backward to"
+      -- },
       -- { "gs", mode = { "n", "x", "o" }, desc = "Leap from windws" },
     },
     config = function(_, opts)
