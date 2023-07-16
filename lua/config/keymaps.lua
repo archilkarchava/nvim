@@ -181,12 +181,12 @@ if vim.g.vscode then
 	map("x", "<C-S-Right>", "<Esc>i<Cmd>call VSCodeNotifyVisual('editor.action.smartSelect.expand', 1)<CR>", opts)
 
 	-- Revert file
-	map(
-		{ "n", "x" },
-		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("R"),
-		"<Cmd>call VSCodeNotify('workbench.action.files.revert')<CR>",
-		opts
-	)
+	-- map(
+	-- 	{ "n", "x" },
+	-- 	ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("R"),
+	-- 	"<Cmd>call VSCodeCall('workbench.action.files.revert')<CR>",
+	-- 	opts
+	-- )
 
 	-- Git revert
 	map(
@@ -420,7 +420,7 @@ if vim.g.vscode then
 	-- map("n", "<Leader>at", function()
 	--   local status_ok = pcall(vim.fn.VSCodeCall, "codeium.toggleEnable")
 	--   if status_ok then
-	--     vim.fn.VSCodeNotify('notifications.toggleList')
+	--     vim.fn.VSCodeNotify("notifications.toggleList")
 	--   end
 	-- end, opts)
 	map("n", "<Leader>at", "<Cmd>call VSCodeNotify('aws.codeWhisperer.toggleCodeSuggestion')<CR>", opts)
@@ -434,8 +434,8 @@ if vim.g.vscode then
 	map({ "n", "x" }, ctrl_cmd_lhs("S"), "<Cmd>Saveas<CR>", opts)
 
 	-- Undo/Redo
-	map({ "n", "x" }, ctrl_cmd_lhs("z"), "<Cmd>call VSCodeNotify('undo')<CR>", opts)
-	map({ "n", "x" }, ctrl_cmd_lhs("Z"), "<Cmd>call VSCodeNotify('redo')<CR>", opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("z"), "<Cmd>call VSCodeCall('undo')<CR>", opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("Z"), "<Cmd>call VSCodeCall('redo')<CR>", opts)
 
 	-- map("n", "u", "<Cmd>call VSCodeNotify('undo')<CR>", opts)
 	-- map("n", "<C-r>", "<Cmd>call VSCodeNotify('redo')<CR>", opts)
@@ -461,11 +461,11 @@ if vim.g.vscode then
 	map("x", ctrl_cmd_lhs("T"), "<Cmd>call VSCodeNotifyVisual('surround.with', 1)<CR><Esc>i", opts)
 
 	-- Formatting
-	map({ "n", "x" }, "<M-F>", "<Cmd>call VSCodeNotify('editor.action.formatDocument')<CR>", opts)
+	map({ "n", "x" }, "<M-F>", "<Cmd>call VSCodeCall('editor.action.formatDocument')<CR>", opts)
 	map(
 		{ "n", "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("f"),
-		"<Cmd>call VSCodeNotifyVisual('editor.action.formatSelection', 1)<CR>",
+		"<Cmd>call VSCodeCallVisual('editor.action.formatSelection', 1)<CR>",
 		opts
 	)
 end
