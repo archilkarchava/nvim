@@ -1519,7 +1519,7 @@ return {
   {
     "ivanesmantovich/xkbswitch.nvim",
     vscode = true,
-    event = vim.g.vscode and "VeryLazy" or "InsertEnter",
+    event = "VeryLazy",
     config = true,
   },
   -- {
