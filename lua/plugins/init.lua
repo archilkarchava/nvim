@@ -1517,6 +1517,10 @@ return {
     end
   },
   {
+    "lambdalisue/suda.vim",
+    cmd = { "SudaRead", "SudaWrite" },
+  },
+  {
     "ivanesmantovich/xkbswitch.nvim",
     vscode = true,
     event = "VeryLazy",

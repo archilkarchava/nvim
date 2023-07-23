@@ -429,10 +429,6 @@ if vim.g.vscode then
 	map("n", "<Leader>r", "<Cmd>call VSCodeNotify('editor.action.rename')<CR>", opts)
 	map("n", "<Leader>B", "<Cmd>call VSCodeNotify('editor.debug.action.toggleBreakpoint')<CR>", opts)
 
-	-- Save
-	map({ "n", "x" }, ctrl_cmd_lhs("s"), "<Cmd>Write<CR>", opts)
-	map({ "n", "x" }, ctrl_cmd_lhs("S"), "<Cmd>Saveas<CR>", opts)
-
 	-- Undo/Redo
 	map({ "n", "x" }, ctrl_cmd_lhs("z"), "<Cmd>call VSCodeCall('undo')<CR>", opts)
 	map({ "n", "x" }, ctrl_cmd_lhs("Z"), "<Cmd>call VSCodeCall('redo')<CR>", opts)
@@ -469,6 +465,16 @@ if vim.g.vscode then
 		opts
 	)
 end
+
+-- Save
+if vim.g.vscode then
+	map({ "n", "x" }, ctrl_cmd_lhs("s"), "<Cmd>Write<CR>", opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("S"), "<Cmd>Saveas<CR>", opts)
+else
+	map("n", "<Leader>w", "<Cmd>w<CR>", { desc = "Save" })
+	map("n", "<Leader>W", function() vim.cmd "SudaWrite" end, { desc = "Save as sudo" })
+end
+
 
 -- Move lines down and up
 if vim.g.vscode then
