@@ -5,7 +5,7 @@
   "bufferline.nvim": { "branch": "main", "commit": "d24378edc14a675c820a303b4512af3bbc5761e9" },
   "dial.nvim": { "branch": "master", "commit": "54b503f906bc9e5ab85288414840a1b86d40769f" },
   "flash.nvim": { "branch": "main", "commit": "e5a7bd96d0bb7e0806bfc18adea5ab148165bd62" },
-  "github-nvim-theme": { "branch": "main", "commit": "ea713c37691b2519f56cd801a2330bdf66393d0f" },
+  "github-nvim-theme": { "branch": "main", "commit": "7e08e9cbf6da64b151f708a3e7e9f43447ae0171" },
   "gitsigns.nvim": { "branch": "main", "commit": "bb808fc7376ed7bac0fbe8f47b83d4bf01738167" },
   "gx.nvim": { "branch": "main", "commit": "a7cb094499907b3561aa6e135240dccbd89ed8a8" },
   "harpoon": { "branch": "master", "commit": "21f4c47c6803d64ddb934a5b314dcb1b8e7365dc" },
