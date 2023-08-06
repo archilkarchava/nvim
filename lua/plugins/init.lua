@@ -1271,7 +1271,6 @@ return {
   -- Flit and leap create issues with dot-repeat in VSCode when used in operator pending mode
   {
     "ggandor/flit.nvim",
-    enabled = false,
     vscode = true,
     dependencies = {
       "ggandor/leap.nvim"
@@ -1297,7 +1296,6 @@ return {
   },
   {
     "ggandor/leap.nvim",
-    enabled = false,
     vscode = true,
     dependencies = {
       "tpope/vim-repeat",
@@ -1379,6 +1377,7 @@ return {
   },
   {
     "folke/flash.nvim",
+    enabled = false,
     vscode = true,
     version = "*",
     event = "VeryLazy",
