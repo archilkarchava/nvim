@@ -57,33 +57,36 @@ function M.go_to_definition_marked(str)
 	vim.cmd("normal! <C-]>")
 end
 
-local function fix_visual_pos(start_pos, end_pos)
-	if (start_pos[2] == end_pos[2] and start_pos[3] > end_pos[3]) or start_pos[2] > end_pos[2] then
-		start_pos[3] = start_pos[3] + 1
-	else
-		end_pos[3] = end_pos[3] + 1
-	end
-	return { start_pos, end_pos }
+---@param call_type 'notify' | 'call'
+---@param cmd string
+local function vscode_insert_selection(call_type, cmd)
+	local visual_method = call_type == 'notify' and 'notify_range_pos' or 'call_range_pos'
+	local visual_line_method = call_type == 'notify' and 'notify_range' or 'call_range'
+	local mode = vim.api.nvim_get_mode().mode
+	local sel_start = vim.fn.getpos("v")
+	local sel_end = vim.fn.getpos(".")
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true) .. "a", "v", false)
+	vim.defer_fn(function()
+		if mode == 'V' then
+			require("vscode-neovim")[visual_line_method](cmd, sel_start[2], sel_end[2], true)
+		else
+			require("vscode-neovim")[visual_method](cmd, sel_start[2], sel_end[2],
+				sel_start[3],
+				sel_end[3], true)
+		end
+	end, 10)
 end
 
----Lua version of the fixed VSCodeNotifyVisual function
 ---@param cmd string
----@param leave_selection boolean | number
 ---@param ... unknown VSCode command arguments
-function M.vscode_notify_visual(cmd, leave_selection, ...)
-	local mode = vim.api.nvim_get_mode().mode
-	if mode == 'V' then
-		local start_line = vim.fn.line('v')
-		local end_line = vim.fn.line('.')
-		vim.fn.VSCodeNotifyRange(cmd, start_line, end_line, leave_selection, { ... })
-	elseif mode == 'v' or mode == "<C-v>" then
-		local start_pos = vim.fn.getpos('v')
-		local end_pos = vim.fn.getpos('.')
-		start_pos, end_pos = table.unpack(fix_visual_pos(start_pos, end_pos))
-		vim.fn.VSCodeNotifyRangePos(cmd, start_pos[2], end_pos[2], start_pos[3], end_pos[3], leave_selection, { ... })
-	else
-		vim.fn.VSCodeNotify(cmd, { ... })
-	end
+function M.vscode_notify_insert_selection(cmd, ...)
+	return vscode_insert_selection('notify', cmd)
+end
+
+---@param cmd string
+---@param ... unknown VSCode command arguments
+function M.vscode_call_insert_selection(cmd, ...)
+	return vscode_insert_selection('call', cmd)
 end
 
 return M

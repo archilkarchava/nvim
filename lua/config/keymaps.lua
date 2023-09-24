@@ -43,7 +43,7 @@ end, expr_opts)
 if vim.g.vscode then
 	---@param direction "up" | "down"
 	local function move_wrapped(direction)
-		return vim.fn.VSCodeNotify("cursorMove", { to = direction, by = "wrappedLine", value = vim.v.count1 })
+		return require("vscode-neovim").notify("cursorMove", { to = direction, by = "wrappedLine", value = vim.v.count1 })
 	end
 	map("v", "gk", function()
 		move_wrapped("up")
@@ -53,9 +53,9 @@ if vim.g.vscode then
 	end, opts)
 end
 
-local move_wrapped_opts = { expr = true, silent = true, remap = true }
-map({ "n" }, "k", "v:count == 0 ? 'gk' : 'k'", move_wrapped_opts)
-map({ "n" }, "j", "v:count == 0 ? 'gj' : 'j'", move_wrapped_opts)
+-- local move_wrapped_opts = { expr = true, silent = true, remap = true }
+-- map({ "n" }, "k", "v:count == 0 ? 'gk' : 'k'", move_wrapped_opts)
+-- map({ "n" }, "j", "v:count == 0 ? 'gj' : 'j'", move_wrapped_opts)
 
 -- map('', '<Leader>hc', '<Cmd>noh<CR>', { noremap = true, silent = true })
 
@@ -77,17 +77,17 @@ if vim.g.vscode then
 	map(
 		{ "n", "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("c"),
-		"<Cmd>call VSCodeNotifyVisual('editor.action.addCommentLine', 1)<CR>",
+		"<Cmd>call VSCodeNotify('editor.action.addCommentLine')<CR>",
 		opts
 	)
 	map(
 		{ "n", "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("u"),
-		"<Cmd>call VSCodeNotifyVisual('editor.action.removeCommentLine', 1)<CR>",
+		"<Cmd>call VSCodeNotify('editor.action.removeCommentLine')<CR>",
 		opts
 	)
 
-	map({ "n", "x" }, "<M-A>", "<Cmd>call VSCodeNotifyVisual('editor.action.blockComment', 1)<CR>", opts)
+	map({ "n", "x" }, "<M-A>", "<Cmd>call VSCodeNotify('editor.action.blockComment')<CR>", opts)
 end
 
 if vim.g.vscode then
@@ -104,37 +104,6 @@ else
 end
 
 if vim.g.vscode then
-	-- VS Code search / replace
-	map("n", ctrl_cmd_lhs("e"), "<Cmd>call VSCodeNotify('actions.findWithSelection')<CR>", opts)
-	map("x", ctrl_cmd_lhs("e"), "<Cmd>call VSCodeNotifyVisual('actions.findWithSelection', 1)<CR><Esc>", opts)
-	map("n", ctrl_cmd_lhs("f"), "<Cmd>call VSCodeNotify('actions.find')<CR>", opts)
-	map("x", ctrl_cmd_lhs("f"), "<Cmd>call VSCodeNotifyVisual('actions.find', 1)<CR><Esc>", opts)
-	map("n", ctrl_cmd_lhs("g"), "<Cmd>call VSCodeNotify('editor.action.nextMatchFindAction')<CR>", opts)
-	map("x", ctrl_cmd_lhs("g"), "<Cmd>call VSCodeNotifyVisual('editor.action.nextMatchFindAction', 1)<CR><Esc>", opts)
-	map("n", ctrl_cmd_lhs("S-g"), "<Cmd>call VSCodeNotify('editor.action.previousMatchFindAction')<CR>", opts)
-	map(
-		"x",
-		ctrl_cmd_lhs("S-g"),
-		"<Cmd>call VSCodeNotifyVisual('editor.action.previousMatchFindAction', 1)<CR><Esc>",
-		opts
-	)
-	map("n", ctrl_cmd_lhs("M-f"), "<Cmd>call VSCodeNotify('editor.action.startFindReplaceAction')<CR>i", opts)
-	map(
-		"x",
-		ctrl_cmd_lhs("M-f"),
-		"<Cmd>call VSCodeNotifyVisual('editor.action.startFindReplaceAction', 1)<CR><Esc>i",
-		opts
-	)
-	map("n", ctrl_cmd_lhs("S-."), "<Cmd>call VSCodeNotify('editor.action.inPlaceReplace.down')<CR>i", opts)
-	map(
-		"x",
-		ctrl_cmd_lhs("S-."),
-		"<Cmd>call VSCodeNotifyVisual('editor.action.inPlaceReplace.down', 1)<CR><Esc>i",
-		opts
-	)
-	map("n", ctrl_cmd_lhs("S-,"), "<Cmd>call VSCodeNotify('editor.action.inPlaceReplace.up')<CR>i", opts)
-	map("x", ctrl_cmd_lhs("S-,"), "<Cmd>call VSCodeNotifyVisual('editor.action.inPlaceReplace.up', 1)<CR><Esc>i", opts)
-
 	-- Insert line above / below
 	map("n", ctrl_cmd_lhs("Enter"), 'o<Esc>0"_D', opts)
 	map("n", ctrl_cmd_lhs("S-Enter"), 'O<Esc>0"_D', opts)
@@ -147,38 +116,19 @@ if vim.g.vscode then
 		map("x", "<D-c>", "ygv<Esc>", opts)
 	end
 
-	-- Scroll
-	map({ "n", "v" }, "<C-y>", "<Cmd>call VSCodeNotify('germanScroll.arminUp')<CR>", opts)
-	map({ "n", "v" }, "<C-e>", "<Cmd>call VSCodeNotify('germanScroll.arminDown')<CR>", opts)
-	map({ "n", "v" }, "<C-u>", "<Cmd>call VSCodeNotify('germanScroll.bertholdUp')<CR>", opts)
-	map({ "n", "v" }, "<C-d>", "<Cmd>call VSCodeNotify('germanScroll.bertholdDown')<CR>", opts)
-	map({ "n", "v" }, "<C-b>", "<Cmd>call VSCodeNotify('germanScroll.christaUp')<CR>", opts)
-	map({ "n", "v" }, "<C-f>", "<Cmd>call VSCodeNotify('germanScroll.christaDown')<CR>", opts)
-
 	map("n", ctrl_cmd_lhs("d"), "i<Cmd>call VSCodeNotify('editor.action.addSelectionToNextFindMatch')<CR>", opts)
-	map(
-		"x",
-		ctrl_cmd_lhs("d"),
-		"<Cmd>call VSCodeNotifyVisualEnd('editor.action.addSelectionToNextFindMatch', 1)<CR><Esc>i",
-		opts
-	)
-	-- map("x", ctrl_cmd_lhs("d"),
-	--   function()
-	--     require("util.vsc").vscode_notify_visual("editor.action.addSelectionToNextFindMatch", 1)
-	--     return "<Esc>i"
-	--   end,
-	--   expr_opts)
-	map("x", "<Leader>v", "<Cmd>call VSCodeNotifyVisual('noop', 1)<CR>", opts)
+	map("x", ctrl_cmd_lhs("d"), function()
+		require("util.vsc").vscode_notify_insert_selection("editor.action.addSelectionToNextFindMatch")
+	end, opts)
 
 	map("n", ctrl_cmd_lhs("l"), "0vj", opts)
 	map("x", ctrl_cmd_lhs("l"), "<Cmd>call VSCodeNotify('expandLineSelection')<CR>", opts)
 	map("n", ctrl_cmd_lhs("t"), "<Cmd>call VSCodeNotify('workbench.action.showAllSymbols')<CR>", opts)
-	map("x", ctrl_cmd_lhs("t"), "<Cmd>call VSCodeNotifyVisual('workbench.action.showAllSymbols', 1)<CR><Esc>", opts)
+	map("x", ctrl_cmd_lhs("t"), "<Cmd>call VSCodeNotify('workbench.action.showAllSymbols')<CR><Esc>", opts)
 	map("n", ctrl_cmd_lhs("L"), "i<Cmd>call VSCodeNotify('editor.action.selectHighlights')<CR>", opts)
-	map("x", ctrl_cmd_lhs("L"), "<Cmd>call VSCodeNotifyVisual('editor.action.selectHighlights', 1)<CR><Esc>i", opts)
-	map("x", "<C-S-Left>", "<Esc>i<Cmd>call VSCodeNotifyVisual('editor.action.smartSelect.shrink', 1)<CR>", opts)
-	map("n", "<C-S-Right>", "<Esc>i<Cmd>call VSCodeNotify('editor.action.smartSelect.expand')<CR>", opts)
-	map("x", "<C-S-Right>", "<Esc>i<Cmd>call VSCodeNotifyVisual('editor.action.smartSelect.expand', 1)<CR>", opts)
+	map("x", ctrl_cmd_lhs("L"), function()
+		require("util.vsc").vscode_notify_insert_selection("editor.action.selectHighlights")
+	end, opts)
 
 	-- Revert file
 	-- map(
@@ -188,36 +138,14 @@ if vim.g.vscode then
 	-- 	opts
 	-- )
 
-	-- Git revert
-	map(
-		{ "n", "x" },
-		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("r"),
-		"<Cmd>call VSCodeCallVisual('git.revertSelectedRanges', 1)<CR>",
-		opts
-	)
-
-	-- Git stage/unstage
-	map(
-		{ "n", "x" },
-		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("M-s"),
-		"<Cmd>call VSCodeNotifyVisual('git.stageSelectedRanges', 1)<CR>",
-		opts
-	)
-	map(
-		{ "n", "x" },
-		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("n"),
-		"<Cmd>call VSCodeNotifyVisual('git.unstageSelectedRanges', 1)<CR>",
-		opts
-	)
-
 	-- Git changes
 	map({ "n", "x" }, "]g", function()
-		vim.fn.VSCodeNotify("workbench.action.editor.nextChange")
-		vim.fn.VSCodeNotify("workbench.action.compareEditor.nextChange")
+		require("vscode-neovim").notify("workbench.action.editor.nextChange")
+		require("vscode-neovim").notify("workbench.action.compareEditor.nextChange")
 	end, opts)
 	map({ "n", "x" }, "[g", function()
-		vim.fn.VSCodeNotify("workbench.action.editor.previousChange")
-		vim.fn.VSCodeNotify("workbench.action.compareEditor.previousChange")
+		require("vscode-neovim").notify("workbench.action.editor.previousChange")
+		require("vscode-neovim").notify("workbench.action.compareEditor.previousChange")
 	end, opts)
 
 	map({ "n", "v" }, "<Leader>]g", "<Cmd>call VSCodeNotify('editor.action.dirtydiff.next')<CR>", opts)
@@ -240,22 +168,21 @@ if vim.g.vscode then
 	map("n", "<Leader>[d", "<Cmd>call VSCodeNotify('editor.action.marker.prevInFiles')<CR>", opts)
 	map({ "n", "v" }, "]b", function()
 		vim.fn.VSCodeCall("editor.debug.action.goToNextBreakpoint")
-		vim.fn.VSCodeNotify("workbench.action.focusActiveEditorGroup")
+		require("vscode-neovim").notify("workbench.action.focusActiveEditorGroup")
 	end, opts)
 	map({ "n", "v" }, "[b", function()
 		vim.fn.VSCodeCall("editor.debug.action.goToPreviousBreakpoint")
-		vim.fn.VSCodeNotify("workbench.action.focusActiveEditorGroup")
+		require("vscode-neovim").notify("workbench.action.focusActiveEditorGroup")
 	end, opts)
 
 	map("n", "<Leader>m", "<Cmd>call VSCodeNotify('bookmarks.toggle')<CR>", opts)
 	map("n", "<Leader>M", "<Cmd>call VSCodeNotify('bookmarks.listFromAllFiles')<CR>", opts)
 	map("n", "<Leader>B", "<Cmd>call VSCodeNotify('editor.debug.action.toggleBreakpoint')<CR>", opts)
-	map({ "n", "x" }, ctrl_cmd_lhs("]"), "<Cmd>call VSCodeNotifyVisual('editor.action.indentLines', 1)<CR>", opts)
-	map({ "n", "x" }, ctrl_cmd_lhs("["), "<Cmd>call VSCodeNotifyVisual('editor.action.outdentLines', 1)<CR>", opts)
-	map("x", ">", "<Cmd>call VSCodeNotifyVisual('editor.action.indentLines', 1)<CR>", opts)
-	map("x", "<", "<Cmd>call VSCodeNotifyVisual('editor.action.outdentLines', 1)<CR>", opts)
-	map("n", "<C-M-l>", "<Cmd>call VSCodeNotify('turboConsoleLog.displayLogMessage')<CR>", opts)
-	map("x", "<C-M-l>", "<Cmd>call VSCodeNotifyVisual('turboConsoleLog.displayLogMessage', 1)<CR>", opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("]"), "<Cmd>call VSCodeNotify('editor.action.indentLines')<CR>", opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("["), "<Cmd>call VSCodeNotify('editor.action.outdentLines')<CR>", opts)
+	map("x", ">", "<Cmd>call VSCodeNotify('editor.action.indentLines')<CR>", opts)
+	map("x", "<", "<Cmd>call VSCodeNotify('editor.action.outdentLines')<CR>", opts)
+	map({ "n", "x" }, "<C-M-l>", "<Cmd>call VSCodeNotify('turboConsoleLog.displayLogMessage')<CR>", opts)
 	map({ "n", "x" }, "<Leader>un", "<Cmd>call VSCodeNotify('notifications.hideToasts')<CR>", opts)
 	map(
 		"n",
@@ -263,7 +190,7 @@ if vim.g.vscode then
 		"<Cmd>call VSCodeNotify('workbench.action.findInFiles', { 'query': expand('<cword>')})<CR>",
 		opts
 	)
-	map("x", "<Leader>*", "<Cmd>call VSCodeNotifyVisual('workbench.action.findInFiles', 1)<CR><Esc>", opts)
+	map("x", "<Leader>*", "<Cmd>call VSCodeNotify('workbench.action.findInFiles')<CR><Esc>", opts)
 	map("n", "<leader><space>", "<cmd>Find<cr>", opts)
 	map("n", "<leader>/", "<Cmd>call VSCodeNotify('workbench.action.findInFiles')<CR>", opts)
 	map("n", "<leader>ss", function()
@@ -298,43 +225,43 @@ if vim.g.vscode then
 	map(
 		{ "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("["),
-		"<Cmd>call VSCodeNotifyVisual('editor.foldRecursively', 1)<CR>",
+		"<Cmd>call VSCodeNotify('editor.foldRecursively')<CR>",
 		opts
 	)
 	map(
 		{ "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("]"),
-		"<Cmd>call VSCodeNotifyVisual('editor.unfoldRecursively', 1)<CR>",
+		"<Cmd>call VSCodeNotify('editor.unfoldRecursively')<CR>",
 		opts
 	)
 
 	map(
 		{ "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("-"),
-		"<Cmd>call VSCodeNotifyVisual('editor.foldAllExcept', 1)<CR>",
+		"<Cmd>call VSCodeNotify('editor.foldAllExcept')<CR>",
 		opts
 	)
 	map(
 		{ "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("="),
-		"<Cmd>call VSCodeNotifyVisual('editor.unfoldAllExcept', 1)<CR>",
+		"<Cmd>call VSCodeNotify('editor.unfoldAllExcept')<CR>",
 		opts
 	)
 
 	map(
 		{ "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs(","),
-		"<Cmd>call VSCodeNotifyVisual('editor.createFoldingRangeFromSelection', 1)<CR><Esc>",
+		"<Cmd>call VSCodeNotify('editor.createFoldingRangeFromSelection')<CR><Esc>",
 		opts
 	)
 	map(
 		{ "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("."),
-		"<Cmd>call VSCodeNotifyVisual('editor.removeManualFoldingRanges', 1)<CR><Esc>",
+		"<Cmd>call VSCodeNotify('editor.removeManualFoldingRanges')<CR><Esc>",
 		opts
 	)
 
-	map({ "n", "x" }, "zV", "<Cmd>call VSCodeNotifyVisual('editor.foldAllExcept', 1)<CR>", opts)
+	map({ "n", "x" }, "zV", "<Cmd>call VSCodeNotify('editor.foldAllExcept')<CR>", opts)
 
 	map("x", "zx", "<Cmd>call VSCodeNotify('editor.createFoldingRangeFromSelection')<CR><Esc>", opts)
 	map({ "n", "x" }, "zX", "<Cmd>call VSCodeNotify('editor.removeManualFoldingRanges')<CR>", opts)
@@ -411,19 +338,15 @@ if vim.g.vscode then
 	-- VSCode gx
 	map("n", "gx", "<Cmd>call VSCodeNotify('editor.action.openLink')<CR>", opts)
 
-	-- Open output panel and switch to insert mode
-	map("n", ctrl_cmd_lhs("U"), "i<Cmd>call VSCodeNotify('workbench.action.output.toggleOutput')<CR>", opts)
-	map("x", ctrl_cmd_lhs("U"), "<Esc>i<Cmd>call VSCodeNotify('workbench.action.output.toggleOutput')<CR>", opts)
-
 	map("n", "<Leader>l", "<Cmd>call VSCodeNotify('workbench.action.showOutputChannels')<CR>", opts)
 	map("n", "<Leader>uc", "<Cmd>call VSCodeNotify('workbench.action.toggleCenteredLayout')<CR>", opts)
-	-- map("n", "<Leader>at", function()
-	--   local status_ok = pcall(vim.fn.VSCodeCall, "codeium.toggleEnable")
-	--   if status_ok then
-	--     vim.fn.VSCodeNotify("notifications.toggleList")
-	--   end
-	-- end, opts)
-	map("n", "<Leader>at", "<Cmd>call VSCodeNotify('aws.codeWhisperer.toggleCodeSuggestion')<CR>", opts)
+	map("n", "<Leader>at", function()
+		local status_ok = pcall(require("vscode-neovim").call, "codeium.toggleEnable")
+		if status_ok then
+			require("vscode-neovim").notify("notifications.toggleList")
+		end
+	end, opts)
+	-- map("n", "<Leader>at", "<Cmd>call VSCodeNotify('aws.codeWhisperer.toggleCodeSuggestion')<CR>", opts)
 
 	map("n", "<F2>", "<Cmd>call VSCodeNotify('editor.action.rename')<CR>", opts)
 	map("n", "<Leader>r", "<Cmd>call VSCodeNotify('editor.action.rename')<CR>", opts)
@@ -444,24 +367,38 @@ if vim.g.vscode then
 
 	-- Insert snippets
 	map("n", ctrl_cmd_lhs("r"), "i<Cmd>call VSCodeNotify('editor.action.showSnippets')<CR>", opts)
-	map("x", ctrl_cmd_lhs("r"), "<Cmd>call VSCodeNotifyVisual('editor.action.showSnippets', 1)<CR><Esc>i", opts)
+	map("x", ctrl_cmd_lhs("r"), function()
+		require("util.vsc").vscode_notify_insert_selection("editor.action.showSnippets")
+	end, opts)
 	map("n", ctrl_cmd_lhs("R"), "i<Cmd>call VSCodeNotify('reactSnippets.search')<CR>", opts)
-	map("x", ctrl_cmd_lhs("R"), "<Cmd>call VSCodeNotifyVisual('reactSnippets.search', 1)<CR><Esc>i", opts)
+	map("x", ctrl_cmd_lhs("R"), function()
+		require("util.vsc").vscode_notify_insert_selection("reactSnippets.search")
+	end, opts)
 
 	-- Quick fixes and refactorings
 	map("n", ctrl_cmd_lhs("."), "<Cmd>call VSCodeCall('editor.action.quickFix')<CR>", opts)
-	map("x", ctrl_cmd_lhs("."), "<Cmd>call VSCodeCallVisual('editor.action.quickFix', 1)<CR><Esc>i", opts)
-	map("n", "<C-S-R>", "<Cmd>call VSCodeCall('editor.action.refactor')<CR>", opts)
-	map("x", "<C-S-R>", "<Cmd>call VSCodeCallVisual('editor.action.refactor', 1)<CR><Esc>i", opts)
-	map("x", "<M-S>", "<Cmd>call VSCodeNotifyVisual('editor.action.surroundWithSnippet', 1)<CR><Esc>i", opts)
-	map("x", ctrl_cmd_lhs("T"), "<Cmd>call VSCodeNotifyVisual('surround.with', 1)<CR><Esc>i", opts)
+	map("x", ctrl_cmd_lhs("."), function()
+		require("util.vsc").vscode_notify_insert_selection("editor.action.quickFix")
+	end, opts)
+	map("n", "<C-S-R>", function()
+		require("vscode-neovim").notify('editor.action.refactor')
+	end, opts)
+	map("x", "<C-S-R>", function()
+		require("util.vsc").vscode_notify_insert_selection("editor.action.refactor")
+	end, opts)
+	map("x", "<M-S>", function()
+		require("util.vsc").vscode_notify_insert_selection("editor.action.surroundWithSnippet")
+	end, opts)
+	map("x", "<M-T>", function()
+		require("util.vsc").vscode_notify_insert_selection("surround.with")
+	end, opts)
 
 	-- Formatting
 	map({ "n", "x" }, "<M-F>", "<Cmd>call VSCodeCall('editor.action.formatDocument')<CR>", opts)
 	map(
 		{ "n", "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("f"),
-		"<Cmd>call VSCodeCallVisual('editor.action.formatSelection', 1)<CR>",
+		"<Cmd>call VSCodeCall('editor.action.formatSelection', 1)<CR>",
 		opts
 	)
 end
@@ -502,8 +439,8 @@ if vim.g.vscode then
 	map("x", "<M-j>", function()
 		require("util.vsc").move_visual_selection("Down")
 	end, opts)
-	map({ "n", "x" }, "<M-l>", "<Cmd>call VSCodeNotifyVisual('editor.action.indentLines', 1)<CR>", opts)
-	map({ "n", "x" }, "<M-h>", "<Cmd>call VSCodeNotifyVisual('editor.action.outdentLines', 1)<CR>", opts)
+	map({ "n", "x" }, "<M-l>", "<Cmd>call VSCodeNotify('editor.action.indentLines')<CR>", opts)
+	map({ "n", "x" }, "<M-h>", "<Cmd>call VSCodeNotify('editor.action.outdentLines')<CR>", opts)
 	map({ "n", "x" }, "<M-D>", "<Cmd>call VSCodeNotify('abracadabra.moveStatementDown')<CR>", opts)
 	map({ "n", "x" }, "<M-U>", "<Cmd>call VSCodeNotify('abracadabra.moveStatementUp')<CR>", opts)
 else
@@ -563,11 +500,11 @@ map("n", "<C-c>", "ciw")
 --   if vim.v.count > 0 then
 --     return "o"
 --   end
---   return vim.fn.VSCodeNotify("editor.action.insertLineAfter")
+--   return require("vscode-neovim").notify("editor.action.insertLineAfter")
 -- end, { expr = true, silent = true })
 -- map("n", "O", function()
 --   if vim.v.count > 0 then
 --     return "O"
 --   end
---   return vim.fn.VSCodeNotify("editor.action.insertLineBefore")
+--   return require("vscode-neovim").notify("editor.action.insertLineBefore")
 -- end, { expr = true, silent = true })
