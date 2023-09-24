@@ -7,10 +7,6 @@ vim.keymap.set("", "<Space>", "<Nop>")
 vim.g.mapleader = " "
 vim.g.maplocalleader = "["
 
-if vim.g.vscode then
-	vim.cmd("source " .. vim.fn.stdpath("config") .. "/vscode_functions.vim")
-end
-
 require("config.common_options")
 if vim.g.vscode then
 	require("config.vscode_options")
