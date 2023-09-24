@@ -7,10 +7,22 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 })
 
 vim.api.nvim_create_autocmd({ "BufEnter", "FileType" }, {
-  desc = "don't auto comment new line",
-  pattern = "*",
-  command = "setlocal formatoptions-=c formatoptions-=o",
+  desc = 'don\'t auto comment new line inside regular "//" comments',
+  pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.rs" },
+  command = "setlocal comments-=:// comments+=fO://",
 })
+
+vim.api.nvim_create_autocmd({ "BufEnter", "FileType" }, {
+  desc = 'don\'t auto comment new line inside regular "--" comments',
+  pattern = { "*.lua" },
+  command = "setlocal comments-=:-- comments+=fO:--",
+})
+
+-- vim.api.nvim_create_autocmd({ "BufEnter", "FileType" }, {
+--   desc = "don't auto comment new line",
+--   pattern = "*",
+--   command = "setlocal formatoptions-=c formatoptions-=o",
+-- })
 
 if vim.g.vscode then
   -- Fixes vim-matchup for scratch buffers in VS Code
