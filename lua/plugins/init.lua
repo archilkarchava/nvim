@@ -424,12 +424,6 @@ return {
       vim.g.better_escape_shortcut = { "jk", "kj", "ол", "ло" }
     end,
   },
-  -- {
-  --     "asvetliakov/vim-easymotion",
-  --     config = function()
-  --       vim.keymap.set("n", "S", "<Plug>(easymotion-jumptoanywhere)", { silent = true })
-  --     end,
-  -- },
 
   {
     "mg979/vim-visual-multi",
@@ -534,7 +528,6 @@ return {
   -- VS Code only plugins
   {
     "archilkarchava/vscode.nvim",
-    enabled = false,
     lazy = true,
     vscode = true,
   },
@@ -542,6 +535,7 @@ return {
   -- Common plugins
   {
     "andymass/vim-matchup",
+    vscode = true,
     event = { "BufReadPost" },
     init = function()
       vim.g.matchup_matchparen_deferred = 1
@@ -610,7 +604,7 @@ return {
       },
       indent = { enable = true },
       matchup = {
-        enable = not vim.g.vscode,
+        enable = true,
         enable_quotes = true,
       },
       autotag = {
@@ -1401,17 +1395,11 @@ return {
             })
           end,
           desc = "Flash",
-        }
+        },
       }
       if not vim.g.vscode then
         vim.list_extend(keys,
           {
-            {
-              "S",
-              mode = { "n", "x", "o" },
-              function() require("flash").treesitter() end,
-              desc = "Flash treesitter"
-            },
             {
               "r",
               mode = "o",
@@ -1419,6 +1407,12 @@ return {
                 require("flash").remote()
               end,
               desc = "Remote Flash",
+            },
+            {
+              "S",
+              mode = { "n", "x", "o" },
+              function() require("flash").treesitter() end,
+              desc = "Flash treesitter"
             },
           })
       end
