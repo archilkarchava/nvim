@@ -11,3 +11,14 @@ vim.api.nvim_create_autocmd({ "BufEnter", "FileType" }, {
   pattern = "*",
   command = "setlocal formatoptions-=c formatoptions-=o",
 })
+
+if vim.g.vscode then
+  -- Fixes vim-matchup for scratch buffers in VS Code
+  vim.api.nvim_create_autocmd("BufEnter", {
+    callback = function()
+      if vim.bo.filetype == "" or vim.bo.filetype == nil then
+        vim.bo.filetype = ""
+      end
+    end,
+  })
+end
