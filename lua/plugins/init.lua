@@ -1116,18 +1116,8 @@ return {
     }
   },
   {
-    "chrisgrieser/nvim-spider",
-    vscode = true,
-    enabled = false,
-    keys = {
-      { "<Leader>w",  "<Cmd>lua require('spider').motion('w')<CR>",  mode = { "n", "o", "x" }, desc = "Spider-w" },
-      { "<Leader>e",  "<Cmd>lua require('spider').motion('e')<CR>",  mode = { "n", "o", "x" }, desc = "Spider-e" },
-      { "<Leader>b",  "<Cmd>lua require('spider').motion('b')<CR>",  mode = { "n", "o", "x" }, desc = "Spider-b" },
-      { "<Leader>ge", "<Cmd>lua require('spider').motion('ge')<CR>", mode = { "n", "o", "x" }, desc = "Spider-ge" }
-    }
-  },
-  {
     "chaoren/vim-wordmotion",
+    enabled = false,
     vscode = true,
     keys = {
       { "<Leader>w",  "<Plug>WordMotion_w",  desc = "Next small world",                mode = { "n", "x", "o" } },
@@ -1138,6 +1128,17 @@ return {
       { "a<Leader>w", "<Plug>WordMotion_aw", desc = "a small word (with white-space)", mode = { "x", "o" } },
     },
     init = function() vim.g.wordmotion_nomap = true end,
+  },
+  {
+    "chrisgrieser/nvim-spider",
+    vscode = true,
+    enabled = true,
+    keys = {
+      { "<Leader>w",  "<Cmd>lua require('spider').motion('w')<CR>",  mode = { "n", "o", "x" }, desc = "Spider-w" },
+      { "<Leader>e",  "<Cmd>lua require('spider').motion('e')<CR>",  mode = { "n", "o", "x" }, desc = "Spider-e" },
+      { "<Leader>b",  "<Cmd>lua require('spider').motion('b')<CR>",  mode = { "n", "o", "x" }, desc = "Spider-b" },
+      { "<Leader>ge", "<Cmd>lua require('spider').motion('ge')<CR>", mode = { "n", "o", "x" }, desc = "Spider-ge" }
+    }
   },
   {
     "chrisgrieser/nvim-various-textobjs",
@@ -1229,6 +1230,18 @@ return {
         '<Cmd>lua require("various-textobjs").chainMember(false)<CR>',
         mode = { "o", "x" },
         desc = "Around chain member"
+      },
+      {
+        "i<Leader>w",
+        '<Cmd>lua require("various-textobjs").subword("inner")<CR>',
+        mode = { "o", "x" },
+        desc = "Inside subword"
+      },
+      {
+        "a<Leader>w",
+        '<Cmd>lua require("various-textobjs").subword("outer")<CR>',
+        mode = { "o", "x" },
+        desc = "Around subword"
       },
     }
   },
