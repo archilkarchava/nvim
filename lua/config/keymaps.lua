@@ -379,13 +379,9 @@ if vim.g.vscode then
 	end, opts)
 
 	-- Insert snippets
-	map("n", ctrl_cmd_lhs("r"), "i<Cmd>call VSCodeNotify('editor.action.showSnippets')<CR>", opts)
-	map("x", ctrl_cmd_lhs("r"), function()
-		require("util.vsc").vscode_notify_insert_selection("editor.action.showSnippets")
-	end, opts)
-	map("n", ctrl_cmd_lhs("R"), "i<Cmd>call VSCodeNotify('reactSnippets.search')<CR>", opts)
+	map("n", ctrl_cmd_lhs("R"), "i<Cmd>call VSCodeNotify('editor.action.showSnippets')<CR>", opts)
 	map("x", ctrl_cmd_lhs("R"), function()
-		require("util.vsc").vscode_notify_insert_selection("reactSnippets.search")
+		require("util.vsc").vscode_notify_insert_selection("editor.action.showSnippets")
 	end, opts)
 
 	-- Quick fixes and refactorings
