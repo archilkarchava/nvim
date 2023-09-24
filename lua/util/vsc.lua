@@ -65,7 +65,7 @@ local function vscode_insert_selection(call_type, cmd)
 	local mode = vim.api.nvim_get_mode().mode
 	local sel_start = vim.fn.getpos("v")
 	local sel_end = vim.fn.getpos(".")
-	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true) .. "a", "v", false)
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true) .. "i", "v", false)
 	vim.defer_fn(function()
 		if mode == 'V' then
 			require("vscode-neovim")[visual_line_method](cmd, sel_start[2], sel_end[2], true)
