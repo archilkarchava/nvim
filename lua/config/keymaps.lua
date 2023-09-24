@@ -417,7 +417,6 @@ if vim.g.vscode then
 	map({ "n", "x" }, ctrl_cmd_lhs("s"), "<Cmd>Write<CR>", opts)
 	map({ "n", "x" }, ctrl_cmd_lhs("S"), "<Cmd>Saveas<CR>", opts)
 else
-	map("n", "<Leader>w", "<Cmd>w<CR>", { desc = "Save" })
 	map("n", "<Leader>W", function() vim.cmd "SudaWrite" end, { desc = "Save as sudo" })
 end
 
