@@ -364,6 +364,18 @@ if vim.g.vscode then
 	map("n", ctrl_cmd_lhs("M-Up"), "i<Cmd>call VSCodeNotify('editor.action.insertCursorAbove')<CR>", opts)
 	map("n", ctrl_cmd_lhs("M-j"), "i<Cmd>call VSCodeNotify('editor.action.insertCursorBelow')<CR>", opts)
 	map("n", ctrl_cmd_lhs("M-k"), "i<Cmd>call VSCodeNotify('editor.action.insertCursorAbove')<CR>", opts)
+	map("x", ctrl_cmd_lhs("M-Down"), function()
+		require("util.vsc").vscode_notify_insert_selection("editor.action.insertCursorBelow")
+	end, opts)
+	map("x", ctrl_cmd_lhs("M-Up"), function()
+		require("util.vsc").vscode_notify_insert_selection("editor.action.insertCursorAbove")
+	end, opts)
+	map("x", ctrl_cmd_lhs("M-j"), function()
+		require("util.vsc").vscode_notify_insert_selection("editor.action.insertCursorBelow")
+	end, opts)
+	map("x", ctrl_cmd_lhs("M-k"), function()
+		require("util.vsc").vscode_notify_insert_selection("editor.action.insertCursorAbove")
+	end, opts)
 
 	-- Insert snippets
 	map("n", ctrl_cmd_lhs("r"), "i<Cmd>call VSCodeNotify('editor.action.showSnippets')<CR>", opts)
