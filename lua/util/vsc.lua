@@ -74,7 +74,7 @@ local function vscode_insert_selection(call_type, cmd)
 				sel_start[3],
 				sel_end[3], true)
 		end
-	end, 10)
+	end, 20)
 end
 
 ---@param cmd string
