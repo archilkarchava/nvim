@@ -1,6 +1,8 @@
+vim.api.nvim_set_hl(0, "YankColor", vim.g.vscode and { bg = "#264f78" } or { link = "Visual" })
+
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
   callback = function()
-    vim.highlight.on_yank { higroup = "Visual", timeout = 250 }
+    vim.highlight.on_yank({ higroup = "YankColor", timeout = 250 })
   end,
 })
 
