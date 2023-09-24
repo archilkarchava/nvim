@@ -339,6 +339,7 @@ if vim.g.vscode then
 	map("n", "gx", "<Cmd>call VSCodeNotify('editor.action.openLink')<CR>", opts)
 
 	map("n", "<Leader>l", "<Cmd>call VSCodeNotify('workbench.action.showOutputChannels')<CR>", opts)
+	map("n", "<Leader>t", "<Cmd>call VSCodeNotify('workbench.action.tasks.runTask')<CR>", opts)
 	map("n", "<Leader>uc", "<Cmd>call VSCodeNotify('workbench.action.toggleCenteredLayout')<CR>", opts)
 	map("n", "<Leader>at", function()
 		local status_ok = pcall(require("vscode-neovim").call, "codeium.toggleEnable")
