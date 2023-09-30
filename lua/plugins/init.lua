@@ -1375,7 +1375,6 @@ return {
   },
   {
     "folke/flash.nvim",
-    enabled = false,
     vscode = true,
     version = "*",
     event = "VeryLazy",
