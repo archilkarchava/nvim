@@ -528,8 +528,7 @@ return {
   -- VS Code only plugins
   {
     "archilkarchava/vscode.nvim",
-    lazy = true,
-    vscode = true,
+    enabled = false,
   },
 
   -- Common plugins
