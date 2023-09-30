@@ -315,7 +315,7 @@ if vim.g.vscode then
 		require("util.vsc").notify_marked("editor.action.goToReferences")
 	end, opts)
 	map("n", "gH", function()
-		require("util.vsc").notify_marked("editor.action.goToReferences")
+		require("util.vsc").notify_marked("editor.action.referenceSearch.trigger")
 	end, opts)
 	map("n", ctrl_cmd_lhs("S-F12"), function()
 		require("util.vsc").notify_marked("editor.action.peekImplementation")
