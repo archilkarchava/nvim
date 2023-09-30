@@ -1279,8 +1279,10 @@ return {
     end,
     config = function(_, opts)
       require("flit").setup(opts)
-      for _, key in ipairs({ "f", "F", "t", "T" }) do
-        vim.keymap.set("o", key, key, { noremap = true })
+      if vim.g.vscode then
+        for _, key in ipairs({ "f", "F", "t", "T" }) do
+          vim.keymap.set("o", key, key, { noremap = true })
+        end
       end
     end,
     opts = {
