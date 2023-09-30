@@ -1379,9 +1379,16 @@ return {
     version = "*",
     event = "VeryLazy",
     opts = {
+      highlight = {
+        backdrop = false
+      },
       modes = {
         search = {
           enabled = false
+        },
+        char = {
+          enabled = true,
+          highlight = { backdrop = false },
         }
       }
     },
