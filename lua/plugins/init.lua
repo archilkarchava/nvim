@@ -540,6 +540,7 @@ return {
       vim.g.matchup_matchparen_deferred = 1
       if vim.g.vscode then
         vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
+        vim.g.matchup_matchparen_enabled = 0
       else
         vim.g.matchup_matchparen_offscreen = {}
       end

@@ -2,17 +2,14 @@ local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 local disabled_plugins = {
   "gzip",
-  -- "matchit",
+  "matchit",
+  "matchparen",
   "netrwPlugin",
   "tarPlugin",
   "tohtml",
   "tutor",
   "zipPlugin",
 }
-
-if vim.g.vscode then
-  vim.list_extend(disabled_plugins, { "matchparen" })
-end
 
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
