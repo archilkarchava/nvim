@@ -45,7 +45,7 @@ function M.move_line(direction)
 end
 
 function M.notify_marked(command)
-	vim.fn["VSCodeNotify"](command)
+	require("vscode-neovim").notify(command)
 	vim.cmd("normal! m'")
 end
 
@@ -62,7 +62,7 @@ end
 local function vscode_insert_selection(call_type, cmd)
 	local visual_method = call_type == 'notify' and 'notify_range_pos' or 'call_range_pos'
 	local visual_line_method = call_type == 'notify' and 'notify_range' or 'call_range'
-	local mode = vim.api.nvim_get_mode().mode
+	local mode = vim.fn.mode()
 	local sel_start = vim.fn.getpos("v")
 	local sel_end = vim.fn.getpos(".")
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true) .. "a", "v", false)
@@ -74,7 +74,7 @@ local function vscode_insert_selection(call_type, cmd)
 				sel_start[3],
 				sel_end[3], true)
 		end
-	end, 20)
+	end, 40)
 end
 
 ---@param cmd string
