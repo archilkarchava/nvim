@@ -25,12 +25,14 @@ vim.api.nvim_create_autocmd({ "BufEnter", "FileType" }, {
 -- })
 
 if vim.g.vscode then
-  -- Fixes vim-matchup for scratch buffers in VS Code
   vim.api.nvim_create_autocmd("BufEnter", {
+    desc = "Fixes vim-matchup for scratch buffers in VS Code",
     callback = function()
-      if vim.bo.filetype == "" or vim.bo.filetype == nil then
-        vim.bo.filetype = ""
-      end
+      vim.defer_fn(function()
+        if vim.bo.filetype == "" or vim.bo.filetype == nil then
+          vim.bo.filetype = ""
+        end
+      end, 50)
     end,
   })
 end
