@@ -707,13 +707,13 @@ return {
   {
     "echasnovski/mini.ai",
     vscode = true,
+    enabled = false,
     version = "*",
     -- keys = {
     --   { "a", mode = { "x", "o" } },
     --   { "i", mode = { "x", "o" } },
     -- },
-    enabled = false,
-    event = { "BufNew", "BufRead" },
+    event = "VeryLazy",
     -- dependencies = { "nvim-treesitter-textobjects" },
     opts = function()
       local ai = require("mini.ai")
@@ -748,10 +748,10 @@ return {
       return {
         n_lines = 500,
         custom_textobjects = custom_textobjects,
+        silent = true,
       }
     end,
     config = function(_, opts)
-      vim.g.miniai_silence = true
       require("mini.ai").setup(opts)
       -- register all text objects with which-key
       if require("util").has("which-key.nvim") then
