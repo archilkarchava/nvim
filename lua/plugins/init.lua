@@ -1015,7 +1015,6 @@ return {
     version = "*",
     event = "VeryLazy",
     config = function()
-      vim.g.targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab lB Ar aB Ab AB rr ll rb al rB Al bb aa bB Aa BB AA'
       vim.api.nvim_create_autocmd("User", {
         group = vim.api.nvim_create_augroup('targets', { clear = true }),
         pattern = "targets#mappings#user",
@@ -1041,6 +1040,10 @@ return {
         end
       })
     end,
+    init = function()
+      vim.g.targets_aiAI = "aIAi"
+      vim.g.targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab lB Ar aB Ab AB rr ll rb al rB Al bb aa bB Aa BB AA'
+    end
   },
   {
     "kana/vim-textobj-entire",
