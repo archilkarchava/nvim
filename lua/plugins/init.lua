@@ -1164,9 +1164,6 @@ return {
         mode = { "n", "o", "x" },
         desc = "Previous end of subword"
       }
-    },
-    opts = {
-      skipInsignificantPunctuation = false
     }
   },
   {
