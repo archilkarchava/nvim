@@ -1410,8 +1410,8 @@ return {
           end,
           desc = "Flash",
         },
-        vim.g.vscode and {
-          "S",
+        {
+          "s<Enter>",
           mode = { "n", "o", "x" },
           function()
             require("flash").jump({
@@ -1419,11 +1419,6 @@ return {
             })
           end,
           desc = "Flash continue last search",
-        } or {
-          "S",
-          mode = { "n", "x", "o" },
-          function() require("flash").treesitter() end,
-          desc = "Flash treesitter"
         },
       }
 
@@ -1437,6 +1432,12 @@ return {
                 require("flash").remote()
               end,
               desc = "Remote Flash",
+            },
+            {
+              "S",
+              mode = { "n", "x", "o" },
+              function() require("flash").treesitter() end,
+              desc = "Flash treesitter"
             },
           })
       end
