@@ -35,4 +35,14 @@ if vim.g.vscode then
       end, 50)
     end,
   })
+
+  local cancel_selection_sync = function()
+    require("vscode-neovim").call("cancelSelection")
+  end
+
+  vim.api.nvim_create_autocmd({ "ModeChanged" }, {
+    desc = "Get rid of leftover VS Code selection",
+    pattern = "[vV\x16]:*",
+    callback = cancel_selection_sync,
+  })
 end
