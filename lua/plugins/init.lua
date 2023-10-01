@@ -1440,8 +1440,8 @@ return {
         }
       }
     },
-    keys = function()
-      local keys = {
+    keys = function(_, keys)
+      local mappings = {
         {
           "s",
           mode = { "n", "o", "x" },
@@ -1467,7 +1467,7 @@ return {
       }
 
       if not vim.g.vscode then
-        vim.list_extend(keys,
+        vim.list_extend(mappings,
           {
             {
               "r",
@@ -1486,7 +1486,7 @@ return {
           })
       end
 
-      return keys
+      return vim.list_extend(keys, mappings)
     end,
     init = function()
       local function set_highlights()
