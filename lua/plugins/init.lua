@@ -1119,6 +1119,23 @@ return {
     }
   },
   {
+    "chaoren/vim-wordmotion",
+    vscode = true,
+    enabled = false,
+    event = "VeryLazy",
+    keys = {
+      { "<Leader>w",  "<Plug>WordMotion_w",  desc = "Next subword",                 mode = { "n", "x", "o" } },
+      { "<Leader>ge", "<Plug>WordMotion_ge", desc = "Previous end of subword",      mode = { "n", "x", "o" } },
+      { "<Leader>e",  "<Plug>WordMotion_e",  desc = "Next end of subword",          mode = { "n", "x", "o" } },
+      { "<Leader>b",  "<Plug>WordMotion_b",  desc = "Previous subword",             mode = { "n", "x", "o" } },
+      { "i<Leader>w", "<Plug>WordMotion_iw", desc = "inner subword",                mode = { "x", "o" } },
+      { "a<Leader>w", "<Plug>WordMotion_aw", desc = "a subword (with white-space)", mode = { "x", "o" } },
+    },
+    init = function()
+      vim.g.wordmotion_nomap = true
+    end,
+  },
+  {
     "chrisgrieser/nvim-spider",
     vscode = true,
     keys = {
