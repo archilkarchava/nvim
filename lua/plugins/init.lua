@@ -1138,11 +1138,32 @@ return {
   {
     "chrisgrieser/nvim-spider",
     vscode = true,
+    event = "VeryLazy",
     keys = {
-      { "<Leader>w",  "<Cmd>lua require('spider').motion('w')<CR>",  mode = { "n", "o", "x" }, desc = "Spider-w" },
-      { "<Leader>e",  "<Cmd>lua require('spider').motion('e')<CR>",  mode = { "n", "o", "x" }, desc = "Spider-e" },
-      { "<Leader>b",  "<Cmd>lua require('spider').motion('b')<CR>",  mode = { "n", "o", "x" }, desc = "Spider-b" },
-      { "<Leader>ge", "<Cmd>lua require('spider').motion('ge')<CR>", mode = { "n", "o", "x" }, desc = "Spider-ge" }
+      {
+        "<Leader>w",
+        "<Cmd>lua require('spider').motion('w')<CR>",
+        mode = { "n", "o", "x" },
+        desc = "Next subword"
+      },
+      {
+        "<Leader>e",
+        "<Cmd>lua require('spider').motion('e')<CR>",
+        mode = { "n", "o", "x" },
+        desc = "Next end of subword"
+      },
+      {
+        "<Leader>b",
+        "<Cmd>lua require('spider').motion('b')<CR>",
+        mode = { "n", "o", "x" },
+        desc = "Previous subword"
+      },
+      {
+        "<Leader>ge",
+        "<Cmd>lua require('spider').motion('ge')<CR>",
+        mode = { "n", "o", "x" },
+        desc = "Previous end of subword"
+      }
     },
     opts = {
       skipInsignificantPunctuation = false
