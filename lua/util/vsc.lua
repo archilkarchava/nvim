@@ -19,7 +19,7 @@ function M.move_visual_selection(direction)
 			end_line = tmp
 		end
 	end
-	vim.fn.VSCodeCallRange("editor.action.moveLines" .. direction .. "Action", start_line, end_line, 1)
+	require("vscode-neovim").call_range("editor.action.moveLines" .. direction .. "Action", start_line, end_line, 1)
 	if direction == "Up" then
 		if end_line > 1 then
 			start_line = start_line - 1
@@ -60,6 +60,7 @@ end
 ---@param call_type 'notify' | 'call'
 ---@param cmd string
 local function vscode_insert_selection(call_type, cmd)
+	vim.b.skip_insert_selection_workaround = true
 	local visual_method = call_type == 'notify' and 'notify_range_pos' or 'call_range_pos'
 	local visual_line_method = call_type == 'notify' and 'notify_range' or 'call_range'
 	local mode = vim.fn.mode()
@@ -74,6 +75,7 @@ local function vscode_insert_selection(call_type, cmd)
 				sel_start[3],
 				sel_end[3], true)
 		end
+		vim.b.skip_insert_selection_workaround = false
 	end, 50)
 end
 
