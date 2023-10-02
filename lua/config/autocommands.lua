@@ -1,5 +1,12 @@
 vim.api.nvim_set_hl(0, "YankColor", vim.g.vscode and { bg = "#264f78" } or { link = "Visual" })
 
+vim.on_key(function(char)
+  if vim.fn.mode() == "n" then
+    local new_hlsearch = vim.tbl_contains({ "<CR>", "n", "N", "*", "#", "?", "/" }, vim.fn.keytrans(char))
+    if vim.opt.hlsearch:get() ~= new_hlsearch then vim.opt.hlsearch = new_hlsearch end
+  end
+end, vim.api.nvim_create_namespace("auto_hlsearch"))
+
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
   callback = function()
     vim.highlight.on_yank({ higroup = "YankColor", timeout = 250 })

@@ -1522,11 +1522,6 @@ return {
     end,
   },
   {
-    "romainl/vim-cool",
-    vscode = true,
-    event = "VeryLazy"
-  },
-  {
     "ThePrimeagen/harpoon",
     dependencies = {
       "nvim-lua/plenary.nvim",
