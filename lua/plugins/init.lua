@@ -1376,6 +1376,20 @@ return {
       --   end
       -- end
 
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'LeapEnter',
+        callback = function()
+          vim.b.leap_active = true
+        end,
+      })
+
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'LeapLeave',
+        callback = function()
+          vim.b.leap_active = false
+        end,
+      })
+
       local leap = require("leap")
 
       for k, v in pairs(opts) do
