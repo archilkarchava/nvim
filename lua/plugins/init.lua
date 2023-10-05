@@ -627,8 +627,13 @@ return {
         "regex",
         "tsx",
         "typescript",
+        "graphql",
         "vim",
         "yaml",
+        "go",
+        "gomod",
+        "rust",
+        "toml"
       },
       incremental_selection = {
         enable = not vim.g.vscode,
