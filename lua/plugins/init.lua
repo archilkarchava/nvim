@@ -1073,10 +1073,40 @@ return {
     end
   },
   {
-    "vim-scripts/ReplaceWithRegister",
+    "gbprod/substitute.nvim",
     vscode = true,
+    version = "*",
     keys = {
-      { "gr", mode = { "n", "x" }, desc = "Replace with register" },
+      {
+        "gr",
+        function()
+          require("substitute").operator()
+        end,
+        mode = { "n" },
+        desc = "Substitute"
+      },
+      {
+        "grr",
+        function()
+          require("substitute").line()
+        end,
+        mode = { "n" },
+        desc = "Substitute line"
+      },
+      {
+        "gr",
+        function()
+          require("substitute").visual()
+        end,
+        mode = { "x" },
+        desc = "Substitute"
+      },
+    },
+    opts = {
+      highlight_substituted_text = {
+        enabled = true,
+        timer = 250,
+      },
     }
   },
   {
