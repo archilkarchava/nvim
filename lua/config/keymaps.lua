@@ -357,8 +357,8 @@ if vim.g.vscode then
 	map("n", "<Leader>B", "<Cmd>call VSCodeNotify('editor.debug.action.toggleBreakpoint')<CR>", opts)
 
 	-- Undo/Redo
-	map({ "n", "x" }, ctrl_cmd_lhs("z"), "<Cmd>call VSCodeCall('undo')<CR>", opts)
-	map({ "n", "x" }, ctrl_cmd_lhs("Z"), "<Cmd>call VSCodeCall('redo')<CR>", opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("z"), "<Cmd>call VSCodeNotify('undo')<CR>", opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("Z"), "<Cmd>call VSCodeNotify('redo')<CR>", opts)
 
 	-- map("n", "u", "<Cmd>call VSCodeNotify('undo')<CR>", opts)
 	-- map("n", "<C-r>", "<Cmd>call VSCodeNotify('redo')<CR>", opts)
