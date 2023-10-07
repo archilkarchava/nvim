@@ -54,4 +54,12 @@ if vim.g.vscode then
     pattern = "[vV\x16]:[^vV\x16]",
     callback = cancel_selection,
   })
+
+  vim.api.nvim_create_autocmd({ "BufEnter" }, {
+    callback = function()
+      if vim.b.vscode_controlled then
+        vim.opt_local.syntax = "off"
+      end
+    end
+  })
 end
