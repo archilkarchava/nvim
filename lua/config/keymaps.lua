@@ -130,6 +130,31 @@ if vim.g.vscode then
 		require("util.vsc").vscode_notify_insert_selection("editor.action.selectHighlights")
 	end, opts)
 
+	-- Scroll
+	map({ "n" }, "zh", function()
+		require("vscode-neovim").notify("scrollLeft")
+	end, opts)
+
+	map({ "n" }, "zl", function()
+		require("vscode-neovim").notify("scrollRight")
+	end, opts)
+
+	map({ "n" }, "zH", function()
+		local commands = {}
+		for i = 1, 500 do
+			commands[i] = "scrollLeft"
+		end
+		require("vscode-neovim").notify("runCommands", { commands = commands })
+	end, opts)
+
+	map({ "n" }, "zL", function()
+		local commands = {}
+		for i = 1, 500 do
+			commands[i] = "scrollRight"
+		end
+		require("vscode-neovim").notify("runCommands", { commands = commands })
+	end, opts)
+
 	-- Git revert
 	map(
 		{ "n", "x" },
@@ -139,7 +164,6 @@ if vim.g.vscode then
 		end,
 		opts
 	)
-
 
 	-- Git changes
 	map({ "n", "x" }, "]g", function()
