@@ -3,8 +3,6 @@ if table.unpack == nil then
 	table.unpack = unpack
 end
 
--- Visual highlight is cleared by the vscode-neovim extension
-vim.api.nvim_set_hl(0, "FakeVisual", { bg = "#264f78" })
 vim.keymap.set("", "<Space>", "<Nop>")
 vim.g.mapleader = " "
 vim.g.maplocalleader = "["

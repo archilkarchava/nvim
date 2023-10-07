@@ -62,4 +62,15 @@ if vim.g.vscode then
       end
     end
   })
+
+  local function set_fake_visual_highlight()
+    vim.api.nvim_set_hl(0, "FakeVisual", { bg = "#264f78" })
+  end
+
+  set_fake_visual_highlight()
+  vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+    callback = function()
+      set_fake_visual_highlight()
+    end,
+  })
 end

@@ -1150,6 +1150,11 @@ return {
     init = function()
       if vim.g.vscode then
         vim.api.nvim_set_hl(0, "NvimSurroundHighlight", { link = "FakeVisual" })
+        vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+          callback = function()
+            vim.api.nvim_set_hl(0, "NvimSurroundHighlight", { link = "FakeVisual" })
+          end,
+        })
       end
     end
   },
