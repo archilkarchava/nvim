@@ -135,7 +135,15 @@ if vim.g.vscode then
 		require("vscode-neovim").notify("scrollLeft")
 	end, opts)
 
+	map({ "n" }, "z<Left>", function()
+		require("vscode-neovim").notify("scrollLeft")
+	end, opts)
+
 	map({ "n" }, "zl", function()
+		require("vscode-neovim").notify("scrollRight")
+	end, opts)
+
+	map({ "n" }, "z<Right>", function()
 		require("vscode-neovim").notify("scrollRight")
 	end, opts)
 
