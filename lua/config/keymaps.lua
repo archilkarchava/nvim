@@ -130,13 +130,16 @@ if vim.g.vscode then
 		require("util.vsc").vscode_notify_insert_selection("editor.action.selectHighlights")
 	end, opts)
 
-	-- Revert file
-	-- map(
-	-- 	{ "n", "x" },
-	-- 	ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("R"),
-	-- 	"<Cmd>call VSCodeCall('workbench.action.files.revert')<CR>",
-	-- 	opts
-	-- )
+	-- Git revert
+	map(
+		{ "n", "x" },
+		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("r"),
+		function()
+			require("vscode-neovim").notify("git.revertSelectedRanges")
+		end,
+		opts
+	)
+
 
 	-- Git changes
 	map({ "n", "x" }, "]g", function()
