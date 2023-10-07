@@ -141,7 +141,7 @@ if vim.g.vscode then
 
 	map({ "n" }, "zH", function()
 		local commands = {}
-		for i = 1, 500 do
+		for i = 1, 1000 do
 			commands[i] = "scrollLeft"
 		end
 		require("vscode-neovim").notify("runCommands", { commands = commands })
@@ -149,7 +149,7 @@ if vim.g.vscode then
 
 	map({ "n" }, "zL", function()
 		local commands = {}
-		for i = 1, 500 do
+		for i = 1, 1000 do
 			commands[i] = "scrollRight"
 		end
 		require("vscode-neovim").notify("runCommands", { commands = commands })
