@@ -1135,9 +1135,6 @@ return {
       return vim.list_extend(mappings, keys)
     end,
     -- event = "VeryLazy",
-    config = function(_, opts)
-      require("nvim-surround").setup(opts)
-    end,
     opts = {
       keymaps = {
         insert          = "<C-g>s",
@@ -1151,7 +1148,12 @@ return {
         delete          = "gsd",
         change          = "gsc",
       },
-    }
+    },
+    init = function()
+      if vim.g.vscode then
+        vim.api.nvim_set_hl(0, "NvimSurroundHighlight", { link = "FakeVisual" })
+      end
+    end
   },
   {
     "chaoren/vim-wordmotion",
