@@ -1415,6 +1415,14 @@ return {
       --   end
       -- end
 
+      if vim.g.vscode then
+        vim.api.nvim_create_autocmd('User', {
+          pattern = 'LeapEnter',
+          desc = "Center neovim viewport before calling leap.",
+          command = "normal! zz"
+        })
+      end
+
       vim.api.nvim_create_autocmd('User', {
         pattern = 'LeapEnter',
         callback = function()
