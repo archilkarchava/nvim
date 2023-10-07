@@ -651,7 +651,6 @@ return {
   },
   {
     "kiyoon/treesitter-indent-object.nvim",
-    vscode = true,
     enabled = false,
     dependencies = {
       "nvim-treesitter/nvim-treesitter"
