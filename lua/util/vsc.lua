@@ -60,7 +60,6 @@ end
 ---@param call_type 'notify' | 'call'
 ---@param cmd string
 local function vscode_insert_selection(call_type, cmd)
-	vim.b.skip_insert_selection_workaround = true
 	local visual_method = call_type == 'notify' and 'notify_range_pos' or 'call_range_pos'
 	local visual_line_method = call_type == 'notify' and 'notify_range' or 'call_range'
 	local mode = vim.fn.mode()
@@ -75,8 +74,7 @@ local function vscode_insert_selection(call_type, cmd)
 				sel_start[3],
 				sel_end[3], true)
 		end
-		vim.b.skip_insert_selection_workaround = false
-	end, 50)
+	end, 80)
 end
 
 ---@param cmd string
