@@ -534,7 +534,7 @@ return {
   {
     "andymass/vim-matchup",
     vscode = true,
-    event = { "BufReadPost" },
+    event = "VeryLazy",
     init = function()
       vim.g.matchup_matchparen_deferred = 1
       if vim.g.vscode then
@@ -570,6 +570,7 @@ return {
         "windwp/nvim-ts-autotag",
         vscode = true,
       },
+      "andymass/vim-matchup"
     },
     -- dependencies = {
     --   {
