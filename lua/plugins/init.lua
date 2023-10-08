@@ -1019,7 +1019,7 @@ return {
     event = "VeryLazy",
     config = function()
       vim.api.nvim_create_autocmd("User", {
-        group = vim.api.nvim_create_augroup('targets', { clear = true }),
+        group = vim.api.nvim_create_augroup("targets", { clear = true }),
         pattern = "targets#mappings#user",
         callback = function()
           vim.fn["targets#mappings#extend"]({
@@ -1377,7 +1377,7 @@ return {
         "s",
         function()
           local current_window = vim.fn.win_getid()
-          require('leap').leap { target_windows = { current_window } }
+          require("leap").leap({ target_windows = { current_window } })
         end,
         mode = { "n", "x", "o" },
         desc = "Leap"
@@ -1408,22 +1408,22 @@ return {
       -- end
 
       if vim.g.vscode then
-        vim.api.nvim_create_autocmd('User', {
-          pattern = 'LeapEnter',
+        vim.api.nvim_create_autocmd("User", {
+          pattern = "LeapEnter",
           desc = "Center neovim viewport before calling leap.",
           command = "normal! zz"
         })
       end
 
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'LeapEnter',
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "LeapEnter",
         callback = function()
           vim.b.leap_active = true
         end,
       })
 
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'LeapLeave',
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "LeapLeave",
         callback = function()
           vim.b.leap_active = false
         end,
