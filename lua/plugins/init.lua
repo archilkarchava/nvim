@@ -1353,21 +1353,13 @@ return {
     dependencies = {
       "ggandor/leap.nvim"
     },
-    keys = function()
-      local ret = {}
+    keys = function(_, keys)
+      local mappings = {}
       local mode = vim.g.vscode and { "n", "x" } or { "n", "x", "o" }
       for _, key in ipairs({ "f", "F", "t", "T" }) do
-        ret[#ret + 1] = { key, mode = mode, desc = key }
+        mappings[#mappings + 1] = { key, mode = mode, desc = key }
       end
-      return ret
-    end,
-    config = function(_, opts)
-      require("flit").setup(opts)
-      if vim.g.vscode then
-        for _, key in ipairs({ "f", "F", "t", "T" }) do
-          vim.keymap.set("o", key, key, { noremap = true })
-        end
-      end
+      return vim.list_extend(keys, mappings)
     end,
     opts = {
       labeled_modes = "nx",
