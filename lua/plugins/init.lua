@@ -1491,12 +1491,19 @@ return {
       }
     },
     keys = function(_, keys)
+      local flash = require("flash")
+      local function wrapped_flash()
+        if vim.g.vscode then
+          vim.cmd("normal! zz")
+        end
+        return flash
+      end
       local mappings = {
         {
           "s",
           mode = { "n", "o", "x" },
           function()
-            require("flash").jump({
+            wrapped_flash().jump({
               jump = {
                 inclusive = false
               }
@@ -1508,7 +1515,7 @@ return {
           "s<Enter>",
           mode = { "n", "o", "x" },
           function()
-            require("flash").jump({
+            wrapped_flash().jump({
               continue = true
             })
           end,
@@ -1523,14 +1530,14 @@ return {
               "r",
               mode = "o",
               function()
-                require("flash").remote()
+                flash.remote()
               end,
               desc = "Remote Flash",
             },
             {
               "S",
               mode = { "n", "x", "o" },
-              function() require("flash").treesitter() end,
+              function() flash.treesitter() end,
               desc = "Flash treesitter"
             },
           })
