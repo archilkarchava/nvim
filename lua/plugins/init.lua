@@ -1616,6 +1616,12 @@ return {
   {
     "chrishrb/gx.nvim",
     vscode = true,
+    dependencies = {
+      {
+        "nvim-lua/plenary.nvim",
+        vscode = true
+      }
+    },
     version = "*",
     keys = {
       -- In VS Code normal mode "gx" will be mapped to the VS Code's "Open Link" command
