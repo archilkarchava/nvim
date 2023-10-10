@@ -1491,12 +1491,11 @@ return {
       }
     },
     keys = function(_, keys)
-      local flash = require("flash")
       local function wrapped_flash()
         if vim.g.vscode then
           vim.cmd("normal! zz")
         end
-        return flash
+        return require("flash")
       end
       local mappings = {
         {
@@ -1530,14 +1529,14 @@ return {
               "r",
               mode = "o",
               function()
-                flash.remote()
+                require("flash").remote()
               end,
               desc = "Remote Flash",
             },
             {
               "S",
               mode = { "n", "x", "o" },
-              function() flash.treesitter() end,
+              function() require("flash").treesitter() end,
               desc = "Flash treesitter"
             },
           })
