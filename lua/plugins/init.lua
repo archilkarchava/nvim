@@ -1614,21 +1614,23 @@ return {
     }
   },
   {
+    "nvim-lua/plenary.nvim",
+    version = "*",
+    vscode = true
+  },
+  {
     "chrishrb/gx.nvim",
     vscode = true,
     dependencies = {
-      {
-        "nvim-lua/plenary.nvim",
-        vscode = true
-      }
+      "nvim-lua/plenary.nvim",
     },
     version = "*",
     keys = {
       -- In VS Code normal mode "gx" will be mapped to the VS Code's "Open Link" command
       { "gx", mode = vim.g.vscode and "v" or { "n", "v" }, desc = "Open URL under the cursor" },
     },
-    config = function()
-      require("gx").setup()
+    config = function(_, opts)
+      require("gx").setup(opts)
       -- Workaround to bring back VSCode's "gx" in normal mode after this plugin overrides the mapping
       if vim.g.vscode then
         vim.keymap.set("n", "gx", "<Cmd>call VSCodeNotify('editor.action.openLink')<CR>")
