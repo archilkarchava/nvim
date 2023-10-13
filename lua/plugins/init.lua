@@ -1263,7 +1263,7 @@ return {
       },
       {
         "|",
-        "<Cmd>lua require('various-textobjs').restOfIndentation()<CR>",
+        "<Cmd>lua require('various-textobjs').column()<CR>",
         mode = { "o", "x" },
         desc = "Column"
       },
