@@ -1162,6 +1162,7 @@ return {
   {
     "chaoren/vim-wordmotion",
     vscode = true,
+    enabled = false,
     event = "VeryLazy",
     keys = {
       { "<Leader>w",  "<Plug>WordMotion_w",  desc = "Next subword",                 mode = { "n", "x", "o" } },
@@ -1178,7 +1179,6 @@ return {
   {
     "chrisgrieser/nvim-spider",
     vscode = true,
-    enabled = false,
     keys = {
       {
         "<Leader>w",
@@ -1303,18 +1303,18 @@ return {
         mode = { "o", "x" },
         desc = "Around chain member"
       },
-      -- {
-      --   "i<Leader>w",
-      --   "<Cmd>lua require('various-textobjs').subword('inner')<CR>",
-      --   mode = { "o", "x" },
-      --   desc = "Inside subword"
-      -- },
-      -- {
-      --   "a<Leader>w",
-      --   "<Cmd>lua require('various-textobjs').subword('outer')<CR>",
-      --   mode = { "o", "x" },
-      --   desc = "Around subword"
-      -- },
+      {
+        "i<Leader>w",
+        "<Cmd>lua require('various-textobjs').subword('inner')<CR>",
+        mode = { "o", "x" },
+        desc = "Inside subword"
+      },
+      {
+        "a<Leader>w",
+        "<Cmd>lua require('various-textobjs').subword('outer')<CR>",
+        mode = { "o", "x" },
+        desc = "Around subword"
+      },
     }
   },
   {
