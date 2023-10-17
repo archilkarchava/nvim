@@ -1104,7 +1104,7 @@ return {
     opts = {
       highlight_substituted_text = {
         enabled = true,
-        timer = 250,
+        timer = 175,
       },
     }
   },
