@@ -118,7 +118,7 @@ if vim.g.vscode then
 
 	map("n", ctrl_cmd_lhs("d"), "i<Cmd>call VSCodeNotify('editor.action.addSelectionToNextFindMatch')<CR>", opts)
 	map("x", ctrl_cmd_lhs("d"), function()
-		require("util.vsc").vscode_notify_insert_selection("editor.action.addSelectionToNextFindMatch")
+		require("util.vsc").vscode_action_insert_selection("editor.action.addSelectionToNextFindMatch")
 	end, opts)
 
 	map("n", ctrl_cmd_lhs("l"), "0vj", opts)
@@ -127,49 +127,49 @@ if vim.g.vscode then
 	map("x", ctrl_cmd_lhs("t"), "<Cmd>call VSCodeNotify('workbench.action.showAllSymbols')<CR><Esc>", opts)
 	map("n", ctrl_cmd_lhs("L"), "i<Cmd>call VSCodeNotify('editor.action.selectHighlights')<CR>", opts)
 	map("x", ctrl_cmd_lhs("L"), function()
-		require("util.vsc").vscode_notify_insert_selection("editor.action.selectHighlights")
+		require("util.vsc").vscode_action_insert_selection("editor.action.selectHighlights")
 	end, opts)
 
 	-- Scroll
 	map({ "n", "v" }, "<C-y>", function()
-		require("vscode-neovim").notify("germanScroll.arminUp")
+		require("vscode-neovim").action("germanScroll.arminUp")
 	end, opts)
 	map({ "n", "v" }, "<C-e>", function()
-		require("vscode-neovim").notify("germanScroll.arminDown")
+		require("vscode-neovim").action("germanScroll.arminDown")
 	end, opts)
 	map({ "n", "v" }, "<C-u>", function()
-		require("vscode-neovim").notify("germanScroll.bertholdUp")
+		require("vscode-neovim").action("germanScroll.bertholdUp")
 		vim.defer_fn(function()
 			vim.cmd("normal zz")
 		end, 30)
 	end, opts)
 	map({ "n", "v" }, "<C-d>", function()
-		require("vscode-neovim").notify("germanScroll.bertholdDown")
+		require("vscode-neovim").action("germanScroll.bertholdDown")
 		vim.defer_fn(function()
 			vim.cmd("normal zz")
 		end, 30)
 	end, opts)
 	map({ "n", "v" }, "<C-b>", function()
-		require("vscode-neovim").notify("germanScroll.christaUp")
+		require("vscode-neovim").action("germanScroll.christaUp")
 	end, opts)
 	map({ "n", "v" }, "<C-f>", function()
-		require("vscode-neovim").notify("germanScroll.christaDown")
+		require("vscode-neovim").action("germanScroll.christaDown")
 	end, opts)
 
 	map({ "n" }, "zh", function()
-		require("vscode-neovim").notify("scrollLeft")
+		require("vscode-neovim").action("scrollLeft")
 	end, opts)
 
 	map({ "n" }, "z<Left>", function()
-		require("vscode-neovim").notify("scrollLeft")
+		require("vscode-neovim").action("scrollLeft")
 	end, opts)
 
 	map({ "n" }, "zl", function()
-		require("vscode-neovim").notify("scrollRight")
+		require("vscode-neovim").action("scrollRight")
 	end, opts)
 
 	map({ "n" }, "z<Right>", function()
-		require("vscode-neovim").notify("scrollRight")
+		require("vscode-neovim").action("scrollRight")
 	end, opts)
 
 	map({ "n" }, "zH", function()
@@ -177,7 +177,7 @@ if vim.g.vscode then
 		for i = 1, 1000 do
 			commands[i] = "scrollLeft"
 		end
-		require("vscode-neovim").notify("runCommands", { commands = commands })
+		require("vscode-neovim").action("runCommands", { commands = commands })
 	end, opts)
 
 	map({ "n" }, "zL", function()
@@ -185,7 +185,7 @@ if vim.g.vscode then
 		for i = 1, 1000 do
 			commands[i] = "scrollRight"
 		end
-		require("vscode-neovim").notify("runCommands", { commands = commands })
+		require("vscode-neovim").action("runCommands", { commands = commands })
 	end, opts)
 
 	-- Git revert
@@ -193,19 +193,19 @@ if vim.g.vscode then
 		{ "n", "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("r"),
 		function()
-			require("vscode-neovim").notify("git.revertSelectedRanges")
+			require("vscode-neovim").action("git.revertSelectedRanges")
 		end,
 		opts
 	)
 
 	-- Git changes
 	map({ "n", "x" }, "]g", function()
-		require("vscode-neovim").notify("workbench.action.editor.nextChange")
-		require("vscode-neovim").notify("workbench.action.compareEditor.nextChange")
+		require("vscode-neovim").action("workbench.action.editor.nextChange")
+		require("vscode-neovim").action("workbench.action.compareEditor.nextChange")
 	end, opts)
 	map({ "n", "x" }, "[g", function()
-		require("vscode-neovim").notify("workbench.action.editor.previousChange")
-		require("vscode-neovim").notify("workbench.action.compareEditor.previousChange")
+		require("vscode-neovim").action("workbench.action.editor.previousChange")
+		require("vscode-neovim").action("workbench.action.compareEditor.previousChange")
 	end, opts)
 
 	map({ "n", "v" }, "<Leader>]g", "<Cmd>call VSCodeNotify('editor.action.dirtydiff.next')<CR>", opts)
@@ -264,7 +264,7 @@ if vim.g.vscode then
 	map("n", "<leader><space>", "<cmd>Find<cr>", opts)
 	map("n", "<leader>/", "<Cmd>call VSCodeNotify('workbench.action.findInFiles')<CR>", opts)
 	map("n", "<leader>ss", function()
-		require("util.vsc").notify_marked("workbench.action.gotoSymbol")
+		require("util.vsc").action_marked("workbench.action.gotoSymbol")
 	end, opts)
 
 	-- Folding
@@ -373,34 +373,34 @@ if vim.g.vscode then
 		require("util.vsc").go_to_definition_marked("revealDefinition")
 	end, opts)
 	map("n", "gO", function()
-		require("util.vsc").notify_marked("workbench.action.gotoSymbol")
+		require("util.vsc").action_marked("workbench.action.gotoSymbol")
 	end, opts)
 	map("n", ctrl_cmd_lhs("O"), function()
-		require("util.vsc").notify_marked("workbench.action.gotoSymbol")
+		require("util.vsc").action_marked("workbench.action.gotoSymbol")
 	end, opts)
 	map("n", "gF", function()
-		require("util.vsc").notify_marked("editor.action.peekDeclaration")
+		require("util.vsc").action_marked("editor.action.peekDeclaration")
 	end, opts)
 	map("n", "<S-F12>", function()
-		require("util.vsc").notify_marked("editor.action.goToReferences")
+		require("util.vsc").action_marked("editor.action.goToReferences")
 	end, opts)
 	map("n", "gH", function()
-		require("util.vsc").notify_marked("editor.action.referenceSearch.trigger")
+		require("util.vsc").action_marked("editor.action.referenceSearch.trigger")
 	end, opts)
 	map("n", ctrl_cmd_lhs("S-F12"), function()
-		require("util.vsc").notify_marked("editor.action.peekImplementation")
+		require("util.vsc").action_marked("editor.action.peekImplementation")
 	end, opts)
 	map("n", "<M-S-F12>", function()
-		require("util.vsc").notify_marked("references-view.findReferences")
+		require("util.vsc").action_marked("references-view.findReferences")
 	end, opts)
 	map("n", "gD", function()
-		require("util.vsc").notify_marked("editor.action.peekDefinition")
+		require("util.vsc").action_marked("editor.action.peekDefinition")
 	end, opts)
 	map("n", "<M-F12>", function()
-		require("util.vsc").notify_marked("editor.action.peekDefinition")
+		require("util.vsc").action_marked("editor.action.peekDefinition")
 	end, opts)
 	map("n", ctrl_cmd_lhs("F12"), function()
-		require("util.vsc").notify_marked("editor.action.goToImplementation")
+		require("util.vsc").action_marked("editor.action.goToImplementation")
 	end, opts)
 
 	map("n", ctrl_cmd_lhs("."), "<Cmd>call VSCodeNotify('editor.action.quickFix')<CR>", opts)
@@ -412,10 +412,13 @@ if vim.g.vscode then
 	map("n", "<Leader>t", "<Cmd>call VSCodeNotify('workbench.action.tasks.runTask')<CR>", opts)
 	map("n", "<Leader>uc", "<Cmd>call VSCodeNotify('workbench.action.toggleCenteredLayout')<CR>", opts)
 	map("n", "<Leader>at", function()
-		local status_ok = pcall(require("vscode-neovim").call, "codeium.toggleEnable")
-		if status_ok then
-			require("vscode-neovim").notify("notifications.toggleList")
-		end
+		require("vscode-neovim").action("codeium.toggleEnable", {
+			callback = function(err)
+				if not err then
+					require("vscode-neovim").action("notifications.toggleList")
+				end
+			end
+		})
 	end, opts)
 	-- map("n", "<Leader>at", "<Cmd>call VSCodeNotify('aws.codeWhisperer.toggleCodeSuggestion')<CR>", opts)
 
@@ -436,40 +439,40 @@ if vim.g.vscode then
 	map("n", ctrl_cmd_lhs("M-j"), "i<Cmd>call VSCodeNotify('editor.action.insertCursorBelow')<CR>", opts)
 	map("n", ctrl_cmd_lhs("M-k"), "i<Cmd>call VSCodeNotify('editor.action.insertCursorAbove')<CR>", opts)
 	map("x", ctrl_cmd_lhs("M-Down"), function()
-		require("util.vsc").vscode_notify_insert_selection("editor.action.insertCursorBelow")
+		require("util.vsc").vscode_action_insert_selection("editor.action.insertCursorBelow")
 	end, opts)
 	map("x", ctrl_cmd_lhs("M-Up"), function()
-		require("util.vsc").vscode_notify_insert_selection("editor.action.insertCursorAbove")
+		require("util.vsc").vscode_action_insert_selection("editor.action.insertCursorAbove")
 	end, opts)
 	map("x", ctrl_cmd_lhs("M-j"), function()
-		require("util.vsc").vscode_notify_insert_selection("editor.action.insertCursorBelow")
+		require("util.vsc").vscode_action_insert_selection("editor.action.insertCursorBelow")
 	end, opts)
 	map("x", ctrl_cmd_lhs("M-k"), function()
-		require("util.vsc").vscode_notify_insert_selection("editor.action.insertCursorAbove")
+		require("util.vsc").vscode_action_insert_selection("editor.action.insertCursorAbove")
 	end, opts)
 
 	-- Insert snippets
 	map("n", ctrl_cmd_lhs("R"), "i<Cmd>call VSCodeNotify('editor.action.showSnippets')<CR>", opts)
 	map("x", ctrl_cmd_lhs("R"), function()
-		require("util.vsc").vscode_notify_insert_selection("editor.action.showSnippets")
+		require("util.vsc").vscode_action_insert_selection("editor.action.showSnippets")
 	end, opts)
 
 	-- Quick fixes and refactorings
 	map("n", ctrl_cmd_lhs("."), "<Cmd>call VSCodeCall('editor.action.quickFix')<CR>", opts)
 	map("x", ctrl_cmd_lhs("."), function()
-		require("util.vsc").vscode_notify_insert_selection("editor.action.quickFix")
+		require("util.vsc").vscode_action_insert_selection("editor.action.quickFix")
 	end, opts)
 	map("n", "<C-S-R>", function()
-		require("vscode-neovim").notify('editor.action.refactor')
+		require("vscode-neovim").action('editor.action.refactor')
 	end, opts)
 	map("x", "<C-S-R>", function()
-		require("util.vsc").vscode_notify_insert_selection("editor.action.refactor")
+		require("util.vsc").vscode_action_insert_selection("editor.action.refactor")
 	end, opts)
 	map("x", "<M-S>", function()
-		require("util.vsc").vscode_notify_insert_selection("editor.action.surroundWithSnippet")
+		require("util.vsc").vscode_action_insert_selection("editor.action.surroundWithSnippet")
 	end, opts)
 	map("x", "<M-T>", function()
-		require("util.vsc").vscode_notify_insert_selection("surround.with")
+		require("util.vsc").vscode_action_insert_selection("surround.with")
 	end, opts)
 
 	-- Formatting
@@ -578,11 +581,11 @@ map("n", "<C-c>", "ciw")
 --   if vim.v.count > 0 then
 --     return "o"
 --   end
---   return require("vscode-neovim").notify("editor.action.insertLineAfter")
+--   return require("vscode-neovim").action("editor.action.insertLineAfter")
 -- end, { expr = true, silent = true })
 -- map("n", "O", function()
 --   if vim.v.count > 0 then
 --     return "O"
 --   end
---   return require("vscode-neovim").notify("editor.action.insertLineBefore")
+--   return require("vscode-neovim").action("editor.action.insertLineBefore")
 -- end, { expr = true, silent = true })

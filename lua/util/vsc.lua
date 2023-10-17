@@ -19,7 +19,7 @@ function M.move_visual_selection(direction)
 			end_line = tmp
 		end
 	end
-	require("vscode-neovim").notify_range("editor.action.moveLines" .. direction .. "Action", start_line, end_line, 1)
+	vim.fn.VSCodeNotifyRange("editor.action.moveLines" .. direction .. "Action", start_line, end_line, 1)
 	if direction == "Up" then
 		if end_line > 1 then
 			start_line = start_line - 1
@@ -44,43 +44,44 @@ function M.move_line(direction)
 	vim.api.nvim_feedkeys(esc, "x", false)
 end
 
-function M.notify_marked(command)
-	require("vscode-neovim").notify(command)
+function M.action_marked(command)
+	require("vscode-neovim").action(command)
 	vim.cmd("normal! m'")
 end
 
 function M.go_to_definition_marked(str)
 	if vim.b.vscode_controlled then
-		M.notify_marked('editor.action.' .. str)
+		M.action_marked('editor.action.' .. str)
 	end
 	-- Allow to function in help files
 	vim.cmd("normal! <C-]>")
 end
 
----@param call_type "notify" | "call"
+---@param call_type "action" | "call"
 ---@param cmd string
 local function vscode_insert_selection(call_type, cmd)
-	local visual_method = call_type == "notify" and "notify_range_pos" or "call_range_pos"
-	local visual_line_method = call_type == "notify" and "notify_range" or "call_range"
+	local vscode = require("vscode-neovim")
 	local mode = vim.fn.mode()
 	local sel_start = vim.fn.getpos("v")
 	local sel_end = vim.fn.getpos(".")
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true) .. "a", "v", false)
 	vim.defer_fn(function()
 		if mode == "V" then
-			require("vscode-neovim")[visual_line_method](cmd, sel_start[2], sel_end[2], true)
+			vscode[call_type](cmd,
+				{ range = { sel_start[2] - 1, sel_end[2] - 1 }, restore_selection = false })
 		else
-			require("vscode-neovim")[visual_method](cmd, sel_start[2], sel_end[2],
-				sel_start[3],
-				sel_end[3], true)
+			vscode[call_type](cmd, {
+				range = { sel_start[2] - 1, sel_start[3] - 1, sel_end[2] - 1, sel_end[3] },
+				restore_selection = false
+			})
 		end
 	end, 60)
 end
 
 ---@param cmd string
 ---@param ... unknown VSCode command arguments
-function M.vscode_notify_insert_selection(cmd, ...)
-	return vscode_insert_selection("notify", cmd)
+function M.vscode_action_insert_selection(cmd, ...)
+	return vscode_insert_selection("action", cmd)
 end
 
 ---@param cmd string
