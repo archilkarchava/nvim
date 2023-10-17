@@ -57,23 +57,22 @@ function M.go_to_definition_marked(str)
 	vim.cmd("normal! <C-]>")
 end
 
----@param call_type "action" | "call"
+---@param call_type "notify" | "call"
 ---@param cmd string
 local function vscode_insert_selection(call_type, cmd)
-	local vscode = require("vscode-neovim")
+	local visual_method = call_type == "notify" and "VSCodeNotifyRangePos" or "VSCodeCallRangePos"
+	local visual_line_method = call_type == "notify" and "VSCodeNotifyRange" or "VSCodeCallRange"
 	local mode = vim.fn.mode()
 	local sel_start = vim.fn.getpos("v")
 	local sel_end = vim.fn.getpos(".")
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true) .. "a", "v", false)
 	vim.defer_fn(function()
 		if mode == "V" then
-			vscode[call_type](cmd,
-				{ range = { sel_start[2] - 1, sel_end[2] - 1 }, restore_selection = false })
+			vim.fn[visual_line_method](cmd, sel_start[2], sel_end[2], true)
 		else
-			vscode[call_type](cmd, {
-				range = { sel_start[2] - 1, sel_start[3] - 1, sel_end[2] - 1, sel_end[3] },
-				restore_selection = false
-			})
+			vim.fn[visual_method](cmd, sel_start[2], sel_end[2],
+				sel_start[3],
+				sel_end[3], true)
 		end
 	end, 60)
 end
@@ -81,7 +80,7 @@ end
 ---@param cmd string
 ---@param ... unknown VSCode command arguments
 function M.vscode_action_insert_selection(cmd, ...)
-	return vscode_insert_selection("action", cmd)
+	return vscode_insert_selection("notify", cmd)
 end
 
 ---@param cmd string
