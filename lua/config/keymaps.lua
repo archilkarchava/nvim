@@ -177,7 +177,7 @@ if vim.g.vscode then
 		for i = 1, 1000 do
 			commands[i] = "scrollLeft"
 		end
-		require("vscode-neovim").action("runCommands", { commands = commands })
+		vim.fn.VSCodeNotify("runCommands", { commands = commands })
 	end, opts)
 
 	map({ "n" }, "zL", function()
@@ -185,7 +185,7 @@ if vim.g.vscode then
 		for i = 1, 1000 do
 			commands[i] = "scrollRight"
 		end
-		require("vscode-neovim").action("runCommands", { commands = commands })
+		vim.fn.VSCodeNotify("runCommands", { commands = commands })
 	end, opts)
 
 	-- Git revert
