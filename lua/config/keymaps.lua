@@ -138,16 +138,18 @@ if vim.g.vscode then
 		require("vscode-neovim").action("germanScroll.arminDown")
 	end, opts)
 	map({ "n", "v" }, "<C-u>", function()
-		require("vscode-neovim").action("germanScroll.bertholdUp")
-		vim.defer_fn(function()
-			vim.cmd("normal zz")
-		end, 30)
+		require("vscode-neovim").action("germanScroll.bertholdUp", {
+			callback = function()
+				vim.cmd("normal zz")
+			end
+		})
 	end, opts)
 	map({ "n", "v" }, "<C-d>", function()
-		require("vscode-neovim").action("germanScroll.bertholdDown")
-		vim.defer_fn(function()
-			vim.cmd("normal zz")
-		end, 30)
+		require("vscode-neovim").action("germanScroll.bertholdDown", {
+			callback = function()
+				vim.cmd("normal zz")
+			end
+		})
 	end, opts)
 	map({ "n", "v" }, "<C-b>", function()
 		require("vscode-neovim").action("germanScroll.christaUp")
