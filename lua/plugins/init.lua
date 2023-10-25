@@ -809,22 +809,22 @@ return {
     vscode = true,
     version = "*",
     event = { "BufRead", "BufNewFile" },
-    -- keys = {
-    --   {
-    --     "<M-O>",
-    --     function()
-    --       pcall(require("mini.bracketed").jump, "backward", { wrap = false })
-    --     end,
-    --     mode = "n",
-    --   },
-    --   {
-    --     "<M-I>",
-    --     function()
-    --       pcall(require("mini.bracketed").jump, "forward", { wrap = false })
-    --     end,
-    --     mode = "n",
-    --   },
-    -- },
+    keys = {
+      {
+        "<M-O>",
+        function()
+          pcall(require("mini.bracketed").jump, "backward", { wrap = false })
+        end,
+        mode = "n",
+      },
+      {
+        "<M-I>",
+        function()
+          pcall(require("mini.bracketed").jump, "forward", { wrap = false })
+        end,
+        mode = "n",
+      },
+    },
     -- keys = function(_, keys)
     -- 	local mini_bracketed = require("mini.bracketed")
     -- 	-- Populate the keys based on the user's options
