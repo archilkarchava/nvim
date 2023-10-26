@@ -1642,7 +1642,7 @@ return {
     cmd = { "SudaRead", "SudaWrite" },
   },
   {
-    "ivanesmantovich/xkbswitch.nvim",
+    "archilkarchava/xkbswitch.nvim",
     vscode = true,
     event = "VeryLazy",
     config = true,
