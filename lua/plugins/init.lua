@@ -1743,6 +1743,7 @@ return {
   {
     "archilkarchava/xkbswitch.nvim",
     vscode = true,
+    enabled = false,
     event = "VeryLazy",
     config = true,
   },

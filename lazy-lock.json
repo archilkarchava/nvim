@@ -40,6 +40,5 @@
   "vim-visual-multi": { "branch": "master", "commit": "aec289a9fdabaa0ee6087d044d75b32e12084344" },
   "vscode.nvim": { "branch": "main", "commit": "53cdbfffaf4ad39bc8258e5e8929c269b22f1319" },
   "which-key.nvim": { "branch": "main", "commit": "ce741eb559c924d72e3a67d2189ad3771a231414" },
-  "xkbswitch.nvim": { "branch": "master", "commit": "71158e9b419c4efa5d6bc3d5eef2a87300744fba" },
   "zoxide.vim": { "branch": "master", "commit": "b1e70b6fc1682a83929aee63680d2b43456fe9a5" }
 }
