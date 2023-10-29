@@ -137,19 +137,26 @@ if vim.g.vscode then
 	map({ "n", "v" }, "<C-e>", function()
 		require("vscode-neovim").action("germanScroll.arminDown")
 	end, opts)
-	map({ "n", "v" }, "<C-u>", function()
-		require("vscode-neovim").action("germanScroll.bertholdUp", {
+
+	---@param direction "up"|"down"
+	local function scroll_half_page(direction)
+		local vscode = require("vscode-neovim")
+		local vscode_command = direction == "up" and "germanScroll.bertholdUp" or "germanScroll.bertholdDown"
+		vscode.action(vscode_command, {
 			callback = function()
 				vim.cmd("normal zz")
+				vim.defer_fn(function()
+					vim.cmd("normal! zz")
+				end, 60)
 			end
 		})
+	end
+
+	map({ "n", "v" }, "<C-u>", function()
+		scroll_half_page("up")
 	end, opts)
 	map({ "n", "v" }, "<C-d>", function()
-		require("vscode-neovim").action("germanScroll.bertholdDown", {
-			callback = function()
-				vim.cmd("normal zz")
-			end
-		})
+		scroll_half_page("down")
 	end, opts)
 	map({ "n", "v" }, "<C-b>", function()
 		require("vscode-neovim").action("germanScroll.christaUp")
