@@ -1561,6 +1561,105 @@ return {
     end
   },
   {
+    "vscode-neovim/vscode-multi-cursor.nvim",
+    vscode = true,
+    enabled = false,
+    keys = {
+      {
+        mode = { 'n', 'x' },
+        'mc',
+        function()
+          require('vscode-multi-cursor').create_cursor()
+        end,
+        expr = true,
+        desc =
+        'Create cursor'
+      },
+      {
+        mode = { 'n' },
+        'mcc',
+        function()
+          require('vscode-multi-cursor').cancel()
+        end,
+        desc =
+        'Cancel/Clear all cursors'
+      },
+      {
+        mode = { 'n', 'x' },
+        'mi',
+        function()
+          require('vscode-multi-cursor').start_left()
+        end,
+        desc =
+        'Start cursors on the left'
+      },
+      {
+        mode = { 'n', 'x' },
+        'mI',
+        function()
+          require('vscode-multi-cursor').start_left_edge()
+        end,
+        desc =
+        'Start cursors on the left edge'
+      },
+      {
+        mode = { 'n', 'x' },
+        'ma',
+        function()
+          require('vscode-multi-cursor').start_right()
+        end,
+        desc =
+        'Start cursors on the right'
+      },
+      {
+        mode = { 'n', 'x' },
+        'mA',
+        function()
+          require('vscode-multi-cursor').start_right()
+        end,
+        desc =
+        'Start cursors on the right'
+      },
+      {
+        mode = { 'n' },
+        '[mc',
+        function()
+          require('vscode-multi-cursor').prev_cursor()
+        end,
+        desc = 'Goto prev cursor'
+      },
+      {
+        mode = { 'n' },
+        ']mc',
+        function()
+          require('vscode-multi-cursor').next_cursor()
+        end,
+        desc = 'Goto next cursor'
+      },
+      {
+        mode = { 'n' },
+        'mcs',
+        function()
+          require('vscode-multi-cursor').flash_jump()
+        end,
+        desc =
+        'Create cursor using flash'
+      },
+    },
+    cond = not not vim.g.vscode,
+    opts = {
+      default_mappings = false
+    },
+    config = function(_, opts)
+      require("vscode-multi-cursor").setup(opts)
+      local function set_highlight()
+        vim.api.nvim_set_hl(0, 'VSCodeCursor', { link = "IncSearch" })
+        vim.api.nvim_set_hl(0, 'VSCodeCursorRange', { link = "IncSearch" })
+      end
+      set_highlight()
+    end
+  },
+  {
     "monaqa/dial.nvim",
     vscode = true,
     version = "*",
