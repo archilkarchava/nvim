@@ -229,22 +229,29 @@ if vim.g.vscode then
 	map("n", "<Leader>]d", "<Cmd>call VSCodeNotify('editor.action.marker.nextInFiles')<CR>", opts)
 	map("n", "<Leader>[d", "<Cmd>call VSCodeNotify('editor.action.marker.prevInFiles')<CR>", opts)
 
+	---@param direction "next"|"previous"
+	local function go_to_breakpoint(direction)
+		local vscode = require("vscode-neovim")
+		local vscode_command = direction == "next" and "editor.debug.action.goToNextBreakpoint" or
+				"editor.debug.action.goToPreviousBreakpoint"
+		vscode.action(vscode_command, {
+			callback = function()
+				vscode.action("workbench.action.focusActiveEditorGroup", {
+					callback = function()
+						local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+						vim.api.nvim_feedkeys(esc .. "^", "n", false)
+					end
+				})
+			end
+		})
+	end
+
 	map({ "n", "v" }, "]b", function()
-		require("vscode-neovim").call("editor.debug.action.goToNextBreakpoint")
-		require("vscode-neovim").call("workbench.action.focusActiveEditorGroup")
-		vim.defer_fn(function()
-			local esc = vim.api.nvim_replace_termcodes('<esc>', true, false, true)
-			vim.api.nvim_feedkeys(esc, "x", false)
-		end, 80)
+		go_to_breakpoint("next")
 	end, opts)
 
 	map({ "n", "v" }, "[b", function()
-		require("vscode-neovim").call("editor.debug.action.goToPreviousBreakpoint")
-		require("vscode-neovim").call("workbench.action.focusActiveEditorGroup")
-		vim.defer_fn(function()
-			local esc = vim.api.nvim_replace_termcodes('<esc>', true, false, true)
-			vim.api.nvim_feedkeys(esc, "x", false)
-		end, 80)
+		go_to_breakpoint("previous")
 	end, opts)
 
 	map("n", "<Leader>m", "<Cmd>call VSCodeNotify('bookmarks.toggle')<CR>", opts)
