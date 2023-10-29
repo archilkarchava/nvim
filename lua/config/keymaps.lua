@@ -183,7 +183,7 @@ if vim.g.vscode then
 
 	map({ "n" }, "zH", function()
 		local commands = {}
-		for i = 1, 1000 do
+		for i = 1, 10000 do
 			commands[i] = "scrollLeft"
 		end
 		vim.fn.VSCodeNotify("runCommands", { commands = commands })
@@ -191,7 +191,7 @@ if vim.g.vscode then
 
 	map({ "n" }, "zL", function()
 		local commands = {}
-		for i = 1, 1000 do
+		for i = 1, 10000 do
 			commands[i] = "scrollRight"
 		end
 		vim.fn.VSCodeNotify("runCommands", { commands = commands })
