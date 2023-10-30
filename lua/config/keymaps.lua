@@ -145,9 +145,6 @@ if vim.g.vscode then
 		vscode.action(vscode_command, {
 			callback = function()
 				vim.cmd("normal zz")
-				vim.defer_fn(function()
-					vim.cmd("normal! zz")
-				end, 60)
 			end
 		})
 	end
