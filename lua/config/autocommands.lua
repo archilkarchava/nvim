@@ -7,13 +7,15 @@ vim.on_key(function(char)
   end
 end, vim.api.nvim_create_namespace("auto_hlsearch"))
 
-vim.api.nvim_set_hl(0, "YankColor", vim.g.vscode and { link = "FakeVisual" } or { link = "Visual" })
+if not vim.g.vscode then
+  vim.api.nvim_set_hl(0, "YankColor", vim.g.vscode and { link = "IncSearch" } or { link = "Visual" })
 
-vim.api.nvim_create_autocmd({ "TextYankPost" }, {
-  callback = function()
-    vim.highlight.on_yank({ higroup = "YankColor", timeout = 175 })
-  end,
-})
+  vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+    callback = function()
+      vim.highlight.on_yank({ higroup = "YankColor", timeout = 175 })
+    end,
+  })
+end
 
 vim.api.nvim_create_autocmd({ "BufEnter", "FileType" }, {
   desc = 'don\'t auto comment new line inside regular "//" comments',
