@@ -57,36 +57,58 @@ function M.go_to_definition_marked(str)
 	vim.cmd("normal! <C-]>")
 end
 
----@param call_type "notify" | "call"
----@param cmd string
-local function vscode_insert_selection(call_type, cmd)
-	local visual_method = call_type == "notify" and "VSCodeNotifyRangePos" or "VSCodeCallRangePos"
-	local visual_line_method = call_type == "notify" and "VSCodeNotifyRange" or "VSCodeCallRange"
+---@param table table
+local function decrementTableItemsBy1(table)
+	for i in ipairs(table) do
+		table[i] = table[i] - 1
+	end
+	return table
+end
+
+local function fixVisualPos(startPos, endPos)
+	if (startPos[2] == endPos[2] and startPos[3] > endPos[3]) or startPos[2] > endPos[2] then
+		startPos[3] = startPos[3] + 1
+	else
+		endPos[3] = endPos[3] + 1
+	end
+	return { startPos, endPos }
+end
+
+---@param name string The action name, generally a vscode command
+---@param opts? table Optional options table, all fields are optional
+---            - args: (table) Optional arguments for the action
+---            - callback: (function(err: string|nil, ret: any))
+---                        Optional callback function to handle the action result.
+---                        The first argument is the error message, and the second is the result.
+---                        If no callback is provided, any error message will be shown as a notification in VSCode.
+function M.vscode_action_insert_selection(name, opts)
+	opts = opts or {}
 	local mode = vim.fn.mode()
 	local sel_start = vim.fn.getpos("v")
 	local sel_end = vim.fn.getpos(".")
+	local vscode = require("vscode-neovim")
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true) .. "a", "v", false)
+	sel_start = decrementTableItemsBy1(sel_start)
+	sel_end = decrementTableItemsBy1(sel_end)
 	vim.defer_fn(function()
 		if mode == "V" then
-			vim.fn[visual_line_method](cmd, sel_start[2], sel_end[2], true)
+			vscode.action(name, {
+				range = sel_end[2] > sel_start[2] and { sel_start[2], sel_end[2] } or
+						{ sel_end[2], sel_start[2] },
+				restore_selection = false,
+				args = opts.args,
+				callback = opts.callback
+			})
 		else
-			vim.fn[visual_method](cmd, sel_start[2], sel_end[2],
-				sel_start[3],
-				sel_end[3], true)
+			sel_start, sel_end = table.unpack(fixVisualPos(sel_start, sel_end))
+			vscode.action(name, {
+				range = { sel_start[2], sel_start[3], sel_end[2], sel_end[3] },
+				restore_selection = false,
+				args = opts.args,
+				callback = opts.callback
+			})
 		end
 	end, 35)
-end
-
----@param cmd string
----@param ... unknown VSCode command arguments
-function M.vscode_action_insert_selection(cmd, ...)
-	return vscode_insert_selection("notify", cmd)
-end
-
----@param cmd string
----@param ... unknown VSCode command arguments
-function M.vscode_call_insert_selection(cmd, ...)
-	return vscode_insert_selection("call", cmd)
 end
 
 return M
