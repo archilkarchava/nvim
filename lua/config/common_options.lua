@@ -64,6 +64,7 @@ local options = {
 	sidescrolloff = 6,
 	guifont = { "JetBrains Mono NL", ":h15" },
 	title = true,
+	matchpairs = { '(:)', '{:}', '[:]', '<:>' }
 	-- colorcolumn = '80',
 	-- colorcolumn = "120",
 }
