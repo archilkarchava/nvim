@@ -547,7 +547,6 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    vscode = true,
     event = { "BufRead", "BufNewFile" },
     cmd = {
       "TSBufDisable",
@@ -568,7 +567,6 @@ return {
     dependencies = {
       {
         "windwp/nvim-ts-autotag",
-        vscode = true,
       },
       "andymass/vim-matchup"
     },
