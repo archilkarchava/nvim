@@ -421,7 +421,9 @@ if vim.g.vscode then
 	-- VSCode gx
 	map("n", "gx", "<Cmd>call VSCodeNotify('editor.action.openLink')<CR>", opts)
 
-	map("n", "<Leader>l", "<Cmd>call VSCodeNotify('workbench.action.showOutputChannels')<CR>", opts)
+	map("n", "<Leader>o", function()
+		require("vscode-neovim").action("workbench.action.showOutputChannels")
+	end, opts)
 	map("n", "<Leader>t", "<Cmd>call VSCodeNotify('workbench.action.tasks.runTask')<CR>", opts)
 	map("n", "<Leader>uc", "<Cmd>call VSCodeNotify('workbench.action.toggleCenteredLayout')<CR>", opts)
 	map("n", "<Leader>at", function()
