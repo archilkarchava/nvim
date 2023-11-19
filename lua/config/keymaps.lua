@@ -464,14 +464,6 @@ if vim.g.vscode then
 		require("util.vsc").vscode_action_insert_selection("editor.action.insertCursorAbove")
 	end, opts)
 
-	-- Multiple cursors
-	map("x", "ma", function()
-		require("util.vsc").vscode_action_insert_selection("editor.action.insertCursorAtEndOfEachLineSelected")
-	end, opts)
-	map("x", "mA", function()
-		require("util.vsc").vscode_action_insert_selection("editor.action.insertCursorAtEndOfEachLineSelected")
-	end, opts)
-
 	-- Insert snippets
 	map("n", ctrl_cmd_lhs("R"), "i<Cmd>call VSCodeNotify('editor.action.showSnippets')<CR>", opts)
 	map("x", ctrl_cmd_lhs("R"), function()
