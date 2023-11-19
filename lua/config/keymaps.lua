@@ -59,7 +59,11 @@ end
 
 -- map('', '<Leader>hc', '<Cmd>noh<CR>', { noremap = true, silent = true })
 
-if not vim.g.vscode then
+if vim.g.vscode then
+	map("n", "<leader>l", function()
+		require("vscode-neovim").action("codelens.showLensesInCurrentLine")
+	end, { desc = "Show CodeLens Commands For Current Line" })
+else
 	map("n", "<leader>l", "<Cmd>:Lazy<CR>", { desc = "Lazy" })
 end
 
