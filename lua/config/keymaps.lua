@@ -107,41 +107,9 @@ else
 	map({ "n", "v" }, "<C-j>", "<C-w>j", opts)
 end
 
+-- Scroll
 if vim.g.vscode then
-	-- Insert line above / below
-	map("n", ctrl_cmd_lhs("Enter"), 'o<Esc>0"_D', opts)
-	map("n", ctrl_cmd_lhs("S-Enter"), 'O<Esc>0"_D', opts)
-	map("x", ctrl_cmd_lhs("Enter"), '<Esc>o<Esc>0"_D', opts)
-	map("x", ctrl_cmd_lhs("S-Enter"), '<Esc>O<Esc>0"_D', opts)
-
-	-- Copy text
-	if Util.is_mac() then
-		map("n", "<D-c>", "yy", opts)
-		map("x", "<D-c>", "ygv<Esc>", opts)
-	end
-
-	map("n", ctrl_cmd_lhs("d"), "i<Cmd>call VSCodeNotify('editor.action.addSelectionToNextFindMatch')<CR>", opts)
-	map("x", ctrl_cmd_lhs("d"), function()
-		require("util.vsc").vscode_action_insert_selection("editor.action.addSelectionToNextFindMatch")
-	end, opts)
-
-	map("n", ctrl_cmd_lhs("l"), "0vj", opts)
-	map("x", ctrl_cmd_lhs("l"), "<Cmd>call VSCodeNotify('expandLineSelection')<CR>", opts)
-	map("n", ctrl_cmd_lhs("t"), "<Cmd>call VSCodeNotify('workbench.action.showAllSymbols')<CR>", opts)
-	map("x", ctrl_cmd_lhs("t"), "<Cmd>call VSCodeNotify('workbench.action.showAllSymbols')<CR><Esc>", opts)
-	map("n", ctrl_cmd_lhs("L"), "i<Cmd>call VSCodeNotify('editor.action.selectHighlights')<CR>", opts)
-	map("x", ctrl_cmd_lhs("L"), function()
-		require("util.vsc").vscode_action_insert_selection("editor.action.selectHighlights")
-	end, opts)
-
 	-- Scroll
-	map({ "n", "v" }, "<C-y>", function()
-		require("vscode-neovim").action("germanScroll.arminUp")
-	end, opts)
-	map({ "n", "v" }, "<C-e>", function()
-		require("vscode-neovim").action("germanScroll.arminDown")
-	end, opts)
-
 	---@param direction "up"|"down"
 	local function scroll_half_page(direction)
 		local vscode = require("vscode-neovim")
@@ -153,6 +121,12 @@ if vim.g.vscode then
 		})
 	end
 
+	map({ "n", "v" }, "<C-y>", function()
+		require("vscode-neovim").action("germanScroll.arminUp")
+	end, opts)
+	map({ "n", "v" }, "<C-e>", function()
+		require("vscode-neovim").action("germanScroll.arminDown")
+	end, opts)
 	map({ "n", "v" }, "<C-u>", function()
 		scroll_half_page("up")
 	end, opts)
@@ -187,7 +161,7 @@ if vim.g.vscode then
 		for i = 1, 10000 do
 			commands[i] = "scrollLeft"
 		end
-		vim.fn.VSCodeNotify("runCommands", { commands = commands })
+		require("vscode-neovim").action("runCommands", { args = { { commands = commands } } })
 	end, opts)
 
 	map({ "n" }, "zL", function()
@@ -195,7 +169,13 @@ if vim.g.vscode then
 		for i = 1, 10000 do
 			commands[i] = "scrollRight"
 		end
-		vim.fn.VSCodeNotify("runCommands", { commands = commands })
+		require("vscode-neovim").action("runCommands", { args = { { commands = commands } } })
+	end, opts)
+else
+	map({ "n", "x" }, "<C-d>", "<C-d>zz", opts)
+	map({ "n", "x" }, "<C-u>", "<C-u>zz", opts)
+end
+
 	end, opts)
 
 	-- Git revert
