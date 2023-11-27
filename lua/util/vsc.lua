@@ -50,7 +50,7 @@ function M.move_line(direction)
 	vim.api.nvim_feedkeys(esc, "x", false)
 end
 
----- Run an action asynchronously
+---- Run an action asynchronously, supports count
 ---@param name string The action name, generally a vscode command
 ---@param opts? table Optional options table, all fields are optional
 ---            - args: (table) Optional arguments for the action
@@ -67,7 +67,10 @@ end
 ---            - count: (number) How many times to repeat the action. The vim.v.count1 is used by default.
 function M.action(name, opts)
 	opts = opts or {}
-	local count = opts.count or vim.v.count1
+	local count = opts.count
+	if count == nil or count < 1 then
+		count = vim.v.count1
+	end
 	local vscode = require("vscode-neovim")
 	local commands = {}
 	for i = 1, count do
@@ -89,21 +92,42 @@ function M.action(name, opts)
 	})
 end
 
-function M.action_marked(command)
-	M.action(command, {
+---- Run an action asynchronously and set the previous context mark, supports count
+---@param name string The action name, generally a vscode command
+---@param opts? table Optional options table, all fields are optional
+---            - args: (table) Optional arguments for the action
+---            - range: (table) Specific range for the action. In visual mode, this parameter is generally not needed.
+---                     Three formats supported (All values are 0-indexed):
+---                        - [start_line, end_line]
+---                        - [start_line, start_character, end_line, end_character]
+---                        - {start = { line = start_line , character = start_character}, end = { line = end_line , character = end_character}}
+---            - restore_selection: (boolean) Whether to preserve the current selection, only valid when `range` is specified. Defaults to `true`
+---            - callback: (function(err: string|nil, ret: any))
+---                        Optional callback function to handle the action result.
+---                        The first argument is the error message, and the second is the result.
+---                        If no callback is provided, any error message will be shown as a notification in VSCode.
+---            - count: (number) How many times to repeat the action. The vim.v.count1 is used by default.
+function M.action_marked(name, opts)
+	opts = opts or {}
+	return M.action(name, {
 		---@param err string|nil
-		callback = function(err)
+		---@param ret any
+		callback = function(err, ret)
+			if opts.callback then
+				opts.callback(err, ret)
+			end
 			if err then
 				return
 			end
 			vim.cmd("normal! m'")
-		end
+		end,
+		count = opts.count
 	})
 end
 
 function M.go_to_definition_marked(str)
 	if vim.b.vscode_controlled then
-		M.action_marked("editor.action." .. str)
+		M.action_marked("editor.action." .. str, { count = 1 })
 	end
 	-- Allow to function in help files
 	vim.cmd("normal! <C-]>")
