@@ -82,6 +82,7 @@ end
 ---                        The first argument is the error message, and the second is the result.
 ---                        If no callback is provided, any error message will be shown as a notification in VSCode.
 function M.vscode_action_insert_selection(name, opts)
+	local count = vim.v.count
 	opts = opts or {}
 	local mode = vim.fn.mode()
 	local sel_start = vim.fn.getpos("v")
@@ -91,23 +92,39 @@ function M.vscode_action_insert_selection(name, opts)
 	sel_start = decrementTableItemsBy1(sel_start)
 	sel_end = decrementTableItemsBy1(sel_end)
 	vim.defer_fn(function()
+		local range;
 		if mode == "V" then
-			vscode.action(name, {
-				range = sel_end[2] > sel_start[2] and { sel_start[2], sel_end[2] } or
-						{ sel_end[2], sel_start[2] },
-				restore_selection = false,
-				args = opts.args,
-				callback = opts.callback
-			})
+			range = sel_end[2] > sel_start[2] and { sel_start[2], sel_end[2] } or
+					{ sel_end[2], sel_start[2] }
 		else
 			sel_start, sel_end = table.unpack(fixVisualPos(sel_start, sel_end))
-			vscode.action(name, {
-				range = { sel_start[2], sel_start[3], sel_end[2], sel_end[3] },
-				restore_selection = false,
-				args = opts.args,
-				callback = opts.callback
-			})
+			range = { sel_start[2], sel_start[3], sel_end[2], sel_end[3] }
 		end
+		vscode.action(name, {
+			range = range,
+			restore_selection = false,
+			args = opts.args,
+			---@param err string|nil
+			---@param ret any
+			callback = function(err, ret)
+				if count <= 1 then
+					if opts.callback then
+						opts.callback(err, ret)
+					end
+					return
+				end
+				if count > 1 then
+					local commands = {}
+					for i = 1, count - 1 do
+						commands[i] = { command = name, args = opts.args }
+					end
+					vscode.action("runCommands", {
+						args = { { commands = commands } },
+						callback = opts.callback
+					})
+				end
+			end
+		})
 	end, 35)
 end
 
