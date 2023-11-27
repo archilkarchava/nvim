@@ -176,6 +176,32 @@ else
 	map({ "n", "x" }, "<C-u>", "<C-u>zz", opts)
 end
 
+if vim.g.vscode then
+	-- Insert line above / below
+	map("n", ctrl_cmd_lhs("Enter"), "o<Esc>", opts)
+	map("n", ctrl_cmd_lhs("S-Enter"), "O<Esc>", opts)
+
+	-- Copy text
+	if Util.is_mac() then
+		map("n", "<D-c>", "yy", opts)
+		map("x", "<D-c>", "ygv<Esc>", opts)
+	end
+
+	map("n", ctrl_cmd_lhs("d"), function()
+		vim.api.nvim_feedkeys("i", "m", false)
+		require("util.vsc").action("editor.action.addSelectionToNextFindMatch")
+	end, opts)
+	map("x", ctrl_cmd_lhs("d"), function()
+		require("util.vsc").action_insert_selection("editor.action.addSelectionToNextFindMatch")
+	end, opts)
+
+	map("n", ctrl_cmd_lhs("l"), "0vj", opts)
+	map("x", ctrl_cmd_lhs("l"), "<Cmd>call VSCodeNotify('expandLineSelection')<CR>", opts)
+	map("n", ctrl_cmd_lhs("t"), "<Cmd>call VSCodeNotify('workbench.action.showAllSymbols')<CR>", opts)
+	map("x", ctrl_cmd_lhs("t"), "<Cmd>call VSCodeNotify('workbench.action.showAllSymbols')<CR><Esc>", opts)
+	map("n", ctrl_cmd_lhs("L"), "i<Cmd>call VSCodeNotify('editor.action.selectHighlights')<CR>", opts)
+	map("x", ctrl_cmd_lhs("L"), function()
+		require("util.vsc").action_insert_selection("editor.action.selectHighlights")
 	end, opts)
 
 	-- Git revert
