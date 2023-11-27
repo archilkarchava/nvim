@@ -43,7 +43,8 @@ end, expr_opts)
 if vim.g.vscode then
 	---@param direction "up" | "down"
 	local function move_wrapped(direction)
-		return require("vscode-neovim").call("cursorMove", { to = direction, by = "wrappedLine", value = vim.v.count1 })
+		return require("vscode-neovim").call("cursorMove",
+			{ args = { { to = direction, by = "wrappedLine", value = vim.v.count1 } } })
 	end
 	map("v", "gk", function()
 		move_wrapped("up")
@@ -321,7 +322,7 @@ if vim.g.vscode then
 	map("n", "<leader><space>", "<cmd>Find<cr>", opts)
 	map("n", "<leader>/", "<Cmd>call VSCodeNotify('workbench.action.findInFiles')<CR>", opts)
 	map("n", "<leader>ss", function()
-		require("util.vsc").action_marked("workbench.action.gotoSymbol")
+		require("util.vsc").action_marked("workbench.action.gotoSymbol", { count = 1 })
 	end, opts)
 
 	-- Folding
@@ -427,34 +428,34 @@ if vim.g.vscode then
 		require("util.vsc").go_to_definition_marked("revealDefinition")
 	end, opts)
 	map("n", "gO", function()
-		require("util.vsc").action_marked("workbench.action.gotoSymbol")
+		require("util.vsc").action_marked("workbench.action.gotoSymbol", { count = 1 })
 	end, opts)
 	map("n", ctrl_cmd_lhs("O"), function()
-		require("util.vsc").action_marked("workbench.action.gotoSymbol")
+		require("util.vsc").action_marked("workbench.action.gotoSymbol", { count = 1 })
 	end, opts)
 	map("n", "gF", function()
-		require("util.vsc").action_marked("editor.action.peekDeclaration")
+		require("util.vsc").action_marked("editor.action.peekDeclaration", { count = 1 })
 	end, opts)
 	map("n", "<S-F12>", function()
-		require("util.vsc").action_marked("editor.action.goToReferences")
+		require("util.vsc").action_marked("editor.action.goToReferences", { count = 1 })
 	end, opts)
 	map("n", "gH", function()
-		require("util.vsc").action_marked("editor.action.goToReferences")
+		require("util.vsc").action_marked("editor.action.goToReferences", { count = 1 })
 	end, opts)
 	map("n", ctrl_cmd_lhs("S-F12"), function()
-		require("util.vsc").action_marked("editor.action.peekImplementation")
+		require("util.vsc").action_marked("editor.action.peekImplementation", { count = 1 })
 	end, opts)
 	map("n", "<M-S-F12>", function()
-		require("util.vsc").action_marked("references-view.findReferences")
+		require("util.vsc").action_marked("references-view.findReferences", { count = 1 })
 	end, opts)
 	map("n", "gD", function()
-		require("util.vsc").action_marked("editor.action.peekDefinition")
+		require("util.vsc").action_marked("editor.action.peekDefinition", { count = 1 })
 	end, opts)
 	map("n", "<M-F12>", function()
-		require("util.vsc").action_marked("editor.action.peekDefinition")
+		require("util.vsc").action_marked("editor.action.peekDefinition", { count = 1 })
 	end, opts)
 	map("n", ctrl_cmd_lhs("F12"), function()
-		require("util.vsc").action_marked("editor.action.goToImplementation")
+		require("util.vsc").action_marked("editor.action.goToImplementation", { count = 1 })
 	end, opts)
 
 	map("n", ctrl_cmd_lhs("."), "<Cmd>call VSCodeNotify('editor.action.quickFix')<CR>", opts)
@@ -463,7 +464,7 @@ if vim.g.vscode then
 	map("n", "gx", "<Cmd>call VSCodeNotify('editor.action.openLink')<CR>", opts)
 
 	map("n", "<Leader>o", function()
-		require("util.vsc").action("workbench.action.showOutputChannels")
+		require("util.vsc").action("workbench.action.showOutputChannels", { count = 1 })
 	end, opts)
 	map("n", "<Leader>t", "<Cmd>call VSCodeNotify('workbench.action.tasks.runTask')<CR>", opts)
 	map("n", "<Leader>uc", "<Cmd>call VSCodeNotify('workbench.action.toggleCenteredLayout')<CR>", opts)
@@ -524,27 +525,31 @@ if vim.g.vscode then
 	end, opts)
 
 	-- Insert snippets
-	map("n", ctrl_cmd_lhs("R"), "i<Cmd>call VSCodeNotify('editor.action.showSnippets')<CR>", opts)
+	map("n", ctrl_cmd_lhs("R"), function()
+		vim.api.nvim_feedkeys("i", "m", false)
+		require("util.vsc").action("editor.action.showSnippets", { count = 1 })
+	end, opts)
+
 	map("x", ctrl_cmd_lhs("R"), function()
-		require("util.vsc").action_insert_selection("editor.action.showSnippets")
+		require("util.vsc").action_insert_selection("editor.action.showSnippets", { count = 1 })
 	end, opts)
 
 	-- Quick fixes and refactorings
 	map("n", ctrl_cmd_lhs("."), "<Cmd>call VSCodeCall('editor.action.quickFix')<CR>", opts)
 	map("x", ctrl_cmd_lhs("."), function()
-		require("util.vsc").action_insert_selection("editor.action.quickFix")
+		require("util.vsc").action_insert_selection("editor.action.quickFix", { count = 1 })
 	end, opts)
 	map("n", "<C-S-R>", function()
-		require("util.vsc").action('editor.action.refactor')
+		require("util.vsc").action('editor.action.refactor', { count = 1 })
 	end, opts)
 	map("x", "<C-S-R>", function()
-		require("util.vsc").action_insert_selection("editor.action.refactor")
+		require("util.vsc").action_insert_selection("editor.action.refactor", { count = 1 })
 	end, opts)
 	map("x", "<M-S>", function()
-		require("util.vsc").action_insert_selection("editor.action.surroundWithSnippet")
+		require("util.vsc").action_insert_selection("editor.action.surroundWithSnippet", { count = 1 })
 	end, opts)
 	map("x", "<M-T>", function()
-		require("util.vsc").action_insert_selection("surround.with")
+		require("util.vsc").action_insert_selection("surround.with", { count = 1 })
 	end, opts)
 
 	-- Formatting
@@ -647,17 +652,3 @@ map("i", "<C-S-Del>", "<Esc>lcW", opts)
 
 -- change word with <C-c>
 map("n", "<C-c>", "ciw")
-
--- o and O indentation
--- map("n", "o", function()
---   if vim.v.count > 0 then
---     return "o"
---   end
---   return require("util.vsc").action("editor.action.insertLineAfter")
--- end, { expr = true, silent = true })
--- map("n", "O", function()
---   if vim.v.count > 0 then
---     return "O"
---   end
---   return require("util.vsc").action("editor.action.insertLineBefore")
--- end, { expr = true, silent = true })
