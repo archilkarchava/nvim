@@ -172,6 +172,42 @@ if vim.g.vscode then
 	map("n", ctrl_cmd_lhs("Enter"), "o<Esc>", opts)
 	map("n", ctrl_cmd_lhs("S-Enter"), "O<Esc>", opts)
 
+	-- o and O
+
+	---@param direction "above" | "below"
+	local function insert_line(direction)
+		if direction == "below" then
+			require("vscode-neovim").call("cursorMove", {
+				args = { { to = "down", value = 1 } },
+			})
+		end
+		local count = vim.v.count1
+		vim.api.nvim_feedkeys("i", "m", false)
+		require("util.vsc").action(
+			"editor.action.insertLineBefore", {
+				callback = function()
+					if count > 1 then
+						require("util.vsc").action("cursorMove", {
+							args = { { to = "down", value = count - 1 } },
+							callback = function()
+								require("util.vsc").action("editor.action.insertCursorAbove", {
+									count = count - 1
+								})
+							end,
+							count = 1,
+						})
+					end
+				end,
+				count = count
+			})
+	end
+	-- map("n", "o", function()
+	-- 	insert_line("below")
+	-- end, opts)
+	-- map("n", "O", function()
+	-- 	insert_line("above")
+	-- end, opts)
+
 	-- Copy text
 	if Util.is_mac() then
 		map("n", "<D-c>", "yy", opts)
