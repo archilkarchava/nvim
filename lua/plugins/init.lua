@@ -933,6 +933,7 @@ return {
   },
   {
     "echasnovski/mini.move",
+    vscode = true,
     version = "*",
     keys = {
       { "<M-h>", mode = "n", desc = "Move line left" },
