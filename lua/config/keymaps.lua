@@ -1,4 +1,5 @@
 local Util = require("util")
+local vsc = require("util.vsc")
 
 local function map(mode, lhs, rhs, opts)
 	local keys = require("lazy.core.handler").handlers.keys
@@ -43,8 +44,8 @@ end, expr_opts)
 if vim.g.vscode then
 	---@param direction "up" | "down"
 	local function move_wrapped(direction)
-		return require("vscode-neovim").call("cursorMove",
-			{ args = { { to = direction, by = "wrappedLine", value = vim.v.count1 } } })
+		return vsc.call("cursorMove",
+			{ args = { { to = direction, by = "wrappedLine", value = vim.v.count1 } }, count = 1 })
 	end
 	map("v", "gk", function()
 		move_wrapped("up")
@@ -62,7 +63,7 @@ end
 
 if vim.g.vscode then
 	map("n", "<leader>l", function()
-		require("util.vsc").action("codelens.showLensesInCurrentLine", { count = 1 })
+		vsc.action("codelens.showLensesInCurrentLine", { count = 1 })
 	end, { desc = "Show CodeLens Commands For Current Line" })
 else
 	map("n", "<leader>l", "<Cmd>:Lazy<CR>", { desc = "Lazy" })
@@ -82,25 +83,41 @@ if vim.g.vscode then
 	map(
 		{ "n", "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("c"),
-		"<Cmd>call VSCodeNotify('editor.action.addCommentLine')<CR>",
+		function()
+			vsc.action("editor.action.addCommentLine")
+		end,
 		opts
 	)
 	map(
 		{ "n", "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("u"),
-		"<Cmd>call VSCodeNotify('editor.action.removeCommentLine')<CR>",
+		function()
+			vsc.action("editor.action.removeCommentLine")
+		end,
 		opts
 	)
 
-	map({ "n", "x" }, "<M-A>", "<Cmd>call VSCodeNotify('editor.action.blockComment')<CR>", opts)
+	map({ "n", "x" }, "<M-A>", function()
+		vsc.action("editor.action.blockComment")
+	end, opts)
 end
 
 if vim.g.vscode then
-	map({ "n", "v" }, "<C-h>", "<Cmd>call VSCodeNotify('workbench.action.navigateLeft')<CR>", opts)
-	map({ "n", "v" }, "<C-k>", "<Cmd>call VSCodeNotify('workbench.action.navigateUp')<CR>", opts)
-	map({ "n", "v" }, "<C-l>", "<Cmd>call VSCodeNotify('workbench.action.navigateRight')<CR>", opts)
-	map({ "n", "v" }, "<C-j>", "<Cmd>call VSCodeNotify('workbench.action.navigateDown')<CR>", opts)
-	map({ "n", "v" }, "<C-w><C-k>", "<Cmd>call VSCodeNotify('workbench.action.moveEditorToAboveGroup')<CR>", opts)
+	map({ "n", "v" }, "<C-h>", function()
+		vsc.action("workbench.action.navigateLeft")
+	end, opts)
+	map({ "n", "v" }, "<C-k>", function()
+		vsc.action("workbench.action.navigateUp")
+	end, opts)
+	map({ "n", "v" }, "<C-l>", function()
+		vsc.action("workbench.action.navigateRight")
+	end, opts)
+	map({ "n", "v" }, "<C-j>", function()
+		vsc.action("workbench.action.navigateDown")
+	end, opts)
+	map({ "n", "v" }, "<C-w><C-k>", function()
+		vsc.action("workbench.action.moveEditorToAboveGroup")
+	end, opts)
 else
 	map({ "n", "v" }, "<C-h>", "<C-w>h", opts)
 	map({ "n", "v" }, "<C-k>", "<C-w>k", opts)
@@ -114,7 +131,7 @@ if vim.g.vscode then
 	---@param direction "up"|"down"
 	local function scroll_half_page(direction)
 		local vscode_command = direction == "up" and "germanScroll.bertholdUp" or "germanScroll.bertholdDown"
-		require("util.vsc").action(vscode_command, {
+		vsc.action(vscode_command, {
 			callback = function()
 				vim.cmd("normal zz")
 			end
@@ -122,10 +139,10 @@ if vim.g.vscode then
 	end
 
 	map({ "n", "v" }, "<C-y>", function()
-		require("util.vsc").action("germanScroll.arminUp")
+		vsc.action("germanScroll.arminUp")
 	end, opts)
 	map({ "n", "v" }, "<C-e>", function()
-		require("util.vsc").action("germanScroll.arminDown")
+		vsc.action("germanScroll.arminDown")
 	end, opts)
 	map({ "n", "v" }, "<C-u>", function()
 		scroll_half_page("up")
@@ -134,34 +151,34 @@ if vim.g.vscode then
 		scroll_half_page("down")
 	end, opts)
 	map({ "n", "v" }, "<C-b>", function()
-		require("util.vsc").action("germanScroll.christaUp")
+		vsc.action("germanScroll.christaUp")
 	end, opts)
 	map({ "n", "v" }, "<C-f>", function()
-		require("util.vsc").action("germanScroll.christaDown")
+		vsc.action("germanScroll.christaDown")
 	end, opts)
 
 	map({ "n" }, "zh", function()
-		require("util.vsc").action("scrollLeft")
+		vsc.action("scrollLeft")
 	end, opts)
 
 	map({ "n" }, "z<Left>", function()
-		require("util.vsc").action("scrollLeft")
+		vsc.action("scrollLeft")
 	end, opts)
 
 	map({ "n" }, "zl", function()
-		require("util.vsc").action("scrollRight")
+		vsc.action("scrollRight")
 	end, opts)
 
 	map({ "n" }, "z<Right>", function()
-		require("util.vsc").action("scrollRight")
+		vsc.action("scrollRight")
 	end, opts)
 
 	map({ "n" }, "zH", function()
-		require("util.vsc").action("scrollLeft", { count = 10000 })
+		vsc.action("scrollLeft", { count = 10000 })
 	end, opts)
 
 	map({ "n" }, "zL", function()
-		require("util.vsc").action("scrollRight", { count = 10000 })
+		vsc.action("scrollRight", { count = 10000 })
 	end, opts)
 else
 	map({ "n", "x" }, "<C-d>", "<C-d>zz", opts)
@@ -177,21 +194,26 @@ if vim.g.vscode then
 
 	---@param direction "above" | "below"
 	local function insert_line(direction)
+		-- if vim.fn.reg_recording() ~= "" then
+		-- 	local key = direction == "above" and "O" or "o"
+		-- 	vim.cmd("normal! " .. key)
+		-- 	return
+		-- end
 		if direction == "below" then
-			require("vscode-neovim").call("cursorMove", {
+			vsc.call("cursorMove", {
 				args = { { to = "down", value = 1 } },
 			})
 		end
 		local count = vim.v.count1
 		vim.api.nvim_feedkeys("i", "m", false)
-		require("util.vsc").action(
+		vsc.action(
 			"editor.action.insertLineBefore", {
 				callback = function()
 					if count > 1 then
-						require("util.vsc").action("cursorMove", {
+						vsc.action("cursorMove", {
 							args = { { to = "down", value = count - 1 } },
 							callback = function()
-								require("util.vsc").action("editor.action.insertCursorAbove", {
+								vsc.action("editor.action.insertCursorAbove", {
 									count = count - 1
 								})
 							end,
@@ -217,24 +239,34 @@ if vim.g.vscode then
 
 	map("n", ctrl_cmd_lhs("d"), function()
 		vim.api.nvim_feedkeys("i", "m", false)
-		require("util.vsc").action("editor.action.addSelectionToNextFindMatch")
+		vsc.action("editor.action.addSelectionToNextFindMatch")
 	end, opts)
 	map("x", ctrl_cmd_lhs("d"), function()
-		require("util.vsc").action_insert_selection("editor.action.addSelectionToNextFindMatch")
+		vsc.action_insert_selection("editor.action.addSelectionToNextFindMatch")
 	end, opts)
 
 	map("n", ctrl_cmd_lhs("l"), "0vj", opts)
-	map("x", ctrl_cmd_lhs("l"), function()
-		require("util.vsc").action("expandLineSelection", { count = 5 })
+	map({ "n", "x" }, ctrl_cmd_lhs("l"), function()
+		vsc.action("expandLineSelection")
 	end, opts)
-	map("n", ctrl_cmd_lhs("t"), "<Cmd>call VSCodeNotify('workbench.action.showAllSymbols')<CR>", opts)
-	map("x", ctrl_cmd_lhs("t"), "<Cmd>call VSCodeNotify('workbench.action.showAllSymbols')<CR><Esc>", opts)
+	map("n", ctrl_cmd_lhs("t"), function()
+		vsc.action("workbench.action.showAllSymbols", { count = 1 })
+	end, opts)
+	map("x", ctrl_cmd_lhs("t"), function()
+		vsc.action("workbench.action.showAllSymbols", {
+			callback = function()
+				local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+				vim.api.nvim_feedkeys(esc, "m", false)
+			end,
+			count = 1
+		})
+	end, opts)
 	map("n", ctrl_cmd_lhs("L"), function()
 		vim.api.nvim_feedkeys("i", "m", false)
-		require("util.vsc").action("editor.action.selectHighlights", { count = 1 })
+		vsc.action("editor.action.selectHighlights", { count = 1 })
 	end, opts)
 	map("x", ctrl_cmd_lhs("L"), function()
-		require("util.vsc").action_insert_selection("editor.action.selectHighlights", { count = 1 })
+		vsc.action_insert_selection("editor.action.selectHighlights", { count = 1 })
 	end, opts)
 
 	-- Git revert
@@ -242,43 +274,77 @@ if vim.g.vscode then
 		{ "n", "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("r"),
 		function()
-			require("util.vsc").action("git.revertSelectedRanges", { count = 1 })
+			vsc.action("git.revertSelectedRanges", { count = 1 })
 		end,
 		opts
 	)
 
 	-- Git changes
 	map({ "n", "x" }, "]g", function()
-		require("util.vsc").action("workbench.action.editor.nextChange")
-		require("util.vsc").action("workbench.action.compareEditor.nextChange")
+		vsc.action("workbench.action.editor.nextChange")
+		vsc.action("workbench.action.compareEditor.nextChange")
 	end, opts)
 	map({ "n", "x" }, "[g", function()
-		require("util.vsc").action("workbench.action.editor.previousChange")
-		require("util.vsc").action("workbench.action.compareEditor.previousChange")
+		vsc.action("workbench.action.editor.previousChange")
+		vsc.action("workbench.action.compareEditor.previousChange")
 	end, opts)
 
-	map({ "n", "v" }, "<Leader>]g", "<Cmd>call VSCodeNotify('editor.action.dirtydiff.next')<CR>", opts)
-	map({ "n", "v" }, "<Leader>[g", "<Cmd>call VSCodeNotify('editor.action.dirtydiff.previous')<CR>", opts)
+	map({ "n", "v" }, "<Leader>]g", function()
+		vsc.action("editor.action.dirtydiff.next")
+	end, opts)
+	map({ "n", "v" }, "<Leader>[g", function()
+		vsc.action("editor.action.dirtydiff.previous")
+	end, opts)
 
-	map("n", "<Leader>gC", "<Cmd>call VSCodeNotify('merge-conflict.accept.all-current')<CR>", opts)
-	map("n", "<Leader>gI", "<Cmd>call VSCodeNotify('merge-conflict.accept.all-incoming')<CR>", opts)
-	map("n", "<Leader>gB", "<Cmd>call VSCodeNotify('merge-conflict.accept.all-both')<CR>", opts)
-	map("n", "<Leader>gc", "<Cmd>call VSCodeNotify('merge-conflict.accept.current')<CR>", opts)
-	map("n", "<Leader>gi", "<Cmd>call VSCodeNotify('merge-conflict.accept.incoming')<CR>", opts)
-	map("n", "<Leader>gb", "<Cmd>call VSCodeNotify('merge-conflict.accept.both')<CR>", opts)
-	map("v", "<Leader>ga", "<Cmd>call VSCodeNotify('merge-conflict.accept.selection')<CR>", opts)
-	map({ "n", "v" }, "]x", "<Cmd>call VSCodeNotify('merge-conflict.next')<CR>", opts)
-	map({ "n", "v" }, "[x", "<Cmd>call VSCodeNotify('merge-conflict.previous')<CR>", opts)
-	map({ "n", "v" }, "<Leader>]x", "<Cmd>call VSCodeNotify('merge.goToNextUnhandledConflict')<CR>", opts)
-	map({ "n", "v" }, "<Leader>[x", "<Cmd>call VSCodeNotify('merge.goToPreviousUnhandledConflict')<CR>", opts)
-	map({ "n", "v" }, "]d", "<Cmd>call VSCodeNotify('editor.action.marker.next')<CR>", opts)
-	map({ "n", "v" }, "[d", "<Cmd>call VSCodeNotify('editor.action.marker.prev')<CR>", opts)
-	map("n", "<Leader>]d", "<Cmd>call VSCodeNotify('editor.action.marker.nextInFiles')<CR>", opts)
-	map("n", "<Leader>[d", "<Cmd>call VSCodeNotify('editor.action.marker.prevInFiles')<CR>", opts)
+	map("n", "<Leader>gC", function()
+		vsc.action("merge-conflict.accept.all-current")
+	end, opts)
+	map("n", "<Leader>gI", function()
+		vsc.action("merge-conflict.accept.all-incoming")
+	end, opts)
+	map("n", "<Leader>gB", function()
+		vsc.action("merge-conflict.accept.all-both")
+	end, opts)
+	map("n", "<Leader>gc", function()
+		vsc.action("merge-conflict.accept.current")
+	end, opts)
+	map("n", "<Leader>gi", function()
+		vsc.action("merge-conflict.accept.incoming")
+	end, opts)
+	map("n", "<Leader>gb", function()
+		vsc.action("merge-conflict.accept.both")
+	end, opts)
+	map("v", "<Leader>ga", function()
+		vsc.action("merge-conflict.accept.selection")
+	end, opts)
+	map({ "n", "v" }, "]x", function()
+		vsc.action("merge-conflict.next")
+	end, opts)
+	map({ "n", "v" }, "[x", function()
+		vsc.action("merge-conflict.previous")
+	end, opts)
+	map({ "n", "v" }, "<Leader>]x", function()
+		vsc.action("merge.goToNextUnhandledConflict")
+	end, opts)
+	map({ "n", "v" }, "<Leader>[x", function()
+		vsc.action("merge.goToPreviousUnhandledConflict")
+	end, opts)
+	map({ "n", "v" }, "]d", function()
+		vsc.action("editor.action.marker.next")
+	end, opts)
+	map({ "n", "v" }, "[d", function()
+		vsc.action("editor.action.marker.prev")
+	end, opts)
+	map("n", "<Leader>]d", function()
+		vsc.action("editor.action.marker.nextInFiles")
+	end, opts)
+	map("n", "<Leader>[d", function()
+		vsc.action("editor.action.marker.prevInFiles")
+	end, opts)
 
 	---@param direction "next"|"previous"
 	local function go_to_breakpoint(direction)
-		local vsc = require("util.vsc")
+		local vsc = vsc
 		local vscode_command = direction == "next" and "editor.debug.action.goToNextBreakpoint" or
 				"editor.debug.action.goToPreviousBreakpoint"
 		vsc.action(vscode_command, {
@@ -286,7 +352,7 @@ if vim.g.vscode then
 				vsc.action("workbench.action.focusActiveEditorGroup", {
 					callback = function()
 						local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
-						vim.api.nvim_feedkeys(esc .. "^", "n", false)
+						vim.api.nvim_feedkeys(esc .. "^", "m", false)
 					end,
 					count = 1,
 				})
@@ -303,99 +369,205 @@ if vim.g.vscode then
 		go_to_breakpoint("previous")
 	end, opts)
 
-	map("n", "<Leader>m", "<Cmd>call VSCodeNotify('bookmarks.toggle')<CR>", opts)
-	map("n", "<Leader>M", "<Cmd>call VSCodeNotify('bookmarks.listFromAllFiles')<CR>", opts)
-	map("n", "<Leader>B", "<Cmd>call VSCodeNotify('editor.debug.action.toggleBreakpoint')<CR>", opts)
-	map({ "n", "x" }, ctrl_cmd_lhs("]"), "<Cmd>call VSCodeNotify('editor.action.indentLines')<CR>", opts)
-	map({ "n", "x" }, ctrl_cmd_lhs("["), "<Cmd>call VSCodeNotify('editor.action.outdentLines')<CR>", opts)
-	map("x", ">", "<Cmd>call VSCodeNotify('editor.action.indentLines')<CR>", opts)
-	map("x", "<", "<Cmd>call VSCodeNotify('editor.action.outdentLines')<CR>", opts)
-	map({ "n", "x" }, "<C-M-l>", "<Cmd>call VSCodeNotify('turboConsoleLog.displayLogMessage')<CR>", opts)
-	map({ "n", "x" }, "<Leader>un", "<Cmd>call VSCodeNotify('notifications.hideToasts')<CR>", opts)
-	map(
-		"n",
-		"<Leader>*",
-		"<Cmd>call VSCodeNotify('workbench.action.findInFiles', { 'query': expand('<cword>')})<CR>",
-		opts
-	)
-	map("x", "<Leader>*", "<Cmd>call VSCodeNotify('workbench.action.findInFiles')<CR><Esc>", opts)
+	map("n", "<Leader>m", function()
+		vsc.action("bookmarks.toggle")
+	end, opts)
+	map("n", "<Leader>M", function()
+		vsc.action("bookmarks.listFromAllFiles")
+	end, opts)
+	map("n", "<Leader>B", function()
+		vsc.action("editor.debug.action.toggleBreakpoint")
+	end, opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("]"), function()
+		vsc.action("editor.action.indentLines")
+	end, opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("["), function()
+		vsc.action("editor.action.outdentLines")
+	end, opts)
+	map("x", ">", function()
+		vsc.action("editor.action.indentLines")
+	end, opts)
+	map("x", "<", function()
+		vsc.action("editor.action.outdentLines")
+	end, opts)
+	map({ "n", "x" }, "<C-M-l>", function()
+		vsc.action("turboConsoleLog.displayLogMessage")
+	end, opts)
+	map({ "n", "x" }, "<Leader>un", function()
+		vsc.action("notifications.hideToasts")
+	end, opts)
+	map("n", "<Leader>*",
+		function()
+			vsc.action("workbench.action.findInFiles",
+				{
+					args = { { query = vim.fn.expand("<cword>") } },
+					count = 1
+				})
+		end, opts)
+
+	map("x", "<Leader>*", function()
+		local vsc = vsc
+		vsc.action("workbench.action.findInFiles", {
+			args = { { query = vsc.get_visual_selection() } },
+			count = 1
+		})
+	end, opts)
 	map("n", "<leader><space>", "<cmd>Find<cr>", opts)
-	map("n", "<leader>/", "<Cmd>call VSCodeNotify('workbench.action.findInFiles')<CR>", opts)
+	map("n", "<leader>/", function()
+		vsc.action("workbench.action.findInFiles", { count = 1 })
+	end, opts)
 	map("n", "<leader>ss", function()
-		require("util.vsc").action_marked("workbench.action.gotoSymbol", { count = 1 })
+		vsc.action_marked("workbench.action.gotoSymbol", { count = 1 })
 	end, opts)
 
 	-- Folding
-	map({ "n", "x" }, "za", "<Cmd>call VSCodeNotify('editor.toggleFold')<CR>", opts)
-	map({ "n", "x" }, "zR", "<Cmd>call VSCodeNotify('editor.unfoldAll')<CR>", opts)
-	map({ "n", "x" }, "zM", "<Cmd>call VSCodeNotify('editor.foldAll')<CR>", opts)
-	map({ "n", "x" }, "zo", "<Cmd>call VSCodeNotify('editor.unfold')<CR>", opts)
-	map({ "n", "x" }, "zO", "<Cmd>call VSCodeNotify('editor.unfoldRecursively')<CR>", opts)
-	map({ "n", "x" }, "zc", "<Cmd>call VSCodeNotify('editor.fold')<CR>", opts)
-	map({ "n", "x" }, "zC", "<Cmd>call VSCodeNotify('editor.foldRecursively')<CR>", opts)
+	map({ "n", "x" }, "za", function()
+		vsc.action("editor.toggleFold")
+	end, opts)
+	map({ "n", "x" }, "zR", function()
+		vsc.action("editor.unfoldAll")
+	end, opts)
+	map({ "n", "x" }, "zM", function()
+		vsc.action("editor.foldAll")
+	end, opts)
+	map({ "n", "x" }, "zo", function()
+		vsc.action("editor.unfold")
+	end, opts)
+	map({ "n", "x" }, "zO", function()
+		vsc.action("editor.unfoldRecursively")
+	end, opts)
+	map({ "n", "x" }, "zc", function()
+		vsc.action("editor.fold")
+	end, opts)
+	map({ "n", "x" }, "zC", function()
+		vsc.action("editor.foldRecursively")
+	end, opts)
 
-	map({ "n", "x" }, "z1", "<Cmd>call VSCodeNotify('editor.foldLevel1')<CR>", opts)
-	map({ "n", "x" }, "z2", "<Cmd>call VSCodeNotify('editor.foldLevel2')<CR>", opts)
-	map({ "n", "x" }, "z3", "<Cmd>call VSCodeNotify('editor.foldLevel3')<CR>", opts)
-	map({ "n", "x" }, "z4", "<Cmd>call VSCodeNotify('editor.foldLevel4')<CR>", opts)
-	map({ "n", "x" }, "z5", "<Cmd>call VSCodeNotify('editor.foldLevel5')<CR>", opts)
-	map({ "n", "x" }, "z6", "<Cmd>call VSCodeNotify('editor.foldLevel6')<CR>", opts)
-	map({ "n", "x" }, "z7", "<Cmd>call VSCodeNotify('editor.foldLevel7')<CR>", opts)
+	map({ "n", "x" }, "z1", function()
+		vsc.action("editor.foldLevel1")
+	end, opts)
+	map({ "n", "x" }, "z2", function()
+		vsc.action("editor.foldLevel2")
+	end, opts)
+	map({ "n", "x" }, "z3", function()
+		vsc.action("editor.foldLevel3")
+	end, opts)
+	map({ "n", "x" }, "z4", function()
+		vsc.action("editor.foldLevel4")
+	end, opts)
+	map({ "n", "x" }, "z5", function()
+		vsc.action("editor.foldLevel5")
+	end, opts)
+	map({ "n", "x" }, "z6", function()
+		vsc.action("editor.foldLevel6")
+	end, opts)
+	map({ "n", "x" }, "z7", function()
+		vsc.action("editor.foldLevel7")
+	end, opts)
 
-	map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("1"), "<Cmd>call VSCodeNotify('editor.foldLevel1')<CR>", opts)
-	map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("2"), "<Cmd>call VSCodeNotify('editor.foldLevel2')<CR>", opts)
-	map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("3"), "<Cmd>call VSCodeNotify('editor.foldLevel3')<CR>", opts)
-	map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("4"), "<Cmd>call VSCodeNotify('editor.foldLevel4')<CR>", opts)
-	map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("5"), "<Cmd>call VSCodeNotify('editor.foldLevel5')<CR>", opts)
-	map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("6"), "<Cmd>call VSCodeNotify('editor.foldLevel6')<CR>", opts)
-	map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("7"), "<Cmd>call VSCodeNotify('editor.foldLevel7')<CR>", opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("1"), function()
+		vsc.action("editor.foldLevel1")
+	end, opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("2"), function()
+		vsc.action("editor.foldLevel2")
+	end, opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("3"), function()
+		vsc.action("editor.foldLevel3")
+	end, opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("4"), function()
+		vsc.action("editor.foldLevel4")
+	end, opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("5"), function()
+		vsc.action("editor.foldLevel5")
+	end, opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("6"), function()
+		vsc.action("editor.foldLevel6")
+	end, opts)
+	map({ "n", "x" }, ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("7"), function()
+		vsc.action("editor.foldLevel7")
+	end, opts)
 
 	map(
 		{ "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("["),
-		"<Cmd>call VSCodeNotify('editor.foldRecursively')<CR>",
+		function()
+			vsc.action("editor.foldRecursively")
+		end,
 		opts
 	)
 	map(
 		{ "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("]"),
-		"<Cmd>call VSCodeNotify('editor.unfoldRecursively')<CR>",
+		function()
+			vsc.action("editor.unfoldRecursively")
+		end,
 		opts
 	)
 
 	map(
 		{ "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("-"),
-		"<Cmd>call VSCodeNotify('editor.foldAllExcept')<CR>",
+		function()
+			vsc.action("editor.foldAllExcept")
+		end,
 		opts
 	)
 	map(
 		{ "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("="),
-		"<Cmd>call VSCodeNotify('editor.unfoldAllExcept')<CR>",
+		function()
+			vsc.action("editor.unfoldAllExcept")
+		end,
 		opts
 	)
 
 	map(
 		{ "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs(","),
-		"<Cmd>call VSCodeNotify('editor.createFoldingRangeFromSelection')<CR><Esc>",
+		function()
+			vsc.action("editor.createFoldingRangeFromSelection", {
+				callback = function()
+					local sel_start = vim.fn.getpos("v")
+					local sel_end = vim.fn.getpos(".")
+					if sel_end[2] > sel_start[2] then
+						vim.api.nvim_feedkeys("o", "m", false)
+					end
+					local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+					vim.api.nvim_feedkeys(esc, "m", false)
+				end,
+				count = 1,
+			})
+		end,
 		opts
 	)
 	map(
 		{ "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("."),
-		"<Cmd>call VSCodeNotify('editor.removeManualFoldingRanges')<CR><Esc>",
-		opts
+		function()
+			vsc.call("editor.removeManualFoldingRanges")
+			return "<esc>"
+		end,
+		expr_opts
 	)
 
-	map({ "n", "x" }, "zV", "<Cmd>call VSCodeNotify('editor.foldAllExcept')<CR>", opts)
+	map({ "n", "x" }, "zV", function()
+		vsc.action("editor.foldAllExcept")
+	end, opts)
 
-	map("x", "zx", "<Cmd>call VSCodeNotify('editor.createFoldingRangeFromSelection')<CR><Esc>", opts)
-	map({ "n", "x" }, "zX", "<Cmd>call VSCodeNotify('editor.removeManualFoldingRanges')<CR>", opts)
+	map("x", "zx", function()
+		vsc.call("editor.createFoldingRangeFromSelection")
+		return "<esc>"
+	end, expr_opts)
+	map({ "n", "x" }, "zX", function()
+		vsc.action("editor.removeManualFoldingRanges")
+	end, opts)
 
-	map({ "n", "x" }, "]z", "<Cmd>call VSCodeNotify('editor.gotoNextFold')<CR>", opts)
-	map({ "n", "x" }, "[z", "<Cmd>call VSCodeNotify('editor.gotoPreviousFold')<CR>", opts)
+	map({ "n", "x" }, "]z", function()
+		vsc.action("editor.gotoNextFold")
+	end, opts)
+	map({ "n", "x" }, "[z", function()
+		vsc.action("editor.gotoPreviousFold")
+	end, opts)
 
 	-- Jumplist
 	-- map("n", "<C-o>", "<C-o>", { remap = true, silent = true })
@@ -416,46 +588,46 @@ if vim.g.vscode then
 	map("n", "g,", "<Cmd>call VSCodeNotify('workbench.action.navigateForwardInEditLocations')<CR>", opts)
 
 	map("n", "gd", function()
-		require("util.vsc").go_to_definition_marked("revealDefinition")
+		vsc.go_to_definition_marked("revealDefinition")
 	end, opts)
 	map("n", "<F12>", function()
-		require("util.vsc").go_to_definition_marked("revealDefinition")
+		vsc.go_to_definition_marked("revealDefinition")
 	end, opts)
 	map("n", "gf", function()
-		require("util.vsc").go_to_definition_marked("revealDeclaration")
+		vsc.go_to_definition_marked("revealDeclaration")
 	end, opts)
 	map("n", "<C-]>", function()
-		require("util.vsc").go_to_definition_marked("revealDefinition")
+		vsc.go_to_definition_marked("revealDefinition")
 	end, opts)
 	map("n", "gO", function()
-		require("util.vsc").action_marked("workbench.action.gotoSymbol", { count = 1 })
+		vsc.action_marked("workbench.action.gotoSymbol", { count = 1 })
 	end, opts)
 	map("n", ctrl_cmd_lhs("O"), function()
-		require("util.vsc").action_marked("workbench.action.gotoSymbol", { count = 1 })
+		vsc.action_marked("workbench.action.gotoSymbol", { count = 1 })
 	end, opts)
 	map("n", "gF", function()
-		require("util.vsc").action_marked("editor.action.peekDeclaration", { count = 1 })
+		vsc.action_marked("editor.action.peekDeclaration", { count = 1 })
 	end, opts)
 	map("n", "<S-F12>", function()
-		require("util.vsc").action_marked("editor.action.goToReferences", { count = 1 })
+		vsc.action_marked("editor.action.goToReferences", { count = 1 })
 	end, opts)
 	map("n", "gH", function()
-		require("util.vsc").action_marked("editor.action.goToReferences", { count = 1 })
+		vsc.action_marked("editor.action.goToReferences", { count = 1 })
 	end, opts)
 	map("n", ctrl_cmd_lhs("S-F12"), function()
-		require("util.vsc").action_marked("editor.action.peekImplementation", { count = 1 })
+		vsc.action_marked("editor.action.peekImplementation", { count = 1 })
 	end, opts)
 	map("n", "<M-S-F12>", function()
-		require("util.vsc").action_marked("references-view.findReferences", { count = 1 })
+		vsc.action_marked("references-view.findReferences", { count = 1 })
 	end, opts)
 	map("n", "gD", function()
-		require("util.vsc").action_marked("editor.action.peekDefinition", { count = 1 })
+		vsc.action_marked("editor.action.peekDefinition", { count = 1 })
 	end, opts)
 	map("n", "<M-F12>", function()
-		require("util.vsc").action_marked("editor.action.peekDefinition", { count = 1 })
+		vsc.action_marked("editor.action.peekDefinition", { count = 1 })
 	end, opts)
 	map("n", ctrl_cmd_lhs("F12"), function()
-		require("util.vsc").action_marked("editor.action.goToImplementation", { count = 1 })
+		vsc.action_marked("editor.action.goToImplementation", { count = 1 })
 	end, opts)
 
 	map("n", ctrl_cmd_lhs("."), "<Cmd>call VSCodeNotify('editor.action.quickFix')<CR>", opts)
@@ -464,15 +636,15 @@ if vim.g.vscode then
 	map("n", "gx", "<Cmd>call VSCodeNotify('editor.action.openLink')<CR>", opts)
 
 	map("n", "<Leader>o", function()
-		require("util.vsc").action("workbench.action.showOutputChannels", { count = 1 })
+		vsc.action("workbench.action.showOutputChannels", { count = 1 })
 	end, opts)
 	map("n", "<Leader>t", "<Cmd>call VSCodeNotify('workbench.action.tasks.runTask')<CR>", opts)
 	map("n", "<Leader>uc", "<Cmd>call VSCodeNotify('workbench.action.toggleCenteredLayout')<CR>", opts)
 	map("n", "<Leader>at", function()
-		require("util.vsc").action("codeium.toggleEnable", {
+		vsc.action("codeium.toggleEnable", {
 			callback = function(err)
 				if not err then
-					require("util.vsc").action("notifications.toggleList")
+					vsc.action("notifications.toggleList")
 				end
 			end
 		})
@@ -496,7 +668,7 @@ if vim.g.vscode then
 	local function vscode_action_insert_cursor(direction)
 		local command = direction == "above" and "editor.action.insertCursorAbove" or "editor.action.insertCursorBelow"
 		vim.api.nvim_feedkeys("i", "m", false)
-		require("util.vsc").action(command)
+		vsc.action(command)
 	end
 
 	local insert_cursor_below = function()
@@ -512,44 +684,44 @@ if vim.g.vscode then
 	map("n", ctrl_cmd_lhs("M-k"), insert_cursor_above, opts)
 	map("n", ctrl_cmd_lhs("M-Up"), insert_cursor_above, opts)
 	map("x", ctrl_cmd_lhs("M-j"), function()
-		require("util.vsc").action_insert_selection("editor.action.insertCursorBelow")
+		vsc.action_insert_selection("editor.action.insertCursorBelow")
 	end, opts)
 	map("x", ctrl_cmd_lhs("M-Down"), function()
-		require("util.vsc").action_insert_selection("editor.action.insertCursorBelow")
+		vsc.action_insert_selection("editor.action.insertCursorBelow")
 	end, opts)
 	map("x", ctrl_cmd_lhs("M-k"), function()
-		require("util.vsc").action_insert_selection("editor.action.insertCursorAbove")
+		vsc.action_insert_selection("editor.action.insertCursorAbove")
 	end, opts)
 	map("x", ctrl_cmd_lhs("M-Up"), function()
-		require("util.vsc").action_insert_selection("editor.action.insertCursorAbove")
+		vsc.action_insert_selection("editor.action.insertCursorAbove")
 	end, opts)
 
 	-- Insert snippets
 	map("n", ctrl_cmd_lhs("R"), function()
 		vim.api.nvim_feedkeys("i", "m", false)
-		require("util.vsc").action("editor.action.showSnippets", { count = 1 })
+		vsc.action("editor.action.showSnippets", { count = 1 })
 	end, opts)
 
 	map("x", ctrl_cmd_lhs("R"), function()
-		require("util.vsc").action_insert_selection("editor.action.showSnippets", { count = 1 })
+		vsc.action_insert_selection("editor.action.showSnippets", { count = 1 })
 	end, opts)
 
 	-- Quick fixes and refactorings
 	map("n", ctrl_cmd_lhs("."), "<Cmd>call VSCodeCall('editor.action.quickFix')<CR>", opts)
 	map("x", ctrl_cmd_lhs("."), function()
-		require("util.vsc").action_insert_selection("editor.action.quickFix", { count = 1 })
+		vsc.action_insert_selection("editor.action.quickFix", { count = 1 })
 	end, opts)
 	map("n", "<C-S-R>", function()
-		require("util.vsc").action('editor.action.refactor', { count = 1 })
+		vsc.action('editor.action.refactor', { count = 1 })
 	end, opts)
 	map("x", "<C-S-R>", function()
-		require("util.vsc").action_insert_selection("editor.action.refactor", { count = 1 })
+		vsc.action_insert_selection("editor.action.refactor", { count = 1 })
 	end, opts)
 	map("x", "<M-S>", function()
-		require("util.vsc").action_insert_selection("editor.action.surroundWithSnippet", { count = 1 })
+		vsc.action_insert_selection("editor.action.surroundWithSnippet", { count = 1 })
 	end, opts)
 	map("x", "<M-T>", function()
-		require("util.vsc").action_insert_selection("surround.with", { count = 1 })
+		vsc.action_insert_selection("surround.with", { count = 1 })
 	end, opts)
 
 	-- Formatting
@@ -574,33 +746,41 @@ end
 -- Move lines down and up
 if vim.g.vscode then
 	map("n", "<M-Up>", function()
-		require("util.vsc").move_line("Up")
+		vsc.move_line("Up")
 	end, opts)
 	map("n", "<M-Down>", function()
-		require("util.vsc").move_line("Down")
+		vsc.move_line("Down")
 	end, opts)
 	map("n", "<M-k>", function()
-		require("util.vsc").move_line("Up")
+		vsc.move_line("Up")
 	end, opts)
 	map("n", "<M-j>", function()
-		require("util.vsc").move_line("Down")
+		vsc.move_line("Down")
 	end, opts)
 	map("x", "<M-Up>", function()
-		require("util.vsc").move_visual_selection("Up")
+		vsc.move_visual_selection("Up")
 	end, opts)
 	map("x", "<M-Down>", function()
-		require("util.vsc").move_visual_selection("Down")
+		vsc.move_visual_selection("Down")
 	end, opts)
 	map("x", "<M-k>", function()
-		require("util.vsc").move_visual_selection("Up")
+		vsc.move_visual_selection("Up")
 	end, opts)
 	map("x", "<M-j>", function()
-		require("util.vsc").move_visual_selection("Down")
+		vsc.move_visual_selection("Down")
 	end, opts)
-	map({ "n", "x" }, "<M-l>", "<Cmd>call VSCodeNotify('editor.action.indentLines')<CR>", opts)
-	map({ "n", "x" }, "<M-h>", "<Cmd>call VSCodeNotify('editor.action.outdentLines')<CR>", opts)
-	map({ "n", "x" }, "<M-D>", "<Cmd>call VSCodeNotify('abracadabra.moveStatementDown')<CR>", opts)
-	map({ "n", "x" }, "<M-U>", "<Cmd>call VSCodeNotify('abracadabra.moveStatementUp')<CR>", opts)
+	map({ "n", "x" }, "<M-l>", function()
+		vsc.action("editor.action.indentLines")
+	end, opts)
+	map({ "n", "x" }, "<M-h>", function()
+		vsc.action("editor.action.outdentLines")
+	end, opts)
+	map({ "n", "x" }, "<M-D>", function()
+		vsc.action("abracadabra.moveStatementDown")
+	end, opts)
+	map({ "n", "x" }, "<M-U>", function()
+		vsc.action("abracadabra.moveStatementUp")
+	end, opts)
 else
 	-- These keymaps will be overridden by keymaps from the mini.move plugin
 	map("x", "<M-Up>", ":move '<-2<CR>gv=gv", opts)
@@ -615,19 +795,45 @@ end
 
 -- Harpoon
 -- if vim.g.vscode then
---   map("n", "<M-a>", "<Cmd>call VSCodeNotify('vscode-harpoon.addEditor')<CR>", opts)
---   map("n", "<M-p>", "<Cmd>call VSCodeNotify('vscode-harpoon.editorQuickPick')<CR>", opts)
---   map("n", "<M-s>", "<Cmd>call VSCodeNotify('vscode-harpoon.editEditors')<CR>", opts)
---   map("n", "<M-0>", "<Cmd>call VSCodeNotify('vscode-harpoon.editEditors')<CR>", opts)
---   map("n", "<M-1>", "<Cmd>call VSCodeNotify('vscode-harpoon.gotoEditor1')<CR>", opts)
---   map("n", "<M-2>", "<Cmd>call VSCodeNotify('vscode-harpoon.gotoEditor2')<CR>", opts)
---   map("n", "<M-3>", "<Cmd>call VSCodeNotify('vscode-harpoon.gotoEditor3')<CR>", opts)
---   map("n", "<M-4>", "<Cmd>call VSCodeNotify('vscode-harpoon.gotoEditor4')<CR>", opts)
---   map("n", "<M-5>", "<Cmd>call VSCodeNotify('vscode-harpoon.gotoEditor5')<CR>", opts)
---   map("n", "<M-6>", "<Cmd>call VSCodeNotify('vscode-harpoon.gotoEditor6')<CR>", opts)
---   map("n", "<M-7>", "<Cmd>call VSCodeNotify('vscode-harpoon.gotoEditor7')<CR>", opts)
---   map("n", "<M-8>", "<Cmd>call VSCodeNotify('vscode-harpoon.gotoEditor8')<CR>", opts)
---   map("n", "<M-9>", "<Cmd>call VSCodeNotify('vscode-harpoon.gotoEditor9')<CR>", opts)
+--   map("n", "<M-a>", function()
+-- 		vsc.action("vscode-harpoon.addEditor")
+-- 	end, opts)
+--   map("n", "<M-p>", function()
+-- 		vsc.action("vscode-harpoon.editorQuickPick")
+-- 	end, opts)
+--   map("n", "<M-s>", function()
+-- 		vsc.action("vscode-harpoon.editEditors")
+-- 	end, opts)
+--   map("n", "<M-0>", function()
+-- 		vsc.action("vscode-harpoon.editEditors")
+-- 	end, opts)
+--   map("n", "<M-1>", function()
+-- 		vsc.action("vscode-harpoon.gotoEditor1")
+-- 	end, opts)
+--   map("n", "<M-2>", function()
+-- 		vsc.action("vscode-harpoon.gotoEditor2")
+-- 	end, opts)
+--   map("n", "<M-3>", function()
+-- 		vsc.action("vscode-harpoon.gotoEditor3")
+-- 	end, opts)
+--   map("n", "<M-4>", function()
+-- 		vsc.action("vscode-harpoon.gotoEditor4")
+-- 	end, opts)
+--   map("n", "<M-5>", function()
+-- 		vsc.action("vscode-harpoon.gotoEditor5")
+-- 	end, opts)
+--   map("n", "<M-6>", function()
+-- 		vsc.action("vscode-harpoon.gotoEditor6")
+-- 	end, opts)
+--   map("n", "<M-7>", function()
+-- 		vsc.action("vscode-harpoon.gotoEditor7")
+-- 	end, opts)
+--   map("n", "<M-8>", function()
+-- 		vsc.action("vscode-harpoon.gotoEditor8")
+-- 	end, opts)
+--   map("n", "<M-9>", function()
+-- 		vsc.action("vscode-harpoon.gotoEditor9")
+-- 	end, opts)
 -- end
 
 map({ "n", "x" }, "<M-o>", "``", opts)
