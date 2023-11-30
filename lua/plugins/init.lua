@@ -937,13 +937,17 @@ return {
     version = "*",
     keys = {
       { "<M-h>", mode = "n", desc = "Move line left" },
+      { "<",     "<M-h>",    mode = "n",                   desc = "Move line left",       remap = true },
       { "<M-j>", mode = "n", desc = "Move line down" },
       { "<M-k>", mode = "n", desc = "Move line up" },
       { "<M-l>", mode = "n", desc = "Move line right" },
+      { ">",     "<M-l>",    mode = "n",                   desc = "Move line right",      remap = true },
       { "<M-h>", mode = "v", desc = "Move selection left" },
+      { "<",     "<M-h>",    mode = "v",                   desc = "Move selection left",  remap = true },
       { "<M-j>", mode = "v", desc = "Move selection down" },
       { "<M-k>", mode = "v", desc = "Move selection up" },
       { "<M-l>", mode = "v", desc = "Move selection right" },
+      { ">",     "<M-l>",    mode = "v",                   desc = "Move selection right", remap = true },
     },
     opts = {
       mappings = {
