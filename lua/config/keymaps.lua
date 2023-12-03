@@ -522,7 +522,7 @@ if vim.g.vscode then
 	)
 
 	map(
-		{ "x" },
+		{ "n", "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs(","),
 		function()
 			vsc.action("editor.createFoldingRangeFromSelection", {
@@ -541,7 +541,7 @@ if vim.g.vscode then
 		opts
 	)
 	map(
-		{ "x" },
+		{ "n", "x" },
 		ctrl_cmd_lhs("k") .. ctrl_cmd_lhs("."),
 		function()
 			vsc.call("editor.removeManualFoldingRanges")
