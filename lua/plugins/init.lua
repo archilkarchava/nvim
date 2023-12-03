@@ -1744,6 +1744,11 @@ return {
     cmd = { "SudaRead", "SudaWrite" },
   },
   {
+    "archilkarchava/nvim-numbertoggle",
+    vscode = true,
+    event = "VeryLazy",
+  },
+  {
     "archilkarchava/xkbswitch.nvim",
     vscode = true,
     enabled = false,
