@@ -194,14 +194,15 @@ if vim.g.vscode then
 
 	---@param direction "above" | "below"
 	local function insert_line(direction)
-		-- if vim.fn.reg_recording() ~= "" then
-		-- 	local key = direction == "above" and "O" or "o"
-		-- 	vim.cmd("normal! " .. key)
-		-- 	return
-		-- end
+		if vim.fn.reg_recording() ~= "" then
+			local key = direction == "above" and "O" or "o"
+			vim.cmd("normal! " .. key)
+			return
+		end
 		if direction == "below" then
 			vsc.call("cursorMove", {
 				args = { { to = "down", value = 1 } },
+				count = 1
 			})
 		end
 		local count = vim.v.count1
@@ -382,12 +383,6 @@ if vim.g.vscode then
 		vsc.action("editor.action.indentLines")
 	end, opts)
 	map({ "n", "x" }, ctrl_cmd_lhs("["), function()
-		vsc.action("editor.action.outdentLines")
-	end, opts)
-	map({ "n", "x" }, ">", function()
-		vsc.action("editor.action.indentLines")
-	end, opts)
-	map({ "n", "x" }, "<", function()
 		vsc.action("editor.action.outdentLines")
 	end, opts)
 	map({ "n", "x" }, "<C-M-l>", function()
