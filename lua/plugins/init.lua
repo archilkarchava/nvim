@@ -1744,7 +1744,6 @@ return {
   {
     "archilkarchava/nvim-numbertoggle",
     vscode = true,
-    enabled = false,
     event = "VeryLazy",
   },
   {
