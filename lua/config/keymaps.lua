@@ -607,7 +607,7 @@ if vim.g.vscode then
 		vsc.action_marked("editor.action.goToReferences", { count = 1 })
 	end, opts)
 	map("n", "gH", function()
-		vsc.action_marked("editor.action.goToReferences", { count = 1 })
+		vsc.action_marked("editor.action.referenceSearch.trigger", { count = 1 })
 	end, opts)
 	map("n", ctrl_cmd_lhs("S-F12"), function()
 		vsc.action_marked("editor.action.peekImplementation", { count = 1 })
