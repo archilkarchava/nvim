@@ -407,7 +407,6 @@ if vim.g.vscode then
 			count = 1
 		})
 	end, opts)
-	map("n", "<leader><space>", "<cmd>Find<cr>", opts)
 	map("n", "<leader>/", function()
 		vsc.action("workbench.action.findInFiles", { count = 1 })
 	end, opts)
