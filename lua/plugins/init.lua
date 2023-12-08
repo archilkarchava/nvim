@@ -601,8 +601,8 @@ return {
       },
       indent = { enable = true },
       matchup = {
-        enable = true,
-        enable_quotes = true,
+        enable = false,
+        enable_quotes = false,
       },
       autotag = {
         enable = true,
