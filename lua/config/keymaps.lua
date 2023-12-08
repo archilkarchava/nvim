@@ -834,8 +834,6 @@ end
 -- 	end, opts)
 -- end
 
-map({ "n", "x" }, "<M-o>", "``", opts)
-
 -- Copy lines down and up
 map("n", "<M-S-Up>", ":copy .<CR>k", opts)
 map("x", "<M-S-Up>", '"ay`>"apgv', opts)
