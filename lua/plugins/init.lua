@@ -408,12 +408,12 @@ return {
 
   -- Editing support
   {
-    "echasnovski/mini.pairs",
-    version = "*",
+    "windwp/nvim-autopairs",
     event = "VeryLazy",
-    config = function(_, opts)
-      require("mini.pairs").setup(opts)
-    end,
+    opts = {
+      check_ts = true,
+      ts_config = { java = false },
+    },
   },
 
   {
