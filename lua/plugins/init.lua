@@ -416,7 +416,8 @@ return {
   },
 
   {
-    "jdhao/better-escape.vim",
+    "nvim-zh/better-escape.vim",
+    vscode = true,
     enabled = false,
     event = "InsertEnter",
     config = function()
