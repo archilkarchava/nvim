@@ -834,6 +834,11 @@ if vim.g.vscode then
 	end, opts)
 end
 
+if vim.g.vscode then
+	-- Map <Esc> to jk to use with cmdline `norm` commands in VS Code
+	map("i", "jk", "<Esc>", opts)
+end
+
 -- Copy lines down and up
 map("n", "<M-S-Up>", ":copy .<CR>k", opts)
 map("x", "<M-S-Up>", '"ay`>"apgv', opts)
