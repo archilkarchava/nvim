@@ -844,7 +844,7 @@ local function copy_lines(direction)
 	local count = vim.v.count1
 	local starting_mode = vim.fn.mode()
 	if starting_mode ~= "V" then
-		vim.cmd.normal({ "V", bang = true })
+		vim.api.nvim_feedkeys("V", "x!", false)
 	end
 	local register_name = "m"
 	local copy_lines_cmd = direction == "up" and '"' .. register_name .. 'y`>"' .. register_name .. count .. 'pgv' or
@@ -854,6 +854,10 @@ local function copy_lines(direction)
 	vim.fn.setreg(register_name, a_reg_value)
 	if starting_mode == "n" then
 		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "m", false)
+	elseif starting_mode == "v" then
+		vim.api.nvim_feedkeys("v", "x!", false)
+	elseif string.match(starting_mode, "\x16") then
+		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-v>", true, false, true), "x!", false)
 	end
 end
 
