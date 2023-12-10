@@ -841,12 +841,20 @@ end
 
 ---@param direction "up" | "down"
 local function copy_lines(direction)
+	local count = vim.v.count1
+	local starting_mode = vim.fn.mode()
+	if starting_mode ~= "V" then
+		vim.cmd.normal({ "V", bang = true })
+	end
 	local register_name = "m"
-	local copy_lines_cmd = direction == "up" and '"' .. register_name .. 'y`>"' .. register_name .. 'pgv' or
-			'"' .. register_name .. 'y"' .. register_name .. 'Pgv'
+	local copy_lines_cmd = direction == "up" and '"' .. register_name .. 'y`>"' .. register_name .. count .. 'pgv' or
+			'"' .. register_name .. 'y"' .. register_name .. count .. 'Pgv'
 	local a_reg_value = vim.fn.getreg(register_name)
-	vim.cmd("normal! " .. copy_lines_cmd)
+	vim.cmd.normal({ copy_lines_cmd, bang = true })
 	vim.fn.setreg(register_name, a_reg_value)
+	if starting_mode == "n" then
+		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "m", false)
+	end
 end
 
 local function copy_lines_down()
@@ -858,14 +866,10 @@ local function copy_lines_up()
 end
 
 -- Copy lines down and up
-map("n", "<M-S-Up>", ":copy .<CR>k", opts)
-map("x", "<M-S-Up>", copy_lines_up, opts)
-map("n", "<M-K>", ":copy .<CR>k", opts)
-map("x", "<M-K>", copy_lines_up, opts)
-map("n", "<M-S-Down>", ":copy .<CR>", opts)
-map("x", "<M-S-Down>", copy_lines_down, opts)
-map("n", "<M-J>", ":copy .<CR>", opts)
-map("x", "<M-J>", copy_lines_down, opts)
+map({ "n", "x" }, "<M-S-Up>", copy_lines_up, opts)
+map({ "n", "x" }, "<M-K>", copy_lines_up, opts)
+map({ "n", "x" }, "<M-S-Down>", copy_lines_down, opts)
+map({ "n", "x" }, "<M-J>", copy_lines_down, opts)
 
 -- Delete word
 map("n", "<C-Del>", "dw", opts)
