@@ -839,17 +839,33 @@ if vim.g.vscode then
 	map("i", "jk", "<Esc>", opts)
 end
 
+---@param direction "up" | "down"
+local function copy_lines(direction)
+	local register_name = "m"
+	local copy_lines_cmd = direction == "up" and '"' .. register_name .. 'y`>"' .. register_name .. 'pgv' or
+			'"' .. register_name .. 'y"' .. register_name .. 'Pgv'
+	local a_reg_value = vim.fn.getreg(register_name)
+	vim.cmd("normal! " .. copy_lines_cmd)
+	vim.fn.setreg(register_name, a_reg_value)
+end
+
+local function copy_lines_down()
+	copy_lines("down")
+end
+
+local function copy_lines_up()
+	copy_lines("up")
+end
+
 -- Copy lines down and up
 map("n", "<M-S-Up>", ":copy .<CR>k", opts)
-map("x", "<M-S-Up>", '"ay`>"apgv', opts)
+map("x", "<M-S-Up>", copy_lines_up, opts)
 map("n", "<M-K>", ":copy .<CR>k", opts)
-map("x", "<M-K>", '"ay`>"apgv', opts)
+map("x", "<M-K>", copy_lines_up, opts)
 map("n", "<M-S-Down>", ":copy .<CR>", opts)
-map("x", "<M-S-Down>", '"ay"aPgv', opts)
+map("x", "<M-S-Down>", copy_lines_down, opts)
 map("n", "<M-J>", ":copy .<CR>", opts)
-map("x", "<M-J>", '"ay"aPgv', opts)
-map("n", "<M-J>", ":copy .<CR>", opts)
-map("x", "<M-J>", '"ay"aPgv', opts)
+map("x", "<M-J>", copy_lines_down, opts)
 
 -- Delete word
 map("n", "<C-Del>", "dw", opts)
