@@ -847,10 +847,13 @@ local function copy_lines(direction)
 		vim.api.nvim_feedkeys("V", "x!", false)
 	end
 	local register_name = "m"
-	local copy_lines_cmd = direction == "up" and '"' .. register_name .. 'y`>"' .. register_name .. count .. 'pgv' or
-			'"' .. register_name .. 'y"' .. register_name .. count .. 'Pgv'
+	local yank_lines_cmd = '"' .. register_name .. 'y'
+	local put_lines_cmd = direction == "up" and '`>"' .. register_name .. count .. 'p' or
+			'"' .. register_name .. count .. 'P'
+	local go_back_to_visual_cmd = "gv"
+	local cmd = yank_lines_cmd .. put_lines_cmd .. go_back_to_visual_cmd
 	local a_reg_value = vim.fn.getreg(register_name)
-	vim.cmd.normal({ copy_lines_cmd, bang = true })
+	vim.cmd.normal({ cmd, bang = true })
 	vim.fn.setreg(register_name, a_reg_value)
 	if starting_mode == "n" then
 		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "m", false)
