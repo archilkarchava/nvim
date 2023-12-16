@@ -808,7 +808,7 @@ return {
     "echasnovski/mini.bracketed",
     vscode = true,
     version = "*",
-    event = { "BufRead", "BufNewFile" },
+    event = "VeryLazy",
     keys = {
       {
         "<M-O>",
@@ -869,13 +869,6 @@ return {
     -- 	end
     -- 	return vim.list_extend(mappings, keys)
     -- end,
-    config = function(_, opts)
-      require("mini.bracketed").setup(opts)
-      -- vim.keymap.set("n", "<C-o>", function() pcall(require("mini.bracketed").jump, "backward", { wrap = false }) end,
-      -- 	{ noremap = true, silent = true })
-      -- vim.keymap.set("n", "<C-i>", function() pcall(require("mini.bracketed").jump, "forward", { wrap = false }) end,
-      -- 	{ noremap = true, silent = true })
-    end,
     opts = {
       -- First-level elements are tables describing behavior of a target:
       --
@@ -919,9 +912,6 @@ return {
         return m[1] and #m[1] > 0
       end, mappings)
       return vim.list_extend(mappings, keys)
-    end,
-    config = function(_, opts)
-      require("mini.splitjoin").setup(opts)
     end,
     opts = {
       -- Module mappings. Use `''` (empty string) to disable one.
