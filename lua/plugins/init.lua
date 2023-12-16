@@ -428,15 +428,17 @@ return {
   {
     "mg979/vim-visual-multi",
     event = "VeryLazy",
-    config = function()
-      vim.keymap.set("n", "<M-J>", "<Plug>(VM-Add-Cursor-Down)", { silent = true })
-      vim.keymap.set("n", "<M-K>", "<Plug>(VM-Add-Cursor-Up)", { silent = true })
+    keys = {
+      { "<leader>j", "<Plug>(VM-Add-Cursor-Down)", mode = { "n" }, silent = true },
+      { "<leader>k", "<Plug>(VM-Add-Cursor-Up)",   mode = { "n" }, silent = true },
+    },
+    init = function()
       -- disable backspace mapping
       vim.g.VM_maps = { ["I BS"] = "" }
       vim.g.VM_maps["Undo"] = "u"
       vim.g.VM_maps["Redo"] = "<C-r>"
       vim.g.VM_theme = "codedark"
-    end,
+    end
   },
   -- UI
   {
