@@ -637,7 +637,7 @@ if vim.g.vscode then
 	end, opts)
 	map("n", "<Leader>t", "<Cmd>call VSCodeNotify('workbench.action.tasks.runTask')<CR>", opts)
 	map("n", "<Leader>uc", "<Cmd>call VSCodeNotify('workbench.action.toggleCenteredLayout')<CR>", opts)
-	map("n", "<Leader>at", function()
+	map("n", "<Leader>cc", function()
 		vsc.action("codeium.toggleEnable", {
 			callback = function(err)
 				if not err then
@@ -646,7 +646,7 @@ if vim.g.vscode then
 			end
 		})
 	end, opts)
-	-- map("n", "<Leader>at", "<Cmd>call VSCodeNotify('aws.codeWhisperer.toggleCodeSuggestion')<CR>", opts)
+	-- map("n", "<Leader>cc", "<Cmd>call VSCodeNotify('aws.codeWhisperer.toggleCodeSuggestion')<CR>", opts)
 
 	map("n", "<F2>", "<Cmd>call VSCodeNotify('editor.action.rename')<CR>", opts)
 	map("n", "<Leader>r", "<Cmd>call VSCodeNotify('editor.action.rename')<CR>", opts)
