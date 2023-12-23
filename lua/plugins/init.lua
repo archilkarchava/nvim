@@ -735,21 +735,13 @@ return {
   {
     "echasnovski/mini.ai",
     vscode = true,
-    enabled = false,
-    version = "*",
-    -- keys = {
-    --   { "a", mode = { "x", "o" } },
-    --   { "i", mode = { "x", "o" } },
-    -- },
     event = "VeryLazy",
-    -- dependencies = { "nvim-treesitter-textobjects" },
     opts = function()
       local ai = require("mini.ai")
       local custom_textobjects = {
         -- Tweak argument textobject
         -- a = require("mini.ai").gen_spec.argument({ brackets = { "%b()" } }),
-        -- Redeclare t object to include tags that have a dot in the name
-        t = { "<([%w\\.]-)%f[^<%w\\.][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
+        t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
         b = { "%b()", "^.%s*().-()%s*.$" },
         B = { "%b{}", "^.%s*().-()%s*.$" },
         r = { "%b[]", "^.%s*().-()%s*.$" },
@@ -765,14 +757,14 @@ return {
           return { from = from, to = to }
         end
       }
-      if not vim.g.vscode then
-        custom_textobjects.o = ai.gen_spec.treesitter({
-          a = { "@block.outer", "@conditional.outer", "@loop.outer" },
-          i = { "@block.inner", "@conditional.inner", "@loop.inner" },
-        }, {})
-        custom_textobjects.f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {})
-        custom_textobjects.c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {})
-      end
+      local spec_treesitter = ai.gen_spec.treesitter
+      custom_textobjects.o = spec_treesitter({
+        a = { "@block.outer", "@conditional.outer", "@loop.outer" },
+        i = { "@block.inner", "@conditional.inner", "@loop.inner" },
+      })
+      custom_textobjects.f = spec_treesitter({ a = "@function.outer", i = "@function.inner" })
+      custom_textobjects.a = spec_treesitter({ a = "@parameter.outer", i = "@parameter.inner" })
+      custom_textobjects.c = spec_treesitter({ a = "@class.outer", i = "@class.inner" })
       return {
         n_lines = 500,
         custom_textobjects = custom_textobjects,
@@ -905,7 +897,7 @@ return {
       -- See `:h mini_bracketed.config` for more info.
 
       buffer     = { suffix = vim.g.vscode and "" or "b", options = {} },
-      comment    = { suffix = "c", options = {} },
+      comment    = { suffix = "/", options = {} },
       conflict   = { suffix = vim.g.vscode and "" or "x", options = {} },
       diagnostic = { suffix = vim.g.vscode and "" or "d", options = {} },
       file       = { suffix = vim.g.vscode and "" or "f", options = {} },
@@ -1033,6 +1025,7 @@ return {
   {
     "wellle/targets.vim",
     vscode = true,
+    enabled = false,
     version = "*",
     event = "VeryLazy",
     config = function()
