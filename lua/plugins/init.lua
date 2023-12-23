@@ -549,7 +549,8 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufRead", "BufNewFile" },
+    vscode = true,
+    event = "VeryLazy",
     cmd = {
       "TSBufDisable",
       "TSBufEnable",
@@ -569,43 +570,57 @@ return {
     dependencies = {
       {
         "windwp/nvim-ts-autotag",
+        vscode = true,
       },
-      "andymass/vim-matchup"
+      "andymass/vim-matchup",
+      {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        vscode = true,
+        init = function(plugin)
+          -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
+          -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
+          -- no longer trigger the **nvim-treeitter** module to be loaded in time.
+          -- Luckily, the only thins that those plugins need are the custom queries, which we make available
+          -- during startup.
+          require("lazy.core.loader").add_to_rtp(plugin)
+          require("nvim-treesitter.query_predicates")
+        end,
+        config = function()
+          -- When in diff mode, we want to use the default
+          -- vim text objects c & C instead of the treesitter ones.
+          local move = require("nvim-treesitter.textobjects.move") ---@type table<string,fun(...)>
+          local configs = require("nvim-treesitter.configs")
+          for name, fn in pairs(move) do
+            if name:find("goto") == 1 then
+              move[name] = function(q, ...)
+                if vim.wo.diff then
+                  local config = configs.get_module("textobjects.move")[name] ---@type table<string,string>
+                  for key, query in pairs(config or {}) do
+                    if q == query and key:find("[%]%[][cC]") then
+                      vim.cmd("normal! " .. key)
+                      return
+                    end
+                  end
+                end
+                return fn(q, ...)
+              end
+            end
+          end
+        end,
+      },
     },
-    -- dependencies = {
-    --   {
-    --     "nvim-treesitter/nvim-treesitter-textobjects",
-    --     init = function()
-    --       -- PERF: no need to load the plugin, if we only need its queries for mini.ai
-    --       local plugin = require("lazy.core.config").spec.plugins["nvim-treesitter"]
-    --       local opts = require("lazy.core.plugin").values(plugin, "opts", false)
-    --       local enabled = false
-    --       if opts.textobjects then
-    --         for _, mod in ipairs({ "move", "select", "swap", "lsp_interop" }) do
-    --           if opts.textobjects[mod] and opts.textobjects[mod].enable then
-    --             enabled = true
-    --             break
-    --           end
-    --         end
-    --       end
-    --       if not enabled then
-    --         require("lazy.core.loader").disable_rtp_plugin("nvim-treesitter-textobjects")
-    --       end
-    --     end,
-    --   },
-    -- },
-    keys = not vim.g.vscode and {
-      { "<C-Space>", desc = "Increment selection" },
+    keys = {
+      { "<c-space>", desc = "Increment selection" },
       { "<bs>",      desc = "Shrink selection",   mode = "x" },
-    } or nil,
+    },
     opts = {
       highlight = {
         enable = not vim.g.vscode,
       },
       indent = { enable = true },
       matchup = {
-        enable = false,
-        enable_quotes = false,
+        enable = true,
+        enable_quotes = true,
       },
       autotag = {
         enable = true,
@@ -636,12 +651,21 @@ return {
         "toml"
       },
       incremental_selection = {
-        enable = not vim.g.vscode,
+        enable = true,
         keymaps = {
-          init_selection = "<C-Space>",
-          node_incremental = "<C-Space>",
-          scope_incremental = "<nop>",
+          init_selection = "<c-space>",
+          node_incremental = "<c-space>",
+          scope_incremental = false,
           node_decremental = "<bs>",
+        },
+      },
+      textobjects = {
+        move = {
+          enable = true,
+          goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer" },
+          goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer" },
+          goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
+          goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
         },
       },
     },
