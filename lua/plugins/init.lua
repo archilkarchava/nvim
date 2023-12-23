@@ -269,6 +269,7 @@ return {
 
   {
     "williamboman/mason.nvim",
+    enabled = false,
     cmd = "Mason",
     keys = {
       { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" }
