@@ -410,9 +410,6 @@ if vim.g.vscode then
 	map("n", "<leader>/", function()
 		vsc.action("workbench.action.findInFiles", { count = 1 })
 	end, opts)
-	map("n", "<leader>ss", function()
-		vsc.action_marked("workbench.action.gotoSymbol", { count = 1 })
-	end, opts)
 
 	-- Folding
 	map({ "n", "x" }, "za", function()
@@ -564,8 +561,8 @@ if vim.g.vscode then
 	end, opts)
 
 	-- Jumplist
-	-- map("n", "<C-o>", "<C-o>", { remap = true, silent = true })
-	-- map("n", "<C-i>", "<C-i>", { remap = true, silent = true })
+	-- map("n", "<C-o>", "<C-o>", opts)
+	-- map("n", "<C-i>", "<C-i>", opts)
 
 	-- The <M-O> and <M-I> will be set by the mini.bracketed plugin
 	-- map("n", "<M-O>", "<Cmd>call VSCodeNotify('workbench.action.openPreviousRecentlyUsedEditor')<CR>", opts)
@@ -630,7 +627,9 @@ if vim.g.vscode then
 	map("n", ctrl_cmd_lhs("."), "<Cmd>call VSCodeNotify('editor.action.quickFix')<CR>", opts)
 
 	-- VSCode gx
-	map("n", "gx", "<Cmd>call VSCodeNotify('editor.action.openLink')<CR>", opts)
+	map("n", "gx", function()
+		vsc.action("editor.action.openLink", { count = 1 })
+	end, opts)
 
 	map("n", "<Leader>o", function()
 		vsc.action("workbench.action.showOutputChannels", { count = 1 })
@@ -792,7 +791,7 @@ end
 
 -- Harpoon
 if vim.g.vscode then
-	local harpoon_prefix = "<leader><leader>"
+	local harpoon_prefix = "<leader>"
 	map("n", harpoon_prefix .. "a", function()
 		vsc.action("vscode-harpoon.addEditor", { count = 1 })
 	end, opts)
@@ -837,6 +836,8 @@ end
 if vim.g.vscode then
 	-- Map <Esc> to jk to use with cmdline `norm` commands in VS Code
 	map("i", "jk", "<Esc>", opts)
+	map("i", "ол", "<Esc>", opts)
+	map("i", "<C-g>", "<Esc>", opts)
 end
 
 ---@param direction "up" | "down"
