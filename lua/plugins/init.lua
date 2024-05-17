@@ -334,16 +334,6 @@ return {
     enabled = false,
   },
   {
-    "numToStr/Comment.nvim",
-    keys = {
-      { "gc", mode = { "n", "x", "o" }, desc = "Comment / uncomment lines" },
-      { "gb", mode = { "n", "x", "o" }, desc = "Comment / uncomment a block" },
-    },
-    config = function()
-      require("Comment").setup()
-    end
-  },
-  {
     "nvim-treesitter/nvim-treesitter-context",
     version = "*",
     dependencies = { "nvim-treesitter" },
