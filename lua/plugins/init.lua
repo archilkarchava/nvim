@@ -538,6 +538,24 @@ return {
     end,
   },
   {
+    "windwp/nvim-ts-autotag",
+    vscode = true,
+    ft = {
+      'html',
+      'javascript',
+      'javascriptreact',
+      'typescriptreact',
+      'svelte',
+      'vue',
+      'tsx',
+      'jsx',
+      'markdown',
+      'handlebars',
+      'hbs',
+    },
+    opts = {},
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
     vscode = true,
     event = "VeryLazy",
@@ -558,10 +576,6 @@ return {
     },
     build = ":TSUpdate",
     dependencies = {
-      {
-        "windwp/nvim-ts-autotag",
-        vscode = true,
-      },
       "andymass/vim-matchup",
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
@@ -613,8 +627,6 @@ return {
         enable_quotes = true,
       },
       autotag = {
-        enable = true,
-        enable_rename = true,
         enable_close = not vim.g.vscode,
         enable_close_on_slash = not vim.g.vscode,
       },
