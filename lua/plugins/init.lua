@@ -1523,9 +1523,12 @@ return {
       highlight = {
         backdrop = false
       },
+      jump = {
+        autojump = true
+      },
       modes = {
         search = {
-          enabled = false
+          enabled = true
         },
         char = {
           enabled = true,
@@ -1587,7 +1590,7 @@ return {
 
       return vim.list_extend(keys, mappings)
     end,
-    init = function()
+    config = function(_, opts)
       local function set_highlights()
         vim.api.nvim_set_hl(0, "FlashBackdrop", { fg = "gray" })
         if vim.g.vscode then
@@ -1601,6 +1604,7 @@ return {
         callback = set_highlights,
       })
       set_highlights()
+      require("flash").setup(opts)
     end
   },
   {
