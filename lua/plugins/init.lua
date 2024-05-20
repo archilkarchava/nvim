@@ -558,7 +558,12 @@ return {
       "handlebars",
       "hbs",
     },
-    opts = {},
+    opts = {
+      opts = {
+        enable_close = not vim.g.vscode,
+        enable_close_on_slash = not vim.g.vscode,
+      },
+    },
   },
   {
     "nvim-treesitter/nvim-treesitter",
@@ -630,10 +635,6 @@ return {
       matchup = {
         enable = true,
         enable_quotes = true,
-      },
-      autotag = {
-        enable_close = not vim.g.vscode,
-        enable_close_on_slash = not vim.g.vscode,
       },
       context_commentstring = { enable = not vim.g.vscode, enable_autocmd = not vim.g.vscode },
       ensure_installed = {
