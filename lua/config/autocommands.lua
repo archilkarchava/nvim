@@ -41,7 +41,7 @@ if vim.g.vscode then
         if vim.bo.filetype == "" or vim.bo.filetype == nil then
           vim.bo.filetype = ""
         end
-      end, 50)
+      end, 70)
     end,
   })
 
