@@ -1200,7 +1200,7 @@ return {
         change          = "gsc",
       },
     },
-    init = function()
+    config = function(_, opts)
       if vim.g.vscode then
         vim.api.nvim_set_hl(0, "NvimSurroundHighlight", { link = "FakeVisual" })
         vim.api.nvim_create_autocmd({ "ColorScheme" }, {
@@ -1209,6 +1209,7 @@ return {
           end,
         })
       end
+      require("nvim-surround").setup(opts)
     end
   },
   {
