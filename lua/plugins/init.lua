@@ -1268,107 +1268,107 @@ return {
       -- border
       {
         "ii",
-        "<Cmd>lua require('various-textobjs').indentation(true, true)<CR>",
+        '<Cmd>lua require("various-textobjs").indentation("inner", "inner")<CR>',
         mode = { "o", "x" },
-        desc = "Inside indent"
+        desc = "Inside indent",
       },
       {
         "iI",
-        "<Cmd>lua require('various-textobjs').indentation(true, true)<CR>",
+        '<Cmd>lua require("various-textobjs").indentation("inner", "inner")<CR>',
         mode = { "o", "x" },
-        desc = "Inside indent"
+        desc = "Inside indent",
       },
       {
         "ai",
-        "<Cmd>lua require('various-textobjs').indentation(false, true)<CR>",
+        '<Cmd>lua require("various-textobjs").indentation("outer", "inner")<CR>',
         mode = { "o", "x" },
-        desc = "around indent"
+        desc = "around indent",
       },
       {
         "aI",
-        "<Cmd>lua require('various-textobjs').indentation(false, false)<CR>",
+        '<Cmd>lua require("various-textobjs").indentation("outer", "outer")<CR>',
         mode = { "o", "x" },
-        desc = "Around indent"
+        desc = "Around indent",
       },
       {
         "ie",
-        "<Cmd>lua require('various-textobjs').entireBuffer()<CR>",
+        '<Cmd>lua require("various-textobjs").entireBuffer()<CR>',
         mode = { "o", "x" },
-        desc = "Entire buffer"
+        desc = "Entire buffer",
       },
       {
         "ae",
-        "<Cmd>lua require('various-textobjs').entireBuffer()<CR>",
+        '<Cmd>lua require("various-textobjs").entireBuffer()<CR>',
         mode = { "o", "x" },
-        desc = "Entire buffer"
+        desc = "Entire buffer",
       },
       {
         "<Leader>r",
-        "<Cmd>lua require('various-textobjs').restOfParagraph()<CR>",
+        '<Cmd>lua require("various-textobjs").restOfParagraph()<CR>',
         mode = { "o", "x" },
-        desc = "Rest of paragraph"
+        desc = "Rest of paragraph",
       },
       {
         "R",
-        "<Cmd>lua require('various-textobjs').restOfIndentation()<CR>",
+        '<Cmd>lua require("various-textobjs").restOfIndentation()<CR>',
         mode = { "o", "x" },
-        desc = "Rest of indentation"
+        desc = "Rest of indentation",
       },
       {
         "|",
-        "<Cmd>lua require('various-textobjs').column()<CR>",
+        '<Cmd>lua require("various-textobjs").column()<CR>',
         mode = { "o", "x" },
-        desc = "Column"
+        desc = "Column",
       },
       {
         "ik",
-        "<Cmd>lua require('various-textobjs').key(true)<CR>",
+        '<Cmd>lua require("various-textobjs").key("inner")<CR>',
         mode = { "o", "x" },
-        desc = "Inside key"
+        desc = "Inside key",
       },
       {
         "ak",
-        "<Cmd>lua require('various-textobjs').key(false)<CR>",
+        '<Cmd>lua require("various-textobjs").key("outer")<CR>',
         mode = { "o", "x" },
-        desc = "Around key"
+        desc = "Around key",
       },
       {
         "iv",
-        "<Cmd>lua require('various-textobjs').value(true)<CR>",
+        '<Cmd>lua require("various-textobjs").value("inner")<CR>',
         mode = { "o", "x" },
-        desc = "Inside value"
+        desc = "Inside value",
       },
       {
         "av",
-        "<Cmd>lua require('various-textobjs').value(false)<CR>",
+        '<Cmd>lua require("various-textobjs").value("outer")<CR>',
         mode = { "o", "x" },
-        desc = "Around value"
+        desc = "Around value",
       },
       {
         "im",
-        "<Cmd>lua require('various-textobjs').chainMember(true)<CR>",
+        '<Cmd>lua require("various-textobjs").chainMember("inner")<CR>',
         mode = { "o", "x" },
-        desc = "Inside chain member"
+        desc = "Inside chain member",
       },
       {
         "am",
-        "<Cmd>lua require('various-textobjs').chainMember(false)<CR>",
+        '<Cmd>lua require("various-textobjs").chainMember("outer")<CR>',
         mode = { "o", "x" },
-        desc = "Around chain member"
+        desc = "Around chain member",
       },
       {
         "i<Leader>w",
-        "<Cmd>lua require('various-textobjs').subword('inner')<CR>",
+        '<Cmd>lua require("various-textobjs").subword("inner")<CR>',
         mode = { "o", "x" },
-        desc = "Inside subword"
+        desc = "Inside subword",
       },
       {
         "a<Leader>w",
-        "<Cmd>lua require('various-textobjs').subword('outer')<CR>",
+        '<Cmd>lua require("various-textobjs").subword("outer")<CR>',
         mode = { "o", "x" },
-        desc = "Around subword"
+        desc = "Around subword",
       },
-    }
+    },
   },
   {
     "tpope/vim-repeat",
