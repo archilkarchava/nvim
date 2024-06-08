@@ -1720,22 +1720,78 @@ return {
   {
     "monaqa/dial.nvim",
     vscode = true,
-    version = "*",
     keys = {
-      { "<C-a>", function() return require("dial.map").inc_normal() end, expr = true, desc = "Increment" },
-      { "<C-x>", function() return require("dial.map").dec_normal() end, expr = true, desc = "Decrement" },
+      { mode = { "n" }, "<C-a>",  function() return require("dial.map").manipulate("increment", "normal") end,  desc = "Increment" },
+      { mode = { "n" }, "<C-x>",  function() return require("dial.map").manipulate("decrement", "normal") end,  desc = "Decrement" },
+      { mode = { "n" }, "g<C-a>", function() return require("dial.map").manipulate("increment", "gnormal") end, desc = "Increment" },
+      { mode = { "n" }, "g<C-x>", function() return require("dial.map").manipulate("decrement", "gnormal") end, desc = "Decrement" },
+      { mode = { "v" }, "<C-a>",  function() return require("dial.map").manipulate("increment", "visual") end,  desc = "Increment" },
+      { mode = { "v" }, "<C-x>",  function() return require("dial.map").manipulate("decrement", "visual") end,  desc = "Decrement" },
+      { mode = { "x" }, "g<C-a>", function() return require("dial.map").manipulate("increment", "gvisual") end, desc = "Increment" },
+      { mode = { "x" }, "g<C-x>", function() return require("dial.map").manipulate("decrement", "gvisual") end, desc = "Decrement" },
     },
     config = function()
-      local augend = require("dial.augend")
-      require("dial.config").augends:register_group({
+      local augend = require "dial.augend"
+      require("dial.config").augends:register_group {
         default = {
           augend.integer.alias.decimal,
           augend.integer.alias.hex,
           augend.date.alias["%Y/%m/%d"],
           augend.constant.alias.bool,
           augend.semver.alias.semver,
+          augend.date.new {
+            pattern = "%B", -- titlecased month names
+            default_kind = "day",
+          },
+          augend.constant.new {
+            elements = {
+              "january",
+              "february",
+              "march",
+              "april",
+              "may",
+              "june",
+              "july",
+              "august",
+              "september",
+              "october",
+              "november",
+              "december",
+            },
+            word = true,
+            cyclic = true,
+          },
+          augend.constant.new {
+            elements = {
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday",
+            },
+            word = true,
+            cyclic = true,
+          },
+          augend.constant.new {
+            elements = {
+              "monday",
+              "tuesday",
+              "wednesday",
+              "thursday",
+              "friday",
+              "saturday",
+              "sunday",
+            },
+            word = true,
+            cyclic = true,
+          },
+          augend.case.new {
+            types = { "camelCase", "PascalCase", "snake_case", "SCREAMING_SNAKE_CASE" },
+          },
         },
-      })
+      }
     end,
   },
   {
