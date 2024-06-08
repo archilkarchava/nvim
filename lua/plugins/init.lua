@@ -1512,15 +1512,15 @@ return {
       -- 	callback = set_highlights,
       -- })
     end,
-    -- opts = {
-    --   -- VS Code doesn't sync its viewport with neovim so autojump rarely works
-    --   -- These settings make autojump always work in VS Code
-    --   labels = vim.g.vscode and {} or nil,
-    --   safe_labels = vim.g.vscode and { "s", "f", "n", "u", "t", "/",
-    --     "S", "F", "N", "L", "H", "M", "Q", "K", "U", "G", "T", "Z", "[", "]", "\\", "?", '"' } or nil,
-    --   -- Disables autojump in VS Code
-    --   -- safe_labels = vim.g.vscode and {} or nil,
-    -- }
+    opts = {
+      -- VS Code doesn't sync its viewport with neovim so autojump rarely works
+      -- These settings make autojump always work in VS Code
+      -- labels = vim.g.vscode and {} or nil,
+      -- safe_labels = vim.g.vscode and { "s", "f", "n", "u", "t", "/",
+      --   "S", "F", "N", "L", "H", "M", "Q", "K", "U", "G", "T", "Z", "[", "]", "\\", "?", '"' } or nil,
+      -- Disables autojump in VS Code
+      safe_labels = vim.g.vscode and {} or nil,
+    }
   },
   {
     "folke/flash.nvim",
