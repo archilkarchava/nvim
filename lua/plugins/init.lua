@@ -539,6 +539,7 @@ return {
   },
   {
     "windwp/nvim-ts-autotag",
+    vscode = true,
     ft = {
       "html",
       "javascript",
