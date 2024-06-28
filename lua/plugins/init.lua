@@ -1137,6 +1137,16 @@ return {
         desc = "Substitute"
       },
       {
+        "gra",
+        function()
+          require("substitute").operator({
+            motion = "a"
+          })
+        end,
+        mode = { "n" },
+        desc = "Substitute"
+      },
+      {
         "grr",
         function()
           require("substitute").line()
