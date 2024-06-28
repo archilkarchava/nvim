@@ -6,6 +6,8 @@ local options = {
   showcmd = true,
 }
 
+vim.cmd("syntax off")
+
 for k, v in pairs(options) do
   vim.opt[k] = v
 end

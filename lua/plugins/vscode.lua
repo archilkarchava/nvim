@@ -16,6 +16,7 @@ end
 return {
 	{
 		"archilkarchava/vscode.nvim",
+		enabled = false,
 		vscode = true,
 		lazy = false,
 		priority = 1000,
