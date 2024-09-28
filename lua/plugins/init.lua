@@ -1892,20 +1892,20 @@ return {
       { "<D-M-j>", function() require("multicursor-nvim").addCursor "j" end,  mode = { "n", "x" }, desc = "Add cursor below" },
 
       -- Add a cursor and jump to the next word under cursor.
-      { "<D-x>",   function() require("multicursor-nvim").addCursor "*" end,  mode = { "n", "x" }, desc = "Add cursor and jump to next word" },
+      { "<D-s>",   function() require("multicursor-nvim").addCursor "*" end,  mode = { "n", "x" }, desc = "Add cursor and jump to next word" },
 
       -- Jump to the next word under cursor but do not add a cursor.
-      { "<D-X>",   function() require("multicursor-nvim").skipCursor "*" end, mode = { "n", "x" }, desc = "Skip cursor and jump to next word" },
+      { "<D-S>",   function() require("multicursor-nvim").skipCursor "*" end, mode = { "n", "x" }, desc = "Skip cursor and jump to next word" },
 
       -- Rotate the main cursor.
       { "<left>",  function() require("multicursor-nvim").prevCursor() end,   mode = { "n", "x" }, desc = "Rotate cursor (previous)" },
       { "<right>", function() require("multicursor-nvim").nextCursor() end,   mode = { "n", "x" }, desc = "Rotate cursor (next)" },
 
       -- Delete the main cursor.
-      { "<D-l><D-l>",  function() require("multicursor-nvim").deleteCursor() end, mode = { "n", "x" }, desc = "Delete cursor" },
+      { "<D-x><D-x>",  function() require("multicursor-nvim").deleteCursor() end, mode = { "n", "x" }, desc = "Delete cursor" },
 
       {
-        "<D-l><D-x>",
+        "<D-x><D-s>",
         function()
           if require("multicursor-nvim").cursorsEnabled() then
             -- Stop other cursors from moving.
@@ -1935,10 +1935,10 @@ return {
       },
 
       -- Align cursor columns.
-      { '<D-l>a',          function() require("multicursor-nvim").alignCursors() end,       mode = 'n', desc = "Align cursors" },
+      { '<D-x>a',          function() require("multicursor-nvim").alignCursors() end,       mode = 'n', desc = "Align cursors" },
 
       -- Split visual selections by regex.
-      { '<D-l>s',          function() require("multicursor-nvim").splitCursors() end,       mode = 'v', desc = "Split selections" },
+      { '<D-x>s',          function() require("multicursor-nvim").splitCursors() end,       mode = 'v', desc = "Split selections" },
 
       -- Append/insert for each line of visual selections.
       { 'I',               function() require("multicursor-nvim").insertVisual() end,       mode = 'v', desc = "Insert line" },
