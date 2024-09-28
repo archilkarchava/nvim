@@ -1913,7 +1913,7 @@ return {
         desc = "Duplicate cursors",
       },
       {
-        "<D-x><D-c>",
+        "<D-x><D-S>",
         function()
           if require("multicursor-nvim").cursorsEnabled() then
             -- Stop other cursors from moving.
