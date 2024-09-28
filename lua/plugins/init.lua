@@ -1882,6 +1882,7 @@ return {
   },
   {
     "jake-stewart/multicursor.nvim",
+    vscode = true,
     branch = "1.0",
     event = "VeryLazy",
     keys = {
