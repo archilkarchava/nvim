@@ -1899,8 +1899,8 @@ return {
       { "<D-X>",   function() require("multicursor-nvim").skipCursor "*" end, mode = { "n", "x" }, desc = "Skip cursor and jump to next word" },
 
       -- Rotate the main cursor.
-      { "<left>",  function() require("multicursor-nvim").nextCursor() end,   mode = { "n", "x" }, desc = "Rotate cursor (next)" },
-      { "<right>", function() require("multicursor-nvim").prevCursor() end,   mode = { "n", "x" }, desc = "Rotate cursor (previous)" },
+      { "<left>",  function() require("multicursor-nvim").prevCursor() end,   mode = { "n", "x" }, desc = "Rotate cursor (previous)" },
+      { "<right>", function() require("multicursor-nvim").nextCursor() end,   mode = { "n", "x" }, desc = "Rotate cursor (next)" },
 
       -- Delete the main cursor.
       { "<D-l>l",  function() require("multicursor-nvim").deleteCursor() end, mode = { "n", "x" }, desc = "Delete cursor" },
