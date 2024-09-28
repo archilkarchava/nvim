@@ -1902,10 +1902,10 @@ return {
       { "<right>", function() require("multicursor-nvim").nextCursor() end,   mode = { "n", "x" }, desc = "Rotate cursor (next)" },
 
       -- Delete the main cursor.
-      { "<D-l>l",  function() require("multicursor-nvim").deleteCursor() end, mode = { "n", "x" }, desc = "Delete cursor" },
+      { "<D-l><D-l>",  function() require("multicursor-nvim").deleteCursor() end, mode = { "n", "x" }, desc = "Delete cursor" },
 
       {
-        "<D-l>x",
+        "<D-l><D-x>",
         function()
           if require("multicursor-nvim").cursorsEnabled() then
             -- Stop other cursors from moving.
