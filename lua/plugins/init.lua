@@ -1928,7 +1928,7 @@ return {
       },
 
       -- Add and remove cursors with control + left click.
-      { '<C-M-LeftMouse>', function() require("multicursor-nvim").handleMouse() end,        mode = 'n', desc = "Add cursor" },
+      { '<M-LeftMouse>', function() require("multicursor-nvim").handleMouse() end,        mode = 'n', desc = "Add cursor" },
 
       {
         '<esc>',
