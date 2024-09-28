@@ -1943,7 +1943,7 @@ return {
       },
 
       -- Align cursor columns.
-      { '<D-x>a',          function() require("multicursor-nvim").alignCursors() end,       mode = 'n', desc = "Align cursors" },
+      { '<D-x><D-a>',          function() require("multicursor-nvim").alignCursors() end,       mode = 'n', desc = "Align cursors" },
 
       -- Split visual selections by regex.
       { '<D-x>s',          function() require("multicursor-nvim").splitCursors() end,       mode = 'v', desc = "Split selections" },
