@@ -1907,14 +1907,6 @@ return {
       {
         "<D-x><D-s>",
         function()
-          -- clone every cursor and disable the originals
-          require("multicursor-nvim").duplicateCursors()
-        end,
-        desc = "Duplicate cursors",
-      },
-      {
-        "<D-x><D-S>",
-        function()
           if require("multicursor-nvim").cursorsEnabled() then
             -- Stop other cursors from moving.
             -- This allows you to reposition the main cursor.
@@ -1925,6 +1917,14 @@ return {
         end,
         mode = { "n", "x" },
         desc = "Reposition cursors"
+      },
+      {
+        "<D-x><D-S>",
+        function()
+          -- clone every cursor and disable the originals
+          require("multicursor-nvim").duplicateCursors()
+        end,
+        desc = "Duplicate cursors",
       },
 
       -- Add and remove cursors with control + left click.
