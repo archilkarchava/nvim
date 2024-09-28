@@ -417,6 +417,7 @@ return {
 
   {
     "mg979/vim-visual-multi",
+    enabled = false,
     event = "VeryLazy",
     keys = {
       { "<leader>j", "<Plug>(VM-Add-Cursor-Down)", mode = { "n" }, silent = true },
@@ -1878,6 +1879,116 @@ return {
     enabled = false,
     event = "VeryLazy",
     config = true,
+  },
+  {
+    "jake-stewart/multicursor.nvim",
+    branch = "1.0",
+    event = "VeryLazy",
+    keys = {
+      -- Add cursors above/below the main cursor.
+      { "<up>",    function() require("multicursor-nvim").addCursor "k" end,  mode = { "n", "x" }, desc = "Add cursor above" },
+      { "<down>",  function() require("multicursor-nvim").addCursor "j" end,  mode = { "n", "x" }, desc = "Add cursor below" },
+      { "<D-M-k>", function() require("multicursor-nvim").addCursor "k" end,  mode = { "n", "x" }, desc = "Add cursor above" },
+      { "<D-M-j>", function() require("multicursor-nvim").addCursor "j" end,  mode = { "n", "x" }, desc = "Add cursor below" },
+
+      -- Add a cursor and jump to the next word under cursor.
+      { "<D-x>",   function() require("multicursor-nvim").addCursor "*" end,  mode = { "n", "x" }, desc = "Add cursor and jump to next word" },
+
+      -- Jump to the next word under cursor but do not add a cursor.
+      { "<D-X>",   function() require("multicursor-nvim").skipCursor "*" end, mode = { "n", "x" }, desc = "Skip cursor and jump to next word" },
+
+      -- Rotate the main cursor.
+      { "<left>",  function() require("multicursor-nvim").nextCursor() end,   mode = { "n", "x" }, desc = "Rotate cursor (next)" },
+      { "<right>", function() require("multicursor-nvim").prevCursor() end,   mode = { "n", "x" }, desc = "Rotate cursor (previous)" },
+
+      -- Delete the main cursor.
+      { "<D-l>l",  function() require("multicursor-nvim").deleteCursor() end, mode = { "n", "x" }, desc = "Delete cursor" },
+
+      {
+        "<D-l>x",
+        function()
+          if require("multicursor-nvim").cursorsEnabled() then
+            -- Stop other cursors from moving.
+            -- This allows you to reposition the main cursor.
+            require("multicursor-nvim").disableCursors()
+          else
+            require("multicursor-nvim").addCursor()
+          end
+        end,
+        mode = { "n", "x" },
+        desc = "Reposition cursors"
+      },
+
+      -- Add and remove cursors with control + left click.
+      { '<C-M-LeftMouse>', function() require("multicursor-nvim").handleMouse() end,        mode = 'n', desc = "Add cursor" },
+
+      {
+        '<esc>',
+        function()
+          if not require("multicursor-nvim").cursorsEnabled() then
+            require("multicursor-nvim").enableCursors()
+          elseif require("multicursor-nvim").hasCursors() then
+            require("multicursor-nvim").clearCursors()
+          end
+        end,
+        mode = 'n'
+      },
+
+      -- Align cursor columns.
+      { '<D-l>a',          function() require("multicursor-nvim").alignCursors() end,       mode = 'n', desc = "Align cursors" },
+
+      -- Split visual selections by regex.
+      { '<D-l>s',          function() require("multicursor-nvim").splitCursors() end,       mode = 'v', desc = "Split selections" },
+
+      -- Append/insert for each line of visual selections.
+      { 'I',               function() require("multicursor-nvim").insertVisual() end,       mode = 'v', desc = "Insert line" },
+      { 'A',               function() require("multicursor-nvim").appendVisual() end,       mode = 'v', desc = "Append line" },
+
+      -- Match new cursors within visual selections by regex.
+      { 'M',               function() require("multicursor-nvim").matchCursors() end,       mode = 'v', desc = "Match cursors" },
+
+      -- Rotate visual selection contents.
+      { '<leader>t',       function() require("multicursor-nvim").transposeCursors(1) end,  mode = 'v', desc = "Transpose selections (forward)" },
+      { '<leader>T',       function() require("multicursor-nvim").transposeCursors(-1) end, mode = 'v', desc = "Transpose selections (backward)" },
+    },
+    opts = {},
+    config = function(_, opts)
+      local mc = require "multicursor-nvim"
+      mc.setup(opts)
+
+      -- Customize how cursors look.
+      vim.api.nvim_set_hl(0, "MultiCursorCursor", { link = "Cursor" })
+      vim.api.nvim_set_hl(0, "MultiCursorVisual", { link = "Visual" })
+      vim.api.nvim_set_hl(0, "MultiCursorDisabledCursor", { link = "Visual" })
+      vim.api.nvim_set_hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
+    end,
+    specs = {
+      {
+        "echasnovski/mini.bracketed",
+        optional = true,
+        opts = {
+          -- Undo mapping interferes with multicursor.nvim, so we disable it
+          undo = { suffix = "", options = {} },
+        },
+      },
+      {
+        "which-key.nvim",
+        optional = true,
+        ---@param opts wk.Opts
+        opts = function(_, opts)
+          local existing_filter = opts.filter or function() return true end
+          ---@param mapping wk.Mapping
+          opts.filter = function(mapping)
+            if not existing_filter(mapping) then return false end
+            -- For some reason, in multicursor mode vi and va mappings don't work properly with which-key if they are not default mappings
+            local modes = { x = true, v = true }
+            local lhs_values = { i = true, a = true }
+
+            return not (modes[mapping.mode] and lhs_values[mapping.lhs])
+          end
+        end,
+      },
+    },
   },
   -- {
   --   "ybian/smartim",
